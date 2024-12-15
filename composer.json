@@ -1,0 +1,7 @@
+{
+    "require": {
+        "phpmailer/phpmailer": "*",
+        "paymongo/paymongo-php": "^0.0.0",
+        "guzzlehttp/guzzle": "^7.9"
+    }
+}
