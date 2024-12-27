@@ -72,32 +72,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="main-info">
                         <div class="hero-container">
                             <!-- Signup form -->
-                            <form class="signup-form" method="post" action="signup.php"> <!-- Ensure action points to signup.php -->
+                            <form class="signup-form" method="post" action="signup.php">
+                                <!-- Ensure action points to signup.php -->
                                 <div class="imgcontainer">
                                     <img src="assets/images/logo.png" alt="logo" class="avatar" width="70%">
                                 </div>
                                 <div class="input-control">
                                     <div class="row p-l-5 p-r-5">
                                         <div class="col-md-6 p-l-10 p-r-10">
-                                            <input type="text" placeholder="Enter Name" name="name" required> <!-- Name field -->
+                                            <input type="text" placeholder="Enter Name" name="name" required>
+                                            <!-- Name field -->
                                         </div>
                                         <div class="col-md-6 p-l-10 p-r-10">
                                             <input type="email" placeholder="Enter Email" name="email" required>
                                         </div>
                                         <div class="col-md-12 p-l-10 p-r-10">
-                                            <input type="text" placeholder="Enter Phone" name="phone" required> <!-- Phone field -->
+                                            <input type="text" placeholder="Enter Phone" name="phone" required>
+                                            <!-- Phone field -->
                                         </div>
                                         <div class="col-md-6 p-l-10 p-r-10">
-                                            <input class="password-field input-checkmark" type="password" placeholder="Enter Password" name="password" required> <!-- Password field -->
+                                            <input class="password-field input-checkmark" type="password"
+                                                placeholder="Enter Password" name="password" required>
+                                            <!-- Password field -->
                                         </div>
                                         <div class="col-md-6 p-l-10 p-r-10">
-                                            <input class="password-field input-checkmark" type="password" placeholder="Re-enter Password" name="confirm_password" required> <!-- Confirm password -->
+                                            <input class="password-field input-checkmark" type="password"
+                                                placeholder="Re-enter Password" name="confirm_password" required>
+                                            <!-- Confirm password -->
                                         </div>
                                         <div class="col-md-12 p-l-10 p-r-10">
-                                            <input type="text" placeholder="Enter Address" name="address" required> <!-- Address field -->
+                                            <input type="text" placeholder="Enter Address" name="address" required>
+                                            <!-- Address field -->
                                         </div>
                                     </div>
-                                    <label class="label-container">I agree with <a href="#"> privacy policy</a>    
+                                    <label class="label-container">I agree with <a href="#"> privacy policy</a>
                                         <input type="checkbox" required> <!-- Make the checkbox required -->
                                         <span class="checkmark"></span>
                                     </label>
@@ -107,7 +115,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="division-lines"></div>
                                     <div class="login-with-btns">
                                         <br>
-                                        <span class="already-acc">Already have an account? <a href="login.php" class="login-btn">Login</a></span>
+                                        <span class="already-acc">Already have an account? <a href="login.php"
+                                                class="login-btn">Login</a></span>
                                     </div>
                                 </div>
                             </form>

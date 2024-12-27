@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost'; 
+$host = 'localhost';
 $dbname = 'u979976746_QuatroPasos';
-$username = 'u979976746_QuatroPasos'; 
-$password = 'QuatroPasos123'; 
+$username = 'root';
+$password = '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -10,4 +10,3 @@ try {
 } catch (PDOException $e) {
     die("Could not connect to the database: " . $e->getMessage());
 }
-?>

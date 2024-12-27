@@ -1,35 +1,34 @@
-<?php 
+<?php
 try {
-include('Connection/PDOcon.php');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    include('Connection/PDOcon.php');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
- // Check if Form is Submitted
- if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = 1;         // Retrieve ID from the form input
-    $subTxt = $_POST['subTxt'];     // Retrieve name from the form input
-    $FBname = $_POST['FBname'];     // Retrieve info from the form input
+    // Check if Form is Submitted
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $id = 1;         // Retrieve ID from the form input
+        $subTxt = $_POST['subTxt'];     // Retrieve name from the form input
+        $FBname = $_POST['FBname'];     // Retrieve info from the form input
 
-    // Prepare the SQL Update Statement
-    $sql = "UPDATE homepage SET subTxt = :subTxt, FBname = :FBname WHERE ID = :ID";
+        // Prepare the SQL Update Statement
+        $sql = "UPDATE homepage SET subTxt = :subTxt, FBname = :FBname WHERE ID = :ID";
 
-    // Prepare the Query Using Prepared Statements
-    $stmt = $pdo->prepare($sql);
+        // Prepare the Query Using Prepared Statements
+        $stmt = $pdo->prepare($sql);
 
-    // Bind Parameters
-    $stmt->bindParam(':ID', $id);
-    $stmt->bindParam(':subTxt', $subTxt);
-    $stmt->bindParam(':FBname', $FBname);
+        // Bind Parameters
+        $stmt->bindParam(':ID', $id);
+        $stmt->bindParam(':subTxt', $subTxt);
+        $stmt->bindParam(':FBname', $FBname);
 
-    // Execute the Statement
-    if ($stmt->execute()) {
-        echo "Record updated successfully!";
-    } else {
-        echo "Error updating record.";
+        // Execute the Statement
+        if ($stmt->execute()) {
+            echo "Record updated successfully!";
+        } else {
+            echo "Error updating record.";
+        }
     }
- }
-} 
-catch (PDOException $e) {
-echo "Error: " . $e->getMessage();
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
 }
 
 // Close the Connection
@@ -44,26 +43,26 @@ $pdo = null;
     <title>Almaris — Hotel Website Template</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" >
-    <meta content="Almaris — Hotel Website Template" name="description" >
-    <meta content="" name="keywords" >
-    <meta content="" name="author" >
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="" name="keywords">
+    <meta content="" name="author">
     <!-- CSS Files
     ================================================== -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
-    <link href="css/plugins.css" rel="stylesheet" type="text/css" >
-    <link href="css/swiper.css" rel="stylesheet" type="text/css" >
-    <link href="css/style.css" rel="stylesheet" type="text/css" >
-    <link href="css/coloring.css" rel="stylesheet" type="text/css" >
+    <link href="css/plugins.css" rel="stylesheet" type="text/css">
+    <link href="css/swiper.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/coloring.css" rel="stylesheet" type="text/css">
     <!-- color scheme -->
-    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css" >
+    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
     <div id="wrapper">
         <a href="#" id="back-to-top"></a>
-        
+
         <!-- page preloader begin -->
         <div id="de-loader"></div>
         <!-- page preloader close -->
@@ -75,7 +74,7 @@ $pdo = null;
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between xs-hide">
-                                <div class="header-widget d-flex">                                    
+                                <div class="header-widget d-flex">
                                     <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>Emilio Aguinaldo Highway, Dasmariñas, Philippines, 4114</a></div>
                                     <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>0917 808 7127</a></div>
                                     <div class="topbar-widget"><a href="#"><i class="icofont-envelope"></i>quatropasoshotel@gmail.com</a></div>
@@ -102,21 +101,21 @@ $pdo = null;
                                 <!-- logo begin -->
                                 <div id="logo">
                                     <a href="default.php">
-                                        <img class="logo-main" src="images/logo-white.png" alt="" >
-                                        <img class="logo-mobile" src="images/logo-white.png" alt="" >
+                                        <img class="logo-main" src="images/logo-white.png" alt="">
+                                        <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
                                 </div>
                                 <!-- logo close -->
                             </div>
                             <div class="de-flex-col header-col-mid">
                                 <ul id="mainmenu">
-                                    <li><a class="menu-item" href="HomeEdit.php">Home</a></li>
+                                    <li><a class="menu-item" href="index.php">Home</a></li>
                                     <li><a class="menu-item" href="RoomsEdit.php">Accomodation</a></li>
                                     <li><a class="menu-item" href="FacilitiesEdit.php">Facilities</a></li>
                                 </ul>
                             </div>
                             <div class="de-flex-col">
-                                <div class="menu_side_area">          
+                                <div class="menu_side_area">
                                     <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
                                     <span id="menu-btn"></span>
                                 </div>
@@ -167,19 +166,19 @@ $pdo = null;
                                         <div class="col-md-12">
                                             <div id='name_error' class='error'>Please enter your name.</div>
                                             <div>
-                                                <input type='text' name='subTxt' id='subTxt' class="form-control" placeholder="Sub Text" >
+                                                <input type='text' name='subTxt' id='subTxt' class="form-control" placeholder="Sub Text">
                                             </div>
 
                                             <div id='email_error' class='error'>Please enter your valid E-mail ID.</div>
                                             <div>
-                                                <input type='text' name='FBname' id='FBname' class="form-control" placeholder="Facebook Handle" >
+                                                <input type='text' name='FBname' id='FBname' class="form-control" placeholder="Facebook Handle">
                                             </div>
 
                                         </div>
-                                        
+
 
                                         <div class="col-md-12">
-                                            
+
                                             <p id='submit' class="mt20">
                                                 <input type='submit' id='send_message' value='Submit Form' class="btn-main">
                                             </p>
@@ -194,7 +193,7 @@ $pdo = null;
             </section>
         </div>
         <!-- content close -->
-        
+
         <!-- footer begin -->
         <footer class="text-light section-dark">
             <div class="container">
@@ -222,7 +221,7 @@ $pdo = null;
                                 M. contact@almaris.com
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
             <div class="subfooter">
@@ -239,7 +238,7 @@ $pdo = null;
     </div>
 
 
-    
+
     <!-- Javascript Files
     ================================================== -->
     <script src="js/plugins.js"></script>
