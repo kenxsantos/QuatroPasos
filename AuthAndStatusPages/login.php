@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['user_name'] = $row['name'];
             $_SESSION['role_as'] = $row['role_as'];
-            header("Location: ../index.php"); // Redirect to the homepage
+            header("Location: ../default.php"); // Redirect to the homepage
             exit();
         } else {
             $error_message = "Invalid password.";
@@ -80,22 +80,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="input-control">
                                     <input type="email" placeholder="Enter Email" name="email" required>
                                     <span class="password-field-show">
-                                        <input type="password" placeholder="Enter Password" name="password" class="password-field" value="" required>
-                                        <span data-toggle=".password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                        <input type="password" placeholder="Enter Password" name="password"
+                                            class="password-field" value="" required>
+                                        <span data-toggle=".password-field"
+                                            class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                     </span>
                                     <div class="login-btns">
                                         <button type="submit">Login</button>
                                     </div>
                                     <!-- Display error message here -->
                                     <?php if (!empty($error_message)): ?>
-                                        <div class="alert alert-danger mt-2" style="text-align: center; font-size: 12px; margin: 0 auto;">
-                                            <?php echo $error_message; ?>
-                                        </div>
+                                    <div class="alert alert-danger mt-2"
+                                        style="text-align: center; font-size: 12px; margin: 0 auto;">
+                                        <?php echo $error_message; ?>
+                                    </div>
                                     <?php endif; ?>
 
                                     <div class="login-with-btns">
                                         <br>
-                                        <span class="already-acc">Not a member? <a href="signup.php" class="signup-btn">Sign up</a></span>
+                                        <span class="already-acc">Not a member? <a href="signup.php"
+                                                class="signup-btn">Sign up</a></span>
                                     </div>
                                 </div>
                             </form>
