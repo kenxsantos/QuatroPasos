@@ -1,29 +1,27 @@
-<?php 
+<?php
 include('Connection/PDOcon.php');
 
 try {
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // Check if form data is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get form data
-    $Rmtype = $_POST['Rmtype'];
-    $Price = $_POST['Price'];
-    $Pax = $_POST['Pax'];
+        // Get form data
+        $Rmtype = $_POST['Rmtype'];
+        $Price = $_POST['Price'];
+        $Pax = $_POST['Pax'];
 
-    // Prepare and execute the insert query
-    $stmt = $conn->prepare("INSERT INTO room (Type, Price, Pax) VALUES (:Rmtype, :Price, :Pax)");
-    $stmt->execute([
-        ':Rmtype' => $Rmtype,
-        ':Price' => $Price,
-        ':Pax' => $Pax
-    ]);
+        // Prepare and execute the insert query
+        $stmt = $conn->prepare("INSERT INTO room (Type, Price, Pax) VALUES (:Rmtype, :Price, :Pax)");
+        $stmt->execute([
+            ':Rmtype' => $Rmtype,
+            ':Price' => $Price,
+            ':Pax' => $Pax
+        ]);
 
-    echo "New user has been added successfully!";
-}
-}
-
-catch (PDOException $e) {
-echo "Error: " . $e->getMessage();
+        echo "New user has been added successfully!";
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
 }
 
 // Close the Connection
@@ -38,26 +36,26 @@ $conn = null;
     <title>Almaris — Hotel Website Template</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" >
-    <meta content="Almaris — Hotel Website Template" name="description" >
-    <meta content="" name="keywords" >
-    <meta content="" name="author" >
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="" name="keywords">
+    <meta content="" name="author">
     <!-- CSS Files
     ================================================== -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
-    <link href="css/plugins.css" rel="stylesheet" type="text/css" >
-    <link href="css/swiper.css" rel="stylesheet" type="text/css" >
-    <link href="css/style.css" rel="stylesheet" type="text/css" >
-    <link href="css/coloring.css" rel="stylesheet" type="text/css" >
+    <link href="css/plugins.css" rel="stylesheet" type="text/css">
+    <link href="css/swiper.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/coloring.css" rel="stylesheet" type="text/css">
     <!-- color scheme -->
-    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css" >
+    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
     <div id="wrapper">
         <a href="#" id="back-to-top"></a>
-        
+
         <!-- page preloader begin -->
         <div id="de-loader"></div>
         <!-- page preloader close -->
@@ -69,7 +67,7 @@ $conn = null;
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between xs-hide">
-                                <div class="header-widget d-flex">                                    
+                                <div class="header-widget d-flex">
                                     <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>Emilio Aguinaldo Highway, Dasmariñas, Philippines, 4114</a></div>
                                     <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>0917 808 7127</a></div>
                                     <div class="topbar-widget"><a href="#"><i class="icofont-envelope"></i>quatropasoshotel@gmail.com</a></div>
@@ -96,21 +94,21 @@ $conn = null;
                                 <!-- logo begin -->
                                 <div id="logo">
                                     <a href="default.php">
-                                        <img class="logo-main" src="images/logo-white.png" alt="" >
-                                        <img class="logo-mobile" src="images/logo-white.png" alt="" >
+                                        <img class="logo-main" src="images/logo-white.png" alt="">
+                                        <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
                                 </div>
                                 <!-- logo close -->
                             </div>
                             <div class="de-flex-col header-col-mid">
                                 <ul id="mainmenu">
-                                    <li><a class="menu-item" href="HomeEdit.php">Home</a></li>
+                                    <li><a class="menu-item" href="index.php">Home</a></li>
                                     <li><a class="menu-item" href="RoomsEdit.php">Accomodation</a></li>
                                     <li><a class="menu-item" href="FacilitiesEdit.php">Facilities</a></li>
                                 </ul>
                             </div>
                             <div class="de-flex-col">
-                                <div class="menu_side_area">          
+                                <div class="menu_side_area">
                                     <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
                                     <span id="menu-btn"></span>
                                 </div>
@@ -158,23 +156,23 @@ $conn = null;
                                         <div class="col-md-12">
                                             <div id='name_error' class='error'>Please enter your name.</div>
                                             <div>
-                                                <input type='text' name='Rmtype' id='Rmtype' class="form-control" placeholder="Room Name" >
+                                                <input type='text' name='Rmtype' id='Rmtype' class="form-control" placeholder="Room Name">
                                             </div>
                                             <div>
-                                                <input type='text' name='Price' id='Price' class="form-control" placeholder="Price" >
+                                                <input type='text' name='Price' id='Price' class="form-control" placeholder="Price">
                                             </div>
                                             <div>
-                                                <input type='text' name='Pax' id='Pax' class="form-control" placeholder="Pax" >
+                                                <input type='text' name='Pax' id='Pax' class="form-control" placeholder="Pax">
                                             </div>
                                         </div>
-                                    
+
 
                                         <div class="col-md-12">
-                                            
+
                                             <p id='submit' class="mt20">
                                                 <input type='submit' id='send_message' value='Submit Form' class="btn-main">
                                             </p>
-                                        </div>   
+                                        </div>
                                     </div>
                                 </form>
                                 <div id='error_message' class='error'>Sorry, error occured this time sending your message.</div>
@@ -185,7 +183,7 @@ $conn = null;
             </section>
         </div>
         <!-- content close -->
-        
+
         <!-- footer begin -->
         <footer class="text-light section-dark">
             <div class="container">
@@ -213,7 +211,7 @@ $conn = null;
                                 M. contact@almaris.com
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
             <div class="subfooter">
@@ -230,7 +228,7 @@ $conn = null;
     </div>
 
 
-    
+
     <!-- Javascript Files
     ================================================== -->
     <script src="js/plugins.js"></script>

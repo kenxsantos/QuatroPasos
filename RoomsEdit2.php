@@ -116,7 +116,7 @@ $conn = null;
                             </div>
                             <div class="de-flex-col header-col-mid">
                                 <ul id="mainmenu">
-                                    <li><a class="menu-item" href="HomeEdit.php">Home</a></li>
+                                    <li><a class="menu-item" href="index.php">Home</a></li>
                                     <li><a class="menu-item" href="RoomsEdit.php">Accomodation</a></li>
                                     <li><a class="menu-item" href="FacilitiesEdit.php">Facilities</a></li>
                                 </ul>

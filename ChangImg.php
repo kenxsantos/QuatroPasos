@@ -1,4 +1,4 @@
-<?php 
+<?php
 $host = 'localhost';
 $dbname = 'quatropasoshotel';
 $username = 'root';
@@ -8,37 +8,36 @@ $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
 $roomdb = $conn->query("SELECT *  FROM `room` WHERE ID = 1");
 $row = $roomdb->fetch(PDO::FETCH_ASSOC);
 try {
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  // Check if the form is submitted
-  if (isset($_POST['update'])) {
+    // Check if the form is submitted
+    if (isset($_POST['update'])) {
 
-    // Check if the file is uploaded
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        // Retrieve image file properties
-        $image = $_FILES['image']['tmp_name'];
-        $imgContent = file_get_contents($image);
+        // Check if the file is uploaded
+        if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+            // Retrieve image file properties
+            $image = $_FILES['image']['tmp_name'];
+            $imgContent = file_get_contents($image);
 
-        // Insert the image into the database
-        $sql = "UPDATE room SET img = :image WHERE id = 1";
-        $stmt = $conn->prepare($sql);
+            // Insert the image into the database
+            $sql = "UPDATE room SET img = :image WHERE id = 1";
+            $stmt = $conn->prepare($sql);
 
-        // Bind the parameters
-        $stmt->bindParam(':image', $imgContent, PDO::PARAM_LOB);
+            // Bind the parameters
+            $stmt->bindParam(':image', $imgContent, PDO::PARAM_LOB);
 
-        // Execute the statement
-        if ($stmt->execute()) {
-            echo "Image uploaded successfully!";
+            // Execute the statement
+            if ($stmt->execute()) {
+                echo "Image uploaded successfully!";
+            } else {
+                echo "Failed to upload image.";
+            }
         } else {
-            echo "Failed to upload image.";
+            echo "Please select an image to upload.";
         }
-    } else {
-        echo "Please select an image to upload.";
     }
-}
-} 
-catch (PDOException $e) {
-echo "Error: " . $e->getMessage();
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
 }
 
 // Close the Connection
@@ -53,26 +52,26 @@ $conn = null;
     <title>Almaris — Hotel Website Template</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" >
-    <meta content="Almaris — Hotel Website Template" name="description" >
-    <meta content="" name="keywords" >
-    <meta content="" name="author" >
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="" name="keywords">
+    <meta content="" name="author">
     <!-- CSS Files
     ================================================== -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
-    <link href="css/plugins.css" rel="stylesheet" type="text/css" >
-    <link href="css/swiper.css" rel="stylesheet" type="text/css" >
-    <link href="css/style.css" rel="stylesheet" type="text/css" >
-    <link href="css/coloring.css" rel="stylesheet" type="text/css" >
+    <link href="css/plugins.css" rel="stylesheet" type="text/css">
+    <link href="css/swiper.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/coloring.css" rel="stylesheet" type="text/css">
     <!-- color scheme -->
-    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css" >
+    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
     <div id="wrapper">
         <a href="#" id="back-to-top"></a>
-        
+
         <!-- page preloader begin -->
         <div id="de-loader"></div>
         <!-- page preloader close -->
@@ -84,7 +83,7 @@ $conn = null;
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between xs-hide">
-                                <div class="header-widget d-flex">                                    
+                                <div class="header-widget d-flex">
                                     <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>Emilio Aguinaldo Highway, Dasmariñas, Philippines, 4114</a></div>
                                     <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>0917 808 7127</a></div>
                                     <div class="topbar-widget"><a href="#"><i class="icofont-envelope"></i>quatropasoshotel@gmail.com</a></div>
@@ -111,21 +110,21 @@ $conn = null;
                                 <!-- logo begin -->
                                 <div id="logo">
                                     <a href="default.php">
-                                        <img class="logo-main" src="images/logo-white.png" alt="" >
-                                        <img class="logo-mobile" src="images/logo-white.png" alt="" >
+                                        <img class="logo-main" src="images/logo-white.png" alt="">
+                                        <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
                                 </div>
                                 <!-- logo close -->
                             </div>
                             <div class="de-flex-col header-col-mid">
                                 <ul id="mainmenu">
-                                    <li><a class="menu-item" href="HomeEdit.php">Home</a></li>
+                                    <li><a class="menu-item" href="index.php">Home</a></li>
                                     <li><a class="menu-item" href="RoomsEdit.php">Accomodation</a></li>
                                     <li><a class="menu-item" href="FacilitiesEdit.php">Facilities</a></li>
                                 </ul>
                             </div>
                             <div class="de-flex-col">
-                                <div class="menu_side_area">          
+                                <div class="menu_side_area">
                                     <a href="reservation.html" class="btn-main btn-line">ReservationH</a>
                                     <span id="menu-btn"></span>
                                 </div>
@@ -147,7 +146,7 @@ $conn = null;
                     <div class="row justify-content-center">
                         <div class="col-lg-6 text-center">
                             <h1>Change Image</h1>
-                            <p class="mt-3 lead"><?php echo $row["type"]?></p>
+                            <p class="mt-3 lead"><?php echo $row["type"] ?></p>
                         </div>
                     </div>
                 </div>
@@ -168,27 +167,27 @@ $conn = null;
                             </div>
 
                             <div id="booking_form">
-                                
-                                    <div id="step-2" class="row">
-                                        <div class="col-md-12">
 
-                                            <form method="post" enctype="multipart/form-data">
-                                                <input type="file" name="image" accept="image/*" required><br><br>
-                                                <input type='submit' name="update" id='send_message' value='Submit Form' class="btn-main">
-                                            </form>
-                                            
-                                        </div>
-                                    
+                                <div id="step-2" class="row">
+                                    <div class="col-md-12">
 
-                                        <div class="col-md-12">
-                                            
-                                            <p id='submit' class="mt20">
-                                                
-                                            </p>
-                                        </div>    
+                                        <form method="post" enctype="multipart/form-data">
+                                            <input type="file" name="image" accept="image/*" required><br><br>
+                                            <input type='submit' name="update" id='send_message' value='Submit Form' class="btn-main">
+                                        </form>
+
                                     </div>
-                    
-                               
+
+
+                                    <div class="col-md-12">
+
+                                        <p id='submit' class="mt20">
+
+                                        </p>
+                                    </div>
+                                </div>
+
+
                                 <div id='error_message' class='error'>Sorry, error occured this time sending your message.</div>
                             </div>
                         </div>
@@ -197,7 +196,7 @@ $conn = null;
             </section>
         </div>
         <!-- content close -->
-        
+
         <!-- footer begin -->
         <footer class="text-light section-dark">
             <div class="container">
@@ -225,7 +224,7 @@ $conn = null;
                                 M. contact@almaris.com
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
             <div class="subfooter">
@@ -242,7 +241,7 @@ $conn = null;
     </div>
 
 
-    
+
     <!-- Javascript Files
     ================================================== -->
     <script src="js/plugins.js"></script>
