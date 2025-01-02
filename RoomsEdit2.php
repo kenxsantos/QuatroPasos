@@ -1,11 +1,14 @@
 <?php
 include('Connection/PDOcon.php');
-$roomdb = $conn->query("SELECT *  FROM `room` WHERE ID = $roomid");
+
+$roomid = $_GET['roomid'];
+
+$roomdb = $pdo->query("SELECT *  FROM `room` WHERE ID = $roomid");
 
 $row = $roomdb->fetch(PDO::FETCH_ASSOC);
 
 try {
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
     // Check if Form is Submitted
@@ -18,9 +21,9 @@ try {
         $sql = "UPDATE homepage SET subTxt = :subTxt, FBname = :FBname WHERE ID = :ID";
 
         // Prepare the Query Using Prepared Statements
-        $stmt = $conn->prepare($sql);
+        $stmt = $pdo->prepare($sql);
 
-        // Bind Parameters  
+        // Bind Parameters
         $stmt->bindParam(':ID', $id);
         $stmt->bindParam(':subTxt', $subTxt);
         $stmt->bindParam(':FBname', $FBname);
@@ -36,7 +39,7 @@ try {
     echo "Error: " . $e->getMessage();
 }
 
-$conn = null;
+$pdo = null;
 ?>
 
 
@@ -60,7 +63,6 @@ $conn = null;
     <link href="css/coloring.css" rel="stylesheet" type="text/css">
     <!-- color scheme -->
     <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
-
 </head>
 
 <body>

@@ -1,9 +1,9 @@
 <?php
 include('Connection/PDOcon.php');
-$roomdb = $conn->query("SELECT *  FROM `room`");
+$roomdb = $pdo->query("SELECT *  FROM `room`");
 
 try {
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Check if Form is Submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -15,7 +15,7 @@ try {
         $sql = "UPDATE homepage SET subTxt = :subTxt, FBname = :FBname WHERE ID = :ID";
 
         // Prepare the Query Using Prepared Statements
-        $stmt = $conn->prepare($sql);
+        $stmt = $pdo->prepare($sql);
 
         // Bind Parameters
         $stmt->bindParam(':ID', $id);
@@ -34,7 +34,7 @@ try {
 }
 
 // Close the Connection
-$conn = null;
+$pdo = null;
 ?>
 
 
