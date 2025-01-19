@@ -1,7 +1,9 @@
-<?php 
+<?php
 include('Connection/PDOcon.php');
 // getting DB of Contacts Info
 $stmt = $pdo->query("SELECT *  FROM `room` ");
+session_start(); // Start the session
+
 ?>
 
 <!DOCTYPE html>
@@ -11,26 +13,26 @@ $stmt = $pdo->query("SELECT *  FROM `room` ");
     <title>Almaris — Hotel Website Template</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" >
-    <meta content="Almaris — Hotel Website Template" name="description" >
-    <meta content="" name="keywords" >
-    <meta content="" name="author" >
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="" name="keywords">
+    <meta content="" name="author">
     <!-- CSS Files
     ================================================== -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
-    <link href="css/plugins.css" rel="stylesheet" type="text/css" >
-    <link href="css/swiper.css" rel="stylesheet" type="text/css" >
-    <link href="css/style.css" rel="stylesheet" type="text/css" >
-    <link href="css/coloring.css" rel="stylesheet" type="text/css" >
+    <link href="css/plugins.css" rel="stylesheet" type="text/css">
+    <link href="css/swiper.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/coloring.css" rel="stylesheet" type="text/css">
     <!-- color scheme -->
-    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css" >
+    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
     <div id="wrapper">
         <a href="#" id="back-to-top"></a>
-        
+
         <!-- page preloader begin -->
         <div id="de-loader"></div>
         <!-- page preloader close -->
@@ -42,10 +44,13 @@ $stmt = $pdo->query("SELECT *  FROM `room` ");
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between xs-hide">
-                                <div class="header-widget d-flex">                                    
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>Emilio Aguinaldo Highway, Dasmariñas, Philippines, 4114</a></div>
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>0917 808 7127</a></div>
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-envelope"></i>quatropasoshotel@gmail.com</a></div>
+                                <div class="header-widget d-flex">
+                                    <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>Emilio
+                                            Aguinaldo Highway, Dasmariñas, Philippines, 4114</a></div>
+                                    <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>0917 808
+                                            7127</a></div>
+                                    <div class="topbar-widget"><a href="#"><i
+                                                class="icofont-envelope"></i>quatropasoshotel@gmail.com</a></div>
                                 </div>
 
                                 <div class="social-icons">
@@ -66,8 +71,8 @@ $stmt = $pdo->query("SELECT *  FROM `room` ");
                                 <!-- logo begin -->
                                 <div id="logo">
                                     <a href="default.php">
-                                        <img class="logo-main" src="images/logo-white.png" alt="" >
-                                        <img class="logo-mobile" src="images/logo-white.png" alt="" >
+                                        <img class="logo-main" src="images/logo-white.png" alt="">
+                                        <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
                                 </div>
                                 <!-- logo close -->
@@ -80,8 +85,13 @@ $stmt = $pdo->query("SELECT *  FROM `room` ");
                                 </ul>
                             </div>
                             <div class="de-flex-col">
-                                <div class="menu_side_area">          
-                                    <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
+                                <div class="menu_side_area">
+                                    <?php if (isset($_SESSION['user_name'])): ?>
+                                    <a href="profile.php"
+                                        class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                    <!-- Show user name -->
+
+                                    <?php endif; ?>
                                     <span id="menu-btn"></span>
                                 </div>
                             </div>
@@ -102,7 +112,8 @@ $stmt = $pdo->query("SELECT *  FROM `room` ");
                     <div class="row justify-content-center">
                         <div class="col-lg-6 text-center">
                             <h1>Our Rooms</h1>
-                            <p class="mt-3 lead">Indulge in the ultimate blend of elegance and comfort in our meticulously designed rooms. Choose your room today.</p>
+                            <p class="mt-3 lead">Indulge in the ultimate blend of elegance and comfort in our
+                                meticulously designed rooms. Choose your room today.</p>
                         </div>
                     </div>
                 </div>
@@ -112,11 +123,11 @@ $stmt = $pdo->query("SELECT *  FROM `room` ");
             <section class="relative lines-deco">
                 <div class="container">
                     <div class="row g-4">
-                    <!-- room begin -->
+                        <!-- room begin -->
                         <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>
                         <div class="col-lg-4 col-sm-6">
                             <div class="hover relative text-light text-center wow fadeInUp" data-wow-delay=".3s">
-                                <img src="admin/main/template/<?php echo $row['img'];?>" class="img-fluid" alt="">
+                                <img src="admin/main/template/<?php echo $row['img']; ?>" class="img-fluid" alt="">
                                 <div class="abs hover-op-1 z-4 hover-mt-40 abs-centered">
                                     <div class="fs-14">Starts at</div>
                                     <h3 class="fs-40 lh-1 mb-4"><?php echo $row["Price"]; ?></h3>
@@ -127,22 +138,22 @@ $stmt = $pdo->query("SELECT *  FROM `room` ");
                                     <h3 class="mb-0"><?php echo $row["type"]; ?></h3>
                                     <div class="text-center fs-14">
                                         <span class="mx-2">
-                                        <?php echo $row["Pax"]; ?> Guests
+                                            <?php echo $row["Pax"]; ?> Guests
                                         </span>
                                     </div>
                                 </div>
                                 <div class="gradient-trans-color-bottom abs w-100 h-40 bottom-0"></div>
                             </div>
                         </div>
-                        <?php }?>
+                        <?php } ?>
                         <!-- room end -->
-                                                
+
                     </div>
                 </div>
             </section>
         </div>
         <!-- content close -->
-        
+
         <!-- footer begin -->
         <footer class="text-light section-dark">
             <div class="container">
@@ -168,7 +179,7 @@ $stmt = $pdo->query("SELECT *  FROM `room` ");
                                 M. contact@almaris.com
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
             <div class="subfooter">
@@ -185,7 +196,7 @@ $stmt = $pdo->query("SELECT *  FROM `room` ");
     </div>
 
 
-    
+
     <!-- Javascript Files
     ================================================== -->
     <script src="js/plugins.js"></script>

@@ -117,22 +117,16 @@ session_start(); // Start the session
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between xs-hide">
                                 <div class="header-widget d-flex">
+                                    <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>Emilio
+                                            Aguinaldo Highway, Dasmariñas, Philippines, 4114</a></div>
+                                    <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>0917 808
+                                            7127</a></div>
                                     <div class="topbar-widget"><a href="#"><i
-                                                class="icofont-location-pin"><?php echo $row["LocationAddress"]; ?></i></a>
-                                    </div>
-                                    <div class="topbar-widget"><a href="#"><i
-                                                class="icofont-phone"></i><?php echo $row["ContactNumber"]; ?></a></div>
-                                    <div class="topbar-widget"><a href="#"><i
-                                                class="icofont-envelope"><?php echo $row["Email"]; ?></i></a></div>
-                                    <?php if ($promo['showPromo'] == 1): ?>
-                                    <div class="topbar-widget promo-popup navpromo"><a href="#"><i
-                                                class="icofont-mega-phone">Promo</i></a></div>
-                                    <?php endif; ?>
+                                                class="icofont-envelope"></i>quatropasoshotel@gmail.com</a></div>
                                 </div>
 
                                 <div class="social-icons">
-                                    <a href="<?php echo $row2["FBlink"]; ?>"><i
-                                            class="fa-brands fa-facebook fa-lg"></i></a>
+                                    <a href="#"><i class="fa-brands fa-facebook fa-lg"></i></a>
                                     <a href="#"><i class="fa-brands fa-instagram fa-lg"></i></a>
                                 </div>
                             </div>
@@ -181,7 +175,7 @@ session_start(); // Start the session
                 <span id="close-popup">&times;</span>
                 <h2>Special Offer!</h2>
                 <p>Don't miss our limited-time promotion. Book now and enjoy exclusive discounts!</p>
-                <a href="reservation.php" class="btn-main">Book Now</a>
+                <a href="Reserve.php" class="btn-main">Book Now</a>
             </div>
         </div>
         <script>
@@ -200,7 +194,6 @@ session_start(); // Start the session
             <section id="section-intro"
                 class="section-dark text-light no-top no-bottom position-relative overflow-hidden z-1000">
                 <div class="v-center relative">
-
 
                     <div class="abs abs-centered z-1000 w-100">
                         <div class="container">
