@@ -17,11 +17,31 @@
     }
 
     #chat-box {
-        height: 300px;
+        min-height: 400px;
         overflow-y: auto;
-        border: 1px solid #ddd;
-        padding: 5px;
-        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background: #f9f9f9;
+    }
+
+    .message {
+        margin: 5px 0;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 70%;
+    }
+
+    .incoming {
+        background-color: #e1f5fe;
+        align-self: flex-start;
+        text-align: left;
+    }
+
+    .outgoing {
+        background-color: #c8e6c9;
+        align-self: flex-end;
+        text-align: right;
+        margin-left: auto;
     }
 
     textarea {

@@ -14,8 +14,13 @@ function initializeChat(role) {
 
       // Ensure required fields are present
       if (data.from && data.message) {
-        const message = `<div class="${data.from}"><strong>${data.from}:</strong> ${data.message}</div>`;
+        const alignment = data.from === role ? "outgoing" : "incoming"; // Align based on sender
+        const message = `
+          <div class="message ${alignment}">
+        ${data.message}
+          </div>`;
         chatBox.innerHTML += message;
+        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest message
       } else {
         console.error("Incomplete message data:", data);
       }
@@ -34,6 +39,14 @@ function initializeChat(role) {
           message,
         })
       );
+
+      // Display sender's message immediately
+      const messageHtml = `
+        <div class="message outgoing">
+           ${message}
+        </div>`;
+      chatBox.innerHTML += messageHtml;
+      chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest message
       messageInput.value = "";
     }
   });
