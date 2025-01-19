@@ -195,8 +195,19 @@ img {
                     </div>
                     <button id="editProfileBtn">Edit Profile</button>
                     <button id="resetPasswordBtn">Reset Password</button>
-                    <hr class="my-4" />
+                    <button id="resetPasswordBtn">
+                        <a href="bookings.php">
+                            Bookings
+                        </a>
+                    </button>
+                    <button id="resetPasswordBtn">
+                        <a href="customer.php">
+                            Chat with Admin
+                        </a>
+                    </button>
+
                     <form method="POST" class="form-section" id="editProfileForm" style="display: none;">
+                        <hr class="my-4" />
                         <div class="form-row">
                             <div class="form-group col-md-5">
                                 <label for="firstname">Name</label>
