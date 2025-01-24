@@ -35,11 +35,14 @@
         background-color: #e1f5fe;
         align-self: flex-start;
         text-align: left;
+        border-radius: 100px;
     }
 
     .outgoing {
         background-color: #c8e6c9;
+        border-radius: 100px;
         align-self: flex-end;
+        padding: 10px 15px;
         text-align: right;
         margin-left: auto;
     }
