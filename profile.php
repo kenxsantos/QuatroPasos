@@ -201,10 +201,17 @@ img {
                         </a>
                     </button>
                     <button id="resetPasswordBtn">
-                        <a href="customer.php">
+                        <a href="chat.php">
                             Chat with Admin
                         </a>
                     </button>
+                    <button>
+                        <?php if (isset($_SESSION['user_name'])): ?>
+                        <a href="logout.php" class="btn-main btn-line">Logout</a>
+                        <!-- Logout button -->
+                        <?php endif; ?>
+                    </button>
+
 
                     <form method="POST" class="form-section" id="editProfileForm" style="display: none;">
                         <hr class="my-4" />
