@@ -6,42 +6,42 @@ $message = "";
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Get the form data
-  $start_date = $_POST['start_date'];
-  $end_date = $_POST['end_date'];
-  $num_adults = $_POST['num_adults'];
-  $num_children = $_POST['num_children'];
+    // Get the form data
+    $start_date = $_POST['start_date'];
+    $end_date = $_POST['end_date'];
+    $num_adults = $_POST['num_adults'];
+    $num_children = $_POST['num_children'];
 
-  // Validate that all fields are filled and that the number of adults is at least 1
-  if (!empty($start_date) && !empty($end_date) && !empty($num_adults) && $num_adults >= 1) {
-    // Prepare the SQL statement
-    $sql = "INSERT INTO bookings (start_date, end_date, num_adults, num_children) VALUES (?, ?, ?, ?)";
+    // Validate that all fields are filled and that the number of adults is at least 1
+    if (!empty($start_date) && !empty($end_date) && !empty($num_adults) && $num_adults >= 1) {
+        // Prepare the SQL statement
+        $sql = "INSERT INTO bookings (start_date, end_date, num_adults, num_children) VALUES (?, ?, ?, ?)";
 
-    // Use prepared statement to prevent SQL injection
-    if ($stmt = $conn->prepare($sql)) {
-      $stmt->bind_param("ssii", $start_date, $end_date, $num_adults, $num_children);
+        // Use prepared statement to prevent SQL injection
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("ssii", $start_date, $end_date, $num_adults, $num_children);
 
-      // Execute the query
-      if ($stmt->execute()) {
-        // Get the ID of the last inserted row
-        $last_id = $conn->insert_id;
+            // Execute the query
+            if ($stmt->execute()) {
+                // Get the ID of the last inserted row
+                $last_id = $conn->insert_id;
 
-        // Redirect to another page with the booking ID
-        $url = "Reserve-ChooseRoom.php?booking_id=" . $last_id . "&start_date=" . $start_date . "&end_date=" . $end_date;
-        header("Location: " . $url);
-        exit(); // Stop further script execution after redirection
-      } else {
-        $message = "Error: " . $stmt->error;
-      }
+                // Redirect to another page with the booking ID
+                $url = "Reserve-ChooseRoom.php?booking_id=" . $last_id . "&start_date=" . $start_date . "&end_date=" . $end_date . "&num_adults=" . $num_adults;
+                header("Location: " . $url);
+                exit(); // Stop further script execution after redirection
+            } else {
+                $message = "Error: " . $stmt->error;
+            }
 
-      // Close the statement
-      $stmt->close();
+            // Close the statement
+            $stmt->close();
+        } else {
+            $message = "Error: " . $conn->error;
+        }
     } else {
-      $message = "Error: " . $conn->error;
+        $message = "All fields are required, and the number of adults must be at least 1!";
     }
-  } else {
-    $message = "All fields are required, and the number of adults must be at least 1!";
-  }
 }
 
 session_start(); // Start the session

@@ -130,15 +130,15 @@ session_start(); // Start the session
                                 <img src="admin/main/template/<?php echo $row['img']; ?>" class="img-fluid" alt="">
                                 <div class="abs hover-op-1 z-4 hover-mt-40 abs-centered">
                                     <div class="fs-14">Starts at</div>
-                                    <h3 class="fs-40 lh-1 mb-4"><?php echo $row["Price"]; ?></h3>
-                                    <a class="btn-line" href="room-single.html">View Details</a>
+                                    <h3 class="fs-40 lh-1 mb-4"><?php echo $row["price"]; ?></h3>
+                                    <a class="btn-line" href="RoomDetails.php">View Details</a>
                                 </div>
                                 <div class="abs bg-color z-2 top-0 w-100 h-100 hover-op-1"></div>
                                 <div class="abs z-2 bottom-0 mb-3 w-100 text-center hover-op-0">
                                     <h3 class="mb-0"><?php echo $row["type"]; ?></h3>
                                     <div class="text-center fs-14">
                                         <span class="mx-2">
-                                            <?php echo $row["Pax"]; ?> Guests
+                                            <?php echo $row["adults"]; ?> Guests
                                         </span>
                                     </div>
                                 </div>

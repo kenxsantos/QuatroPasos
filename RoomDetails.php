@@ -5,26 +5,26 @@
     <title>Almaris — Hotel Website Template</title>
     <link rel="icon" href="images/icon.webp" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" >
-    <meta content="Almaris — Hotel Website Template" name="description" >
-    <meta content="" name="keywords" >
-    <meta content="" name="author" >
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="" name="keywords">
+    <meta content="" name="author">
     <!-- CSS Files
     ================================================== -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
-    <link href="css/plugins.css" rel="stylesheet" type="text/css" >
-    <link href="css/swiper.css" rel="stylesheet" type="text/css" >
-    <link href="css/style.css" rel="stylesheet" type="text/css" >
-    <link href="css/coloring.css" rel="stylesheet" type="text/css" >
+    <link href="css/plugins.css" rel="stylesheet" type="text/css">
+    <link href="css/swiper.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/coloring.css" rel="stylesheet" type="text/css">
     <!-- color scheme -->
-    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css" >
+    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
     <div id="wrapper">
         <a href="#" id="back-to-top"></a>
-        
+
         <!-- page preloader begin -->
         <div id="de-loader"></div>
         <!-- page preloader close -->
@@ -36,10 +36,13 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between xs-hide">
-                                <div class="header-widget d-flex">                                    
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>742 Evergreen Terrace Brooklyn, NY 11201</a></div>
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>+929 333 9296</a></div>
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-envelope"></i>contact@almaris.com</a></div>
+                                <div class="header-widget d-flex">
+                                    <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>742
+                                            Evergreen Terrace Brooklyn, NY 11201</a></div>
+                                    <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>+929 333
+                                            9296</a></div>
+                                    <div class="topbar-widget"><a href="#"><i
+                                                class="icofont-envelope"></i>contact@almaris.com</a></div>
                                 </div>
 
                                 <div class="social-icons">
@@ -63,9 +66,9 @@
                                 <!-- logo begin -->
                                 <div id="logo">
                                     <a href="default.html">
-                                        <img class="logo-main" src="images/logo-white.webp" alt="" >
-                                        <img class="logo-scroll" src="images/logo-black.webp" alt="" >
-                                        <img class="logo-mobile" src="images/logo-white.webp" alt="" >
+                                        <img class="logo-main" src="images/logo-white.webp" alt="">
+                                        <img class="logo-scroll" src="images/logo-black.webp" alt="">
+                                        <img class="logo-mobile" src="images/logo-white.webp" alt="">
                                     </a>
                                 </div>
                                 <!-- logo close -->
@@ -79,85 +82,112 @@
                                                     <div class="sb-menu p-4">
                                                         <div class="row g-3">
                                                             <div class="col-lg-1-5 col-md-4 text-center">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
-                                                                    <img src="images/demo/homepage-1.jpg" class="w-100 relative hover-scale-1-1" alt="">
+                                                                <div
+                                                                    class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
+                                                                    <img src="images/demo/homepage-1.jpg"
+                                                                        class="w-100 relative hover-scale-1-1" alt="">
 
                                                                     <div class="abs abs-centered w-70 z-2 hover-op-1">
-                                                                        <a class="btn-main mb-2" href="index.html">Multipage</a>
-                                                                        <a class="btn-main" href="onepage-homepage-main.html">One Page</a>
+                                                                        <a class="btn-main mb-2"
+                                                                            href="index.html">Multipage</a>
+                                                                        <a class="btn-main"
+                                                                            href="onepage-homepage-main.html">One
+                                                                            Page</a>
                                                                     </div>
-                                                                </div>                            
-                                                                <h5 class="mt-3 mb-1">Main Demo</h5>                          
+                                                                </div>
+                                                                <h5 class="mt-3 mb-1">Main Demo</h5>
                                                             </div>
-                                                            
+
                                                             <div class="col-lg-1-5 col-md-4 text-center">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
+                                                                <div
+                                                                    class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
                                                                     <a href="homepage-bold.html">
-                                                                        <img src="images/demo/homepage-7.jpg" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        <img src="images/demo/homepage-7.jpg"
+                                                                            class="w-100 relative hover-scale-1-1"
+                                                                            alt="">
                                                                     </a>
-                                                                </div>                            
-                                                                <h5 class="mt-3 mb-1 new">Bold</h5>                          
+                                                                </div>
+                                                                <h5 class="mt-3 mb-1 new">Bold</h5>
                                                             </div>
 
                                                             <div class="col-lg-1-5 col-md-4 text-center">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
+                                                                <div
+                                                                    class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
                                                                     <a href="homepage-bold-2.html">
-                                                                        <img src="images/demo/homepage-8.jpg" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        <img src="images/demo/homepage-8.jpg"
+                                                                            class="w-100 relative hover-scale-1-1"
+                                                                            alt="">
                                                                     </a>
-                                                                </div>                            
-                                                                <h5 class="mt-3 mb-1 new">Bold 2</h5>                          
+                                                                </div>
+                                                                <h5 class="mt-3 mb-1 new">Bold 2</h5>
                                                             </div>
 
                                                             <div class="col-lg-1-5 col-md-4 text-center">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
-                                                                    <img src="images/demo/homepage-6.jpg" class="w-100 relative hover-scale-1-1" alt="">
+                                                                <div
+                                                                    class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
+                                                                    <img src="images/demo/homepage-6.jpg"
+                                                                        class="w-100 relative hover-scale-1-1" alt="">
 
                                                                     <div class="abs abs-centered w-70 z-2 hover-op-1">
-                                                                        <a class="btn-main mb-2" href="homepage-modern-2.html">Light</a>
-                                                                        <a class="btn-main" href="homepage-modern-2-dark.html">Dark</a>
+                                                                        <a class="btn-main mb-2"
+                                                                            href="homepage-modern-2.html">Light</a>
+                                                                        <a class="btn-main"
+                                                                            href="homepage-modern-2-dark.html">Dark</a>
                                                                     </div>
-                                                                </div>                            
-                                                                <h5 class="mt-3 mb-1 new">Modern 2</h5>                          
+                                                                </div>
+                                                                <h5 class="mt-3 mb-1 new">Modern 2</h5>
                                                             </div>
 
                                                             <div class="col-lg-1-5 col-md-4 text-center">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
+                                                                <div
+                                                                    class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
                                                                     <a href="homepage-beach-resort.html">
-                                                                        <img src="images/demo/homepage-3.jpg" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        <img src="images/demo/homepage-3.jpg"
+                                                                            class="w-100 relative hover-scale-1-1"
+                                                                            alt="">
                                                                     </a>
-                                                                </div>                            
-                                                                <h5 class="mt-3 mb-1">Beach Resort</h5>                          
+                                                                </div>
+                                                                <h5 class="mt-3 mb-1">Beach Resort</h5>
                                                             </div>
 
                                                             <div class="col-lg-1-5 col-md-4 text-center">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
+                                                                <div
+                                                                    class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
                                                                     <a href="homepage-city-apartment.html">
-                                                                        <img src="images/demo/homepage-4.jpg" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        <img src="images/demo/homepage-4.jpg"
+                                                                            class="w-100 relative hover-scale-1-1"
+                                                                            alt="">
                                                                     </a>
-                                                                </div>                            
-                                                                <h5 class="mt-3 mb-1">City Apartment</h5>                          
+                                                                </div>
+                                                                <h5 class="mt-3 mb-1">City Apartment</h5>
                                                             </div>
 
                                                             <div class="col-lg-1-5 col-md-4 text-center">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
+                                                                <div
+                                                                    class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
                                                                     <a href="homepage-mountain-hotel.html">
-                                                                        <img src="images/demo/homepage-2.jpg" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        <img src="images/demo/homepage-2.jpg"
+                                                                            class="w-100 relative hover-scale-1-1"
+                                                                            alt="">
                                                                     </a>
-                                                                </div>                            
-                                                                <h5 class="mt-3 mb-1">Mountain Hotel</h5>                          
+                                                                </div>
+                                                                <h5 class="mt-3 mb-1">Mountain Hotel</h5>
                                                             </div>
 
                                                             <div class="col-lg-1-5 col-md-4 text-center">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
+                                                                <div
+                                                                    class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
                                                                     <a href="homepage-modern.html">
-                                                                        <img src="images/demo/homepage-5.jpg" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        <img src="images/demo/homepage-5.jpg"
+                                                                            class="w-100 relative hover-scale-1-1"
+                                                                            alt="">
                                                                     </a>
-                                                                </div>                            
-                                                                <h5 class="mt-3 mb-1">Modern</h5>                          
+                                                                </div>
+                                                                <h5 class="mt-3 mb-1">Modern</h5>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                             </li>
                                         </ul>
                                     </li>
@@ -171,56 +201,74 @@
                                                                 <h4>Rooms</h4>
                                                                 <ul class="no-bg">
                                                                     <li><a href="rooms.html">All Rooms Default</a></li>
-                                                                    <li><a href="rooms-style-2.html">All Rooms Style 2</a></li>
-                                                                    <li><a href="rooms-style-3.html">All Rooms Style 3</a></li>
+                                                                    <li><a href="rooms-style-2.html">All Rooms Style
+                                                                            2</a></li>
+                                                                    <li><a href="rooms-style-3.html">All Rooms Style
+                                                                            3</a></li>
                                                                     <li><a href="room-single.html">Single Room</a></li>
-                                                                    <li><a href="room-single-style-2.html">Single Room Style 2</a></li>
-                                                                </ul>                     
+                                                                    <li><a href="room-single-style-2.html">Single Room
+                                                                            Style 2</a></li>
+                                                                </ul>
                                                             </div>
                                                             <div class="col-lg-3 text-center">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
+                                                                <div
+                                                                    class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
                                                                     <a href="room-single.html">
                                                                         <div class="d-label">
                                                                             Best Seller
                                                                         </div>
-                                                                        <img src="images/form/2.jpg" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        <img src="images/form/2.jpg"
+                                                                            class="w-100 relative hover-scale-1-1"
+                                                                            alt="">
                                                                     </a>
 
-                                                                    <div class="abs w-100 h-100 start-0 top-0 hover-bg-color"></div>
-                                                                </div>                            
-                                                                <h5 class="mt-3 mb-1">Deluxe Room</h5>                          
+                                                                    <div
+                                                                        class="abs w-100 h-100 start-0 top-0 hover-bg-color">
+                                                                    </div>
+                                                                </div>
+                                                                <h5 class="mt-3 mb-1">Deluxe Room</h5>
                                                             </div>
 
                                                             <div class="col-lg-3 text-center">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
+                                                                <div
+                                                                    class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
                                                                     <a href="room-single.html">
                                                                         <div class="d-label">
                                                                             Best Seller
                                                                         </div>
-                                                                        <img src="images/form/4.jpg" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        <img src="images/form/4.jpg"
+                                                                            class="w-100 relative hover-scale-1-1"
+                                                                            alt="">
                                                                     </a>
 
-                                                                    <div class="abs w-100 h-100 start-0 top-0 hover-bg-color"></div>
-                                                                </div>                            
-                                                                <h5 class="mt-3 mb-1">Family Suite</h5>                          
+                                                                    <div
+                                                                        class="abs w-100 h-100 start-0 top-0 hover-bg-color">
+                                                                    </div>
+                                                                </div>
+                                                                <h5 class="mt-3 mb-1">Family Suite</h5>
                                                             </div>
 
                                                             <div class="col-lg-3 text-center">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
+                                                                <div
+                                                                    class="relative hover text-center overflow-hidden soft-shadow rounded-5px">
                                                                     <a href="room-single.html">
                                                                         <div class="d-label">
                                                                             Featured
                                                                         </div>
-                                                                        <img src="images/form/6.jpg" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        <img src="images/form/6.jpg"
+                                                                            class="w-100 relative hover-scale-1-1"
+                                                                            alt="">
                                                                     </a>
 
-                                                                    <div class="abs w-100 h-100 start-0 top-0 hover-bg-color"></div>
-                                                                </div>                            
-                                                                <h5 class="mt-3 mb-1">Presidential Suite</h5>                          
+                                                                    <div
+                                                                        class="abs w-100 h-100 start-0 top-0 hover-bg-color">
+                                                                    </div>
+                                                                </div>
+                                                                <h5 class="mt-3 mb-1">Presidential Suite</h5>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                             </li>
                                         </ul>
                                     </li>
@@ -239,7 +287,7 @@
                                 </ul>
                             </div>
                             <div class="de-flex-col">
-                                <div class="menu_side_area">          
+                                <div class="menu_side_area">
                                     <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
                                     <span id="menu-btn"></span>
                                 </div>
@@ -258,7 +306,7 @@
             <section class="pt80 sm-pt-40 no-bottom">
                 <div class="owl-custom-nav menu-float" data-target="#gallery-carousel">
                     <a class="btn-next"></a>
-                    <a class="btn-prev"></a>                                
+                    <a class="btn-prev"></a>
 
                     <div id="gallery-carousel" class="owl-3-cols-autowidth owl-carousel owl-theme">
                         <img src="images/room-single/1.webp" class="h-600px" alt="">
@@ -298,7 +346,11 @@
                                 </div>
                             </div>
 
-                            <p>Ea sunt tempor dolor id do nisi est sint culpa in eiusmod sed aliqua elit nisi nulla mollit proident minim commodo aute elit ut mollit velit exercitation cillum quis sed dolore quis laboris nostrud exercitation magna anim aliquip exercitation est reprehenderit labore officia dolore eu non in do exercitation deserunt tempor aliqua enim esse ex deserunt magna in esse nostrud deserunt.</p>
+                            <p>Ea sunt tempor dolor id do nisi est sint culpa in eiusmod sed aliqua elit nisi nulla
+                                mollit proident minim commodo aute elit ut mollit velit exercitation cillum quis sed
+                                dolore quis laboris nostrud exercitation magna anim aliquip exercitation est
+                                reprehenderit labore officia dolore eu non in do exercitation deserunt tempor aliqua
+                                enim esse ex deserunt magna in esse nostrud deserunt.</p>
 
                             <div class="spacer-single"></div>
 
@@ -400,7 +452,8 @@
                                 <div class="row g-3">
                                     <div class="col-md-12">
                                         <h6 class="mb-2">Choose Date</h6>
-                                        <input type="text" id="date-picker" class="form-control no-bg bg-focus-color text-light" name="date" value="">
+                                        <input type="text" id="date-picker"
+                                            class="form-control no-bg bg-focus-color text-light" name="date" value="">
                                     </div>
                                     <div class="col-md-6">
                                         <div class="text-center ">
@@ -448,18 +501,22 @@
 
                                 <div>
                                     <h3>Extra Services</h3>
-                                    <fieldset>                                        
+                                    <fieldset>
                                         <label>
-                                            <input type="checkbox" name="service" value="late_checkout"> Spa Services <span class="id-color">$45</span>
+                                            <input type="checkbox" name="service" value="late_checkout"> Spa Services
+                                            <span class="id-color">$45</span>
                                         </label><br>
                                         <label>
-                                            <input type="checkbox" name="service" value="turndown_service"> Sauna/Steam Room <span class="id-color">$55</span>
+                                            <input type="checkbox" name="service" value="turndown_service"> Sauna/Steam
+                                            Room <span class="id-color">$55</span>
                                         </label><br>
                                         <label>
-                                            <input type="checkbox" name="service" value="room_service"> Laundry and Dry Cleaning <span class="id-color">$25</span>
+                                            <input type="checkbox" name="service" value="room_service"> Laundry and Dry
+                                            Cleaning <span class="id-color">$25</span>
                                         </label><br>
                                         <label>
-                                            <input type="checkbox" name="service" value="room_upgrade"> Pet-Friendly Amenities <span class="id-color">$35</span>
+                                            <input type="checkbox" name="service" value="room_upgrade"> Pet-Friendly
+                                            Amenities <span class="id-color">$35</span>
                                         </label><br>
                                         <label>
                                     </fieldset>
@@ -467,26 +524,26 @@
 
                                 <div>
                                     <div class="d-flex justify-content-between">
-                                    <div>
-                                        <h3 class="mb-4">Total Cost</h3>
-                                    </div>
+                                        <div>
+                                            <h3 class="mb-4">Total Cost</h3>
+                                        </div>
 
-                                    <div>
-                                        <h3 class="d-inline">$179</h3>
+                                        <div>
+                                            <h3 class="d-inline">$179</h3>
+                                        </div>
                                     </div>
                                 </div>
-                                </div>
 
-                                <a class="btn-main w-100" href="rooms.html">Book Your Stay</a>
+                                <a class="btn-main w-100" href="rooms.php">Book Your Stay</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            
+
         </div>
         <!-- content close -->
-        
+
         <!-- footer begin -->
         <footer class="text-light section-dark">
             <div class="container">
@@ -514,7 +571,7 @@
                                 M. contact@almaris.com
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
             <div class="subfooter">
@@ -529,7 +586,7 @@
         </footer>
         <!-- footer close -->
     </div>
-    
+
     <!-- Javascript Files
     ================================================== -->
     <script src="js/plugins.js"></script>
