@@ -2,37 +2,57 @@
 include 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone']; // Get phone from the form
-    $address = $_POST['address']; // Get address from the form
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $phone = trim($_POST['phone']);
+    $address = trim($_POST['address']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
+    $errors = [];
+
+    // Strong password validation
+    if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', $password)) {
+        $errors[] = "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.";
+    }
+
     // Check if passwords match
     if ($password !== $confirm_password) {
-        echo "Passwords do not match.";
-        exit();
+        $errors[] = "Passwords do not match.";
     }
 
-    $hashed_password = password_hash($password, PASSWORD_BCRYPT); // Hashing password
-    $role_as = 0; // Default role as user
-    $created_at = date('Y-m-d H:i:s');
+    // Check if email exists
+    $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Insert into database
-    $sql = "INSERT INTO user (name, email, phone, pass, role_as, created_at, address) 
-            VALUES ('$name', '$email', '$phone', '$hashed_password', '$role_as', '$created_at', '$address')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Registration successful!";
-        // Optionally, you can redirect the user to a different page
-        header("Location: login.php"); // Redirect to login page after successful registration
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+    if ($result->num_rows > 0) {
+        $errors[] = "Email already exists.";
     }
+    $stmt->close();
+
+    // If no errors, proceed with registration
+    if (empty($errors)) {
+        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+        $role_as = 0;
+        $created_at = date('Y-m-d H:i:s');
+
+        $stmt = $conn->prepare("INSERT INTO user (name, email, phone, pass, role_as, created_at, address) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssiss", $name, $email, $phone, $hashed_password, $role_as, $created_at, $address);
+
+        if ($stmt->execute()) {
+            header("Location: login.php");
+            exit();
+        } else {
+            $errors[] = "Error: " . $stmt->error;
+        }
+        $stmt->close();
+    }
+
+    $conn->close();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,6 +76,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" type="text/css" href="assets/css/fontawesome.css">
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="assets/css/login.css">
+    <style>
+    .error-container {
+        background-color: red;
+        color: white;
+        padding: 10px 0px;
+        margin: 8px 0;
+        font-size: 12px;
+    }
+    </style>
 </head>
 
 <body>
@@ -77,6 +106,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="imgcontainer">
                                     <img src="assets/images/logo.png" alt="logo" class="avatar" width="70%">
                                 </div>
+                                <!-- Show errors if any -->
+                                <?php if (!empty($errors)) : ?>
+                                <div class="error-container">
+                                    <ul>
+                                        <?php foreach ($errors as $error) : ?>
+                                        <li><?= htmlspecialchars($error) ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                                <?php endif; ?>
                                 <div class="input-control">
                                     <div class="row p-l-5 p-r-5">
                                         <div class="col-md-6 p-l-10 p-r-10">
@@ -106,11 +145,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </div>
                                     </div>
                                     <label class="label-container">I agree with <a href="#"> privacy policy</a>
-                                        <input type="checkbox" required> <!-- Make the checkbox required -->
+                                        <input type="checkbox" id="privacy-policy" required>
+                                        <!-- Make the checkbox required -->
                                         <span class="checkmark"></span>
                                     </label>
                                     <div class="login-btns">
-                                        <button type="submit">Sign up</button>
+                                        <button type="submit" id="register-btn" disabled>Sign up</button>
                                     </div>
                                     <div class="division-lines"></div>
                                     <div class="login-with-btns">
@@ -126,8 +166,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </section>
-
-
     <!-- latest jquery-->
     <script src="assets/js/jquery-3.5.1.min.js"></script>
     <!-- Theme js-->
