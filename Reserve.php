@@ -207,7 +207,8 @@ $conn->close();
     }
 
     .range-date {
-        background-color: black;
+        background-color: #4caf50;
+        border: 1px solid white;
         color: black;
     }
 
@@ -477,8 +478,8 @@ $conn->close();
 
             allDays.forEach(day => {
                 const dayYear = day.getAttribute('data-year');
-                const dayMonth = day.getAttribute('data-month').padStart(2, '0');
-                const dayDate = day.getAttribute('data-day').padStart(2, '0');
+                const dayMonth = String(day.getAttribute('data-month')).padStart(2, '0');
+                const dayDate = String(day.getAttribute('data-day')).padStart(2, '0');
                 const fullDate = `${dayYear}-${dayMonth}-${dayDate}`;
                 const currentDate = new Date(fullDate);
 
