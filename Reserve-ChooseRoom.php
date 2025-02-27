@@ -4,13 +4,20 @@ include('Connection/SQLIcon.php');
 
 $booking_id = $_GET['booking_id'];
 $num_adults = $_GET['num_adults'];
+$startDate = $_GET['start_date'];
+$endDate = $_GET['end_date'];
 
-// Check if form is submitted and required fields are present
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $room_type = $_POST['room'];   // New RoomType value
+$sqlRoomTypes = "SELECT * FROM room WHERE Pax = ?";
+$stmtRoomTypes = $conn->prepare($sqlRoomTypes);
+$stmtRoomTypes->bind_param("i", $num_adults);
+$stmtRoomTypes->execute();
+$resultRoomTypes = $stmtRoomTypes->get_result();
 
-    // Fetch the selected room's price based on room type
-    $sql_price = "SELECT price FROM room WHERE type = ?";
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room'])) {
+    $room_type = $_POST['room'];
+
+    // Fetch the selected room price
+    $sql_price = "SELECT Price FROM room WHERE type = ?";
     $stmt_price = $conn->prepare($sql_price);
     $stmt_price->bind_param("s", $room_type);
     $stmt_price->execute();
@@ -18,50 +25,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result_price->num_rows > 0) {
         $price_row = $result_price->fetch_assoc();
-        $price = $price_row['price'];  // Get the price of the selected room type
+        $Price = $price_row['Price'];
 
-        // Prepare the SQL statement for updating RoomType and price
-        $sql = "UPDATE bookings SET RoomType = ?, price = ? WHERE id = ?";
-
-        // Use prepared statement to prevent SQL injection
+        // Update booking details
+        $sql = "UPDATE bookings SET RoomType = ?, Price = ? WHERE id = ?";
         if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("ssi", $room_type, $price, $booking_id);  // "sdi" represents string, double, and integer
+            $stmt->bind_param("ssi", $room_type, $Price, $booking_id);
 
-            // Execute the statement
             if ($stmt->execute()) {
-                $last_id = $conn->insert_id;
-
-                // Redirect to another page with the booking ID
-                $url = "Reserve-Booked-info.php?booking_id=" . $booking_id;
-                header("Location: " . $url);
+                // Redirect to booking details page
+                header("Location: Reserve-Booked-info.php?booking_id=" . $booking_id);
+                exit();
             } else {
-                echo "Error: " . $stmt->error;
+                echo "Error updating booking: " . $stmt->error;
             }
-
-            // Close the statement
             $stmt->close();
         } else {
-            echo "Error: " . $conn->error;
+            echo "SQL Error: " . $conn->error;
         }
     } else {
         echo "Error: Room type not found!";
     }
-
-    // Close the price statement
     $stmt_price->close();
 }
-
-// Parameters
-$startDate = $_GET['start_date']; // replace with dynamic values as needed
-$endDate = $_GET['end_date'];   // replace with dynamic values as needed
-
-// First, select all RoomTypes from table2
-$sqlRoomTypes = "SELECT type FROM room";
-$resultRoomTypes = $conn->query($sqlRoomTypes);
-
-// Fetch all rooms from the database
-$sql_rooms = "SELECT * FROM room";
-$result_rooms = $conn->query($sql_rooms);
 ?>
 
 
@@ -88,123 +74,123 @@ $result_rooms = $conn->query($sql_rooms);
     <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
 
     <style>
-    .booking-form {
-        width: 100%;
-        max-width: 1100px;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
+        .booking-form {
+            width: 100%;
+            max-width: 1100px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
 
-    .booking-form h2 {
-        margin-top: 0;
-    }
+        .booking-form h2 {
+            margin-top: 0;
+        }
 
-    .booking-form label {
-        font-weight: bold;
-    }
+        .booking-form label {
+            font-weight: bold;
+        }
 
-    .booking-form input,
-    .booking-form button {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
+        .booking-form input,
+        .booking-form button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
 
 
-    .room-selection button {
-        padding: 15px;
-        font-size: 16px;
-        border: 2px solid #007bff;
-        background-color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
+        .room-selection button {
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #007bff;
+            background-color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    .room-selection button.selected {
-        background-color: #f3a84a;
-        color: white;
-    }
+        .room-selection button.selected {
+            background-color: #f3a84a;
+            color: white;
+        }
 
-    .booking-form button.submit-btn {
-        background-color: #007bff;
-        color: white;
-        font-size: 1.2rem;
-        cursor: pointer;
-    }
+        .booking-form button.submit-btn {
+            background-color: #007bff;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
 
-    .message {
-        margin-bottom: 20px;
-        color: green;
-    }
+        .message {
+            margin-bottom: 20px;
+            color: green;
+        }
 
-    .error {
-        color: red;
-    }
+        .error {
+            color: red;
+        }
 
-    /* room CSS */
-    .room-card {
-        display: flex;
-        max-width: 800px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        /* room CSS */
+        .room-card {
+            display: flex;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    .room-card img {
-        width: 50%;
-        height: auto;
-        border-right: 1px solid #ddd;
-    }
+        .room-card img {
+            width: 50%;
+            height: auto;
+            border-right: 1px solid #ddd;
+        }
 
-    .room-info {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
+        .room-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    .room-info h2 {
-        margin: 0;
-        font-size: 1.5em;
-    }
+        .room-info h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
 
-    .room-info p {
-        color: #666;
-        line-height: 1.5;
-        margin: 10px 0;
-    }
+        .room-info p {
+            color: #666;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
 
-    .room-info button {
-        background-color: white;
-        color: Black;
-        border: none;
-        border: 2px solid #e69630;
-        border-radius: 5px;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1em;
-        align-self: flex-start;
-    }
+        .room-info button {
+            background-color: white;
+            color: Black;
+            border: none;
+            border: 2px solid #e69630;
+            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            align-self: flex-start;
+        }
 
-    .room-info button:hover {
-        background-color: #e69630;
-    }
+        .room-info button:hover {
+            background-color: #e69630;
+        }
 
-    section.lines-deco:before {
-        content: none !important;
-    }
+        section.lines-deco:before {
+            content: none !important;
+        }
 
-    section.lines-deco:after {
-        content: none !important;
-    }
+        section.lines-deco:after {
+            content: none !important;
+        }
     </style>
 
 </head>
@@ -306,57 +292,45 @@ $result_rooms = $conn->query($sql_rooms);
 
 
                         <form action="" method="POST">
-
-
                             <div class="container">
                                 <div class="row room-selection">
                                     <?php
                                     if ($resultRoomTypes->num_rows > 0) {
-                                        // Loop through each RoomType from table2
                                         while ($row = $resultRoomTypes->fetch_assoc()) {
                                             $roomType = $row['type'];
-                                            $room = $result_rooms->fetch_assoc();
 
-                                            // Prepare query to count RoomTypes within the specified date range
+                                            // Check room availability
                                             $sqlCount = "SELECT COUNT(*) AS count FROM bookings 
-                                              WHERE RoomType = ? AND start_date >= ? AND end_date <= ?";
+                                 WHERE RoomType = ? AND start_date <= ? AND end_date >= ?";
                                             $stmtCount = $conn->prepare($sqlCount);
-                                            $stmtCount->bind_param("sss", $roomType, $startDate, $endDate);
+                                            $stmtCount->bind_param("sss", $roomType, $endDate, $startDate);
                                             $stmtCount->execute();
                                             $resultCount = $stmtCount->get_result();
                                             $countRow = $resultCount->fetch_assoc();
+                                            $stmtCount->close();
 
-
-
-                                            // Check if the counted RoomType is less than 10
-                                            if ($countRow['count'] < $room['AvRooms']) {
-
+                                            // Ensure room data is not null before accessing
+                                            if ($row['img'] && $row['Price']) {
                                                 echo '<div class="col-12 col-md-6 col-lg-6 mb-4">';
                                                 echo '<div class="room-card">';
-                                                echo '<img src="admin/main/template/' . $room['img'] . '" alt="' . $room['type'] . '">';
+                                                echo '<img src="admin/main/template/' . htmlspecialchars($row['img']) . '" alt="' . htmlspecialchars($roomType) . '">';
                                                 echo '<div class="room-info">';
-                                                echo '<h2>' . $room['type'] . '</h2>';
-                                                echo '<p>' . $room['price'] . '</p>';
-                                                echo '<button type="button" data-room="' . $room['type'] . '" style="width:100px"> Book </button>';
+                                                echo '<h2>' . htmlspecialchars($roomType) . '</h2>';
+                                                echo '<p>' . htmlspecialchars($row['Price']) . '</p>';
+                                                echo '<button type="button" class="select-room-btn" data-room="' . htmlspecialchars($roomType) . '" style="width:100px">Book</button>';
                                                 echo '</div>';
                                                 echo '</div>';
-                                                echo '</div><br>';
-                                            } else {
+                                                echo '</div>';
                                             }
-
-                                            // Close the statement
-                                            $stmtCount->close();
                                         }
                                     } else {
-                                        echo "No RoomTypes found in table2.";
+                                        echo "<p>No available rooms found.</p>";
                                     }
                                     ?>
-
                                 </div>
                             </div>
-                            <!-- Hidden input to store the selected room -->
+                            <!-- Hidden input to store selected room -->
                             <input type="hidden" id="room" name="room" required>
-
                             <button type="submit" class="submit-btn">Book Now</button>
                         </form>
                     </div>
@@ -417,22 +391,22 @@ $result_rooms = $conn->query($sql_rooms);
     <script src="js/custom-swiper-1.js"></script>
 
     <script>
-    // JavaScript to handle room selection
-    const roomButtons = document.querySelectorAll('.room-selection button');
-    const roomInput = document.getElementById('room');
+        // JavaScript to handle room selection
+        const roomButtons = document.querySelectorAll('.room-selection button');
+        const roomInput = document.getElementById('room');
 
-    roomButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove 'selected' class from all buttons
-            roomButtons.forEach(btn => btn.classList.remove('selected'));
+        roomButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove 'selected' class from all buttons
+                roomButtons.forEach(btn => btn.classList.remove('selected'));
 
-            // Add 'selected' class to the clicked button
-            button.classList.add('selected');
+                // Add 'selected' class to the clicked button
+                button.classList.add('selected');
 
-            // Update the hidden room input with the selected room value
-            roomInput.value = button.getAttribute('data-room');
+                // Update the hidden room input with the selected room value
+                roomInput.value = button.getAttribute('data-room');
+            });
         });
-    });
     </script>
 
 </body>
