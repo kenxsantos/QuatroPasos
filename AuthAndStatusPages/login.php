@@ -23,7 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['user_name'] = $row['name'];
             $_SESSION['role_as'] = $row['role_as'];
-            header("Location: ../default.php"); // Redirect to the homepage
+
+            // Redirect based on role
+            if ($row['role_as'] == 1) {
+                header("Location: ../admin.php"); // Redirect to admin page
+            } else {
+                header("Location: ../default.php"); // Redirect to default page
+            }
             exit();
         } else {
             $error_message = "Invalid password.";
@@ -31,8 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $error_message = "No user found with this email.";
     }
+
+    $stmt->close(); // Close the statement
 }
+
+$conn->close(); // Close the database connection
 ?>
+
 
 
 <!DOCTYPE html>
