@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'] ?? ''; // Get the password, default to empty string if not set
 
     // Use a prepared statement to prevent SQL injection
-    $sql = "SELECT * FROM user WHERE email=?";
+    $sql = "SELECT * FROM users WHERE email=?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
