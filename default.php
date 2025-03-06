@@ -9,7 +9,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 // $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
 // getting DB of Contacts Info
-$stmt3 = $pdo->query("SELECT *  FROM `facilitiespage` ");
+
 
 // getting DB of Contacts Info
 $stmt4 = $pdo->query("SELECT *  FROM `room` ");
@@ -262,35 +262,7 @@ session_start(); // Start the session
                 </div>
             </section>
 
-            <section class="p-2">
-                <div class="container-fluid">
 
-                    <div class="row g-2">
-                        <!-- Facilities begin -->
-                        <?php while ($row3 = $stmt3->fetch(PDO::FETCH_ASSOC)) { ?>
-                        <div class="col-lg-4">
-                            <div class="bg-color-3 relative hover overflow-hidden">
-                                <div class="absolute z-2 w-100 h-100 padding30 bg-light hover-op-1 hover-mt-40">
-                                    <h4> <?php echo $row3["Event"] ?> </h4>
-                                    <p><?php echo $row3["Info"] ?></p>
-                                    <a class="btn-main" href="facilities.php">Read more</a>
-                                </div>
-                                <div class="text-center">
-                                    <img src="admin/main/template/<?php echo htmlspecialchars($row3["ImagePath"]); ?>"
-                                        class="w-100" alt="">
-                                </div>
-                                <div class="abs abs-center z-1 text-light bottom-0 mb-4">
-                                    <h3><?php echo $row3["Event"] ?></h3>
-                                </div>
-                                <div class="gradient-trans-color-bottom abs w-100 h-40 bottom-0"></div>
-                            </div>
-                        </div>
-                        <?php } ?>
-                        <!-- Facilities End -->
-
-                    </div>
-                </div>
-            </section>
 
 
 
