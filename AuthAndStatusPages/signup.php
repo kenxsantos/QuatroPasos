@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $role_as = 0;
         $created_at = date('Y-m-d H:i:s');
 
-        $stmt = $conn->prepare("INSERT INTO user (name, email, phone, pass, role_as, created_at, address) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO users (name, email, phone, pass, role_as, created_at, address) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssiss", $name, $email, $phone, $hashed_password, $role_as, $created_at, $address);
 
         if ($stmt->execute()) {
@@ -150,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <span class="checkmark"></span>
                                     </label>
                                     <div class="login-btns">
-                                        <button type="submit" id="register-btn" disabled>Sign up</button>
+                                        <button type="submit" id="register-btn">Sign up</button>
                                     </div>
                                     <div class="division-lines"></div>
                                     <div class="login-with-btns">
