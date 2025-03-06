@@ -1,6 +1,6 @@
-<?php 
+<?php
 session_start(); // Start the session
-include ('../../../Connection/PDOcon.php');
+include('../../../Connection/PDOcon.php');
 
 // Check if the user is logged in and their role is equal to 1
 $isLoggedIn = isset($_SESSION['user_id']);
@@ -47,11 +47,11 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
     <link href="../../assets/plugins/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
-    
+
 </head>
 
 <body>
-    
+
     <!--*******************
         Preloader start
     ********************-->
@@ -66,7 +66,7 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
         Preloader end
     ********************-->
 
-    
+
     <!--**********************************
         Main wrapper start
     ***********************************-->
@@ -79,7 +79,7 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
             <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
-                <div class="hamburger"><span class="line"></span>  <span class="line"></span>  <span class="line"></span>
+                <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
                 </div>
             </div>
         </div>
@@ -90,7 +90,7 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header">
             <div class="header-content">
                 <div class="header-left">
                     <ul>
@@ -120,7 +120,7 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
                             </a>
                             <div class="drop-down animated bounceInDown">
                                 <div class="dropdown-content-heading">
-                                    <span class="pull-left">Messages</span>  
+                                    <span class="pull-left">Messages</span>
                                     <a href="javascript:void()" class="pull-right text-white">View All</a>
                                     <div class="clearfix"></div>
                                 </div>
@@ -179,26 +179,38 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
                                                 <span class="mr-3 avatar-icon bg-success-lighten-2"><i class="fa fa-check"></i></span>
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Druid Wensleydale</div>
-                                                    <span class="notification-text">A wonderful serenit of my entire soul.</span> 
+                                                    <span class="notification-text">A wonderful serenit of my entire soul.</span>
                                                     <small class="notification-timestamp">20 May 2018, 15:32</small>
                                                 </div>
                                             </a>
                                             <span class="notify-close"><i class="ti-close"></i>
-                                                </span>
+                                            </span>
                                         </li>
-                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="fa fa-close"></i></span><div class="notification-content"><div class="notification-heading">Inverness McKenzie</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small></div></a>
+                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="fa fa-close"></i></span>
+                                                <div class="notification-content">
+                                                    <div class="notification-heading">Inverness McKenzie</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small>
+                                                </div>
+                                            </a>
                                             <span class="notify-close"><i class="ti-close"></i>
-                                                </span>
+                                            </span>
                                         </li>
-                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-success-lighten-2"><i class="fa fa-check"></i></span><div class="notification-content"><div class="notification-heading">McKenzie Inverness</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small></div></a>
+                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-success-lighten-2"><i class="fa fa-check"></i></span>
+                                                <div class="notification-content">
+                                                    <div class="notification-heading">McKenzie Inverness</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small>
+                                                </div>
+                                            </a>
                                             <span class="notify-close"><i class="ti-close"></i>
-                                                </span>
+                                            </span>
                                         </li>
-                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="fa fa-close"></i></span><div class="notification-content"><div class="notification-heading">Inverness McKenzie</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small></div></a>
+                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="fa fa-close"></i></span>
+                                                <div class="notification-content">
+                                                    <div class="notification-heading">Inverness McKenzie</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small>
+                                                </div>
+                                            </a>
                                             <span class="notify-close"><i class="ti-close"></i>
-                                                </span>
+                                            </span>
                                         </li>
-                                        <li class="text-left"><a href="javascript:void()" class="more-link">Show All Notifications</a>  <span class="pull-right"><i class="fa fa-angle-right"></i></span>
+                                        <li class="text-left"><a href="javascript:void()" class="more-link">Show All Notifications</a> <span class="pull-right"><i class="fa fa-angle-right"></i></span>
                                         </li>
                                     </ul>
                                 </div>
@@ -206,7 +218,7 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
                         </li>
                         <li class="icons">
                             <a href="javascript:void(0)" class="log-user">
-                                <span><?=$row2["name"]?></span> <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
+                                <span><?= $row2["name"] ?></span> <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
                             </a>
                             <div class="drop-down dropdown-profile animated bounceInDown">
                                 <div class="dropdown-content-body">
@@ -238,7 +250,7 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
+        <div class="nk-sidebar">
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="mega-menu mega-menu-sm">
@@ -254,23 +266,23 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
                             <li><a href="./form-layout-home.php">Home</a>
                             </li>
                             <li></li><a href="./Form-layout-Accommo.php">Accommodation</a>
-                            </li>
-                            <li><a href="./Form-layout-Facilites.php">Facilities</a>
-                            </li>
-                            <li><a>Promos</a>
-                            </li>
-                        </ul>
                     </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="" href="./table-datatable-basic.php" aria-expanded="false">
-                            <i class="mdi mdi-table"></i><span class="nav-text">Room Booking</span>
-                        </a>
+                    <li><a href="./Form-layout-Facilites.php">Facilities</a>
                     </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
-                            <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
-                        </a>
+                    <li><a>Promos</a>
                     </li>
+                </ul>
+                </li>
+                <li class="mega-menu mega-menu-sm">
+                    <a class="" href="./table-datatable-basic.php" aria-expanded="false">
+                        <i class="mdi mdi-table"></i><span class="nav-text">Room Booking</span>
+                    </a>
+                </li>
+                <li class="mega-menu mega-menu-sm">
+                    <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
+                        <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
+                    </a>
+                </li>
                 </ul>
             </div>
         </div>
@@ -306,52 +318,52 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
                                 </div>
                                 <div class="table-responsive">
                                     <table id="" class="table" style="min-width: 845px">
-                                    <thead>
-                                        <tr>
-                                            <th>Reservation ID</th>
-                                            <th>Guest Name</th>
-                                            <th>Room Type</th>
-                                            <th>Check-in</th>
-                                            <th>Check-out</th>
-                                            <th>Number of Guests</th>
-                                            <th>Total Booking Amount</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody>
-                                        <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <tr>
-                                        <td><?php echo $row["id"]?></td>
-                                                <td><?php echo $row["name"]?></td>
-                                                <td>
-                                                    <span class="text-muted"><?php echo $row["RoomType"]?></span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted"><?php echo $row["start_date"]?></span>
-                                                </td>
-                                                <td><?php echo $row["end_date"]?></td>
-                                                <td><?php echo $row["booking_time"]?></td>
-                                                <td><?php echo $row["Price"]?></td>
-                                        </tr>
-                                        <?php }?>
-                                    </tbody>
-                                    
-                                </table>
+                                        <thead>
+                                            <tr>
+                                                <th>Reservation ID</th>
+                                                <th>Guest Name</th>
+                                                <th>Room Type</th>
+                                                <th>Check-in</th>
+                                                <th>Check-out</th>
+                                                <th>Number of Guests</th>
+                                                <th>Total Booking Amount</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                <tr>
+                                                    <td><?php echo $row["id"] ?></td>
+                                                    <td><?php echo $row["name"] ?></td>
+                                                    <td>
+                                                        <span class="text-muted"><?php echo $row["room_type"] ?></span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted"><?php echo $row["start_date"] ?></span>
+                                                    </td>
+                                                    <td><?php echo $row["end_date"] ?></td>
+                                                    <td><?php echo $row["booking_time"] ?></td>
+                                                    <td><?php echo $row["Price"] ?></td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    
+
                 </div>
             </div>
             <!-- #/ container -->
         </div>
-                <!--**********************************
+        <!--**********************************
             Content body end
         ***********************************-->
-        
-        
+
+
         <!--**********************************
             Footer start
         ***********************************-->

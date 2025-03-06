@@ -280,7 +280,7 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Room Type</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="RoomType" id="RoomType" value="<?php echo htmlspecialchars($row['RoomType']); ?>" aria-describedby="validationDefaultUsername2" readonly>
+                                                    <input type="text" class="form-control" name="room_type" id="room_type" value="<?php echo htmlspecialchars($row['room_type']); ?>" aria-describedby="validationDefaultUsername2" readonly>
                                                 </div>
                                             </div>
                                         </div>

@@ -1,44 +1,44 @@
-<?php 
-    session_start(); // Start the session
-    include ('../../../Connection/PDOcon.php');
+<?php
+session_start(); // Start the session
+include('../../../Connection/PDOcon.php');
 
-    // Check if the user is logged in and their role is equal to 1
-    $isLoggedIn = isset($_SESSION['user_id']);
-    if ($isLoggedIn) {
-        $stmt2 = $pdo->prepare("SELECT * FROM `user` WHERE id = ?");
-        $stmt2->execute([$_SESSION['user_id']]);
-        $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+// Check if the user is logged in and their role is equal to 1
+$isLoggedIn = isset($_SESSION['user_id']);
+if ($isLoggedIn) {
+    $stmt2 = $pdo->prepare("SELECT * FROM `user` WHERE id = ?");
+    $stmt2->execute([$_SESSION['user_id']]);
+    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-        if ($row2) {
-            $roleCheck = $row2["role_as"];
+    if ($row2) {
+        $roleCheck = $row2["role_as"];
 
-            if ($roleCheck == 1) {
-                // User has the correct role
-                // Continue with the logic for users with role 1
-            } else {
-                header("Location: ../../../AuthAndStatusPages/401.php");
-                exit(); // Prevent further execution
-            }
+        if ($roleCheck == 1) {
+            // User has the correct role
+            // Continue with the logic for users with role 1
         } else {
-            // Handle the case where no user was found
             header("Location: ../../../AuthAndStatusPages/401.php");
-            exit();
+            exit(); // Prevent further execution
         }
     } else {
-        // User is not logged in
+        // Handle the case where no user was found
         header("Location: ../../../AuthAndStatusPages/401.php");
         exit();
     }
+} else {
+    // User is not logged in
+    header("Location: ../../../AuthAndStatusPages/401.php");
+    exit();
+}
 
-    // Fetch bookings data
-    $stmtBookings = $pdo->query("SELECT * FROM `bookings`");
+// Fetch bookings data
+$stmtBookings = $pdo->query("SELECT * FROM `bookings`");
 
-    // Fetch rooms data
-    $stmtRooms = $pdo->query("SELECT * FROM `room`");
+// Fetch rooms data
+$stmtRooms = $pdo->query("SELECT * FROM `room`");
 
-    // Query to select room types from the `room` table
-    $sqlRoomTypes = "SELECT type FROM room";
-    $stmtRoomTypes = $pdo->query($sqlRoomTypes);
+// Query to select room types from the `room` table
+$sqlRoomTypes = "SELECT type FROM room";
+$stmtRoomTypes = $pdo->query($sqlRoomTypes);
 ?>
 
 <!DOCTYPE html>
@@ -54,11 +54,11 @@
     <link href="../../assets/plugins/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
-    
+
 </head>
 
 <body>
-    
+
     <!--*******************
         Preloader start
     ********************-->
@@ -73,7 +73,7 @@
         Preloader end
     ********************-->
 
-    
+
     <!--**********************************
         Main wrapper start
     ***********************************-->
@@ -86,7 +86,7 @@
             <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
-                <div class="hamburger"><span class="line"></span>  <span class="line"></span>  <span class="line"></span>
+                <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
                 </div>
             </div>
         </div>
@@ -97,10 +97,10 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header">
             <div class="header-content">
                 <div class="header-left">
-                    
+
                 </div>
                 <div class="header-right">
                     <ul>
@@ -111,7 +111,7 @@
                             </a>
                             <div class="drop-down animated bounceInDown">
                                 <div class="dropdown-content-heading">
-                                    <span class="pull-left">Messages</span>  
+                                    <span class="pull-left">Messages</span>
                                     <a href="javascript:void()" class="pull-right text-white">View All</a>
                                     <div class="clearfix"></div>
                                 </div>
@@ -170,26 +170,38 @@
                                                 <span class="mr-3 avatar-icon bg-success-lighten-2"><i class="fa fa-check"></i></span>
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Druid Wensleydale</div>
-                                                    <span class="notification-text">A wonderful serenit of my entire soul.</span> 
+                                                    <span class="notification-text">A wonderful serenit of my entire soul.</span>
                                                     <small class="notification-timestamp">20 May 2018, 15:32</small>
                                                 </div>
                                             </a>
                                             <span class="notify-close"><i class="ti-close"></i>
-                                                </span>
+                                            </span>
                                         </li>
-                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="fa fa-close"></i></span><div class="notification-content"><div class="notification-heading">Inverness McKenzie</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small></div></a>
+                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="fa fa-close"></i></span>
+                                                <div class="notification-content">
+                                                    <div class="notification-heading">Inverness McKenzie</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small>
+                                                </div>
+                                            </a>
                                             <span class="notify-close"><i class="ti-close"></i>
-                                                </span>
+                                            </span>
                                         </li>
-                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-success-lighten-2"><i class="fa fa-check"></i></span><div class="notification-content"><div class="notification-heading">McKenzie Inverness</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small></div></a>
+                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-success-lighten-2"><i class="fa fa-check"></i></span>
+                                                <div class="notification-content">
+                                                    <div class="notification-heading">McKenzie Inverness</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small>
+                                                </div>
+                                            </a>
                                             <span class="notify-close"><i class="ti-close"></i>
-                                                </span>
+                                            </span>
                                         </li>
-                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="fa fa-close"></i></span><div class="notification-content"><div class="notification-heading">Inverness McKenzie</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small></div></a>
+                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="fa fa-close"></i></span>
+                                                <div class="notification-content">
+                                                    <div class="notification-heading">Inverness McKenzie</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small>
+                                                </div>
+                                            </a>
                                             <span class="notify-close"><i class="ti-close"></i>
-                                                </span>
+                                            </span>
                                         </li>
-                                        <li class="text-left"><a href="javascript:void()" class="more-link">Show All Notifications</a>  <span class="pull-right"><i class="fa fa-angle-right"></i></span>
+                                        <li class="text-left"><a href="javascript:void()" class="more-link">Show All Notifications</a> <span class="pull-right"><i class="fa fa-angle-right"></i></span>
                                         </li>
                                     </ul>
                                 </div>
@@ -197,7 +209,7 @@
                         </li>
                         <li class="icons">
                             <a href="javascript:void(0)" class="log-user">
-                                <span><?=$row2["name"]?></span> <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
+                                <span><?= $row2["name"] ?></span> <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
                             </a>
                             <div class="drop-down dropdown-profile animated bounceInDown">
                                 <div class="dropdown-content-body">
@@ -229,7 +241,7 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
+        <div class="nk-sidebar">
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="mega-menu mega-menu-sm">
@@ -245,23 +257,23 @@
                             <li><a href="./form-layout-home.php">Home</a>
                             </li>
                             <li></li><a href="./Form-layout-Accommo.php">Accommodation</a>
-                            </li>
-                            <li><a href="./Form-layout-Facilites.php">Facilities</a>
-                            </li>
-                            <li><a>Promos</a>
-                            </li>
-                        </ul>
                     </li>
-                    <li class="mega-menu mega-menu-sm active">
-                        <a class="" href="./table-datatable-basic.php" aria-expanded="false">
-                            <i class="mdi mdi-table"></i><span class="nav-text">Room Booking</span>
-                        </a>
+                    <li><a href="./Form-layout-Facilites.php">Facilities</a>
                     </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
-                            <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
-                        </a>
+                    <li><a>Promos</a>
                     </li>
+                </ul>
+                </li>
+                <li class="mega-menu mega-menu-sm active">
+                    <a class="" href="./table-datatable-basic.php" aria-expanded="false">
+                        <i class="mdi mdi-table"></i><span class="nav-text">Room Booking</span>
+                    </a>
+                </li>
+                <li class="mega-menu mega-menu-sm">
+                    <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
+                        <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
+                    </a>
+                </li>
 
                 </ul>
             </div>
@@ -288,11 +300,11 @@
                     </div>
                 </div>
                 <!-- row -->
-                 
+
                 <!-- Rooms Available -->
                 <div class="card sale-widget">
                     <div class="card-body">
-                        
+
 
                         <h4 class="d-inline-block text-uppercase card-title mb-5">Rooms Available</h4>
 
@@ -306,7 +318,7 @@
 
                                 // Prepare and execute a query to count bookings within the specified date range
                                 $sqlCount = "SELECT COUNT(*) AS count FROM bookings 
-                                            WHERE RoomType = :roomType AND BookingStats = :BookingStats";
+                                            WHERE room_type = :roomType AND BookingStats = :BookingStats";
                                 $stmtCount = $pdo->prepare($sqlCount);
                                 $stmtCount->bindParam(':roomType', $roomType);
                                 $stmtCount->bindParam(':BookingStats', $BookingStats);
@@ -326,10 +338,10 @@
                                     echo "Total cannot be zero.";
                                 }
 
-                                ?>
+                        ?>
 
-                                <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?> 
-                                    <span class="pull-right"><?php  echo($RoomsAvailable); ?></span>
+                                <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
+                                    <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
                                 </h5>
                                 <div class="progress">
                                     <div class="progress-bar bg-lgreen wow animated progress-animated" data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;" role="progressbar">
@@ -337,14 +349,14 @@
                                     </div>
                                 </div><br>
 
-                                <?php
-                              }
-                          } else {
-                              echo "No RoomTypes found in table2.";
-                          }
-                          ?>
+                        <?php
+                            }
+                        } else {
+                            echo "No RoomTypes found in table2.";
+                        }
+                        ?>
 
-                    
+
                     </div>
                 </div>
 
@@ -357,56 +369,56 @@
                                 </div>
                                 <div class="table-responsive">
                                     <table id="" class="table" style="min-width: 845px">
-                                    <thead>
-                                        <tr>
-                                            <th>Reservation ID</th>
-                                            <th>Guest Name</th>
-                                            <th>Room Type</th>
-                                            <th>Check-in</th>
-                                            <th>Check-out</th>
-                                            <th>Number of Guests</th>
-                                            <th>Total Booking Amount</th>
-                                            <th>Booking Status</th>
-                                            <th>View</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody>
-                                        <?php while ($row = $stmtBookings->fetch(PDO::FETCH_ASSOC)) { ?>
+                                        <thead>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($row["id"]); ?></td>
-                                                <td><?php echo htmlspecialchars($row["name"]); ?></td>
-                                                <td>
-                                                    <span class="text-muted"><?php echo htmlspecialchars($row["RoomType"]); ?></span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted"><?php echo htmlspecialchars($row["start_date"]); ?></span>
-                                                </td>
-                                                <td><?php echo htmlspecialchars($row["end_date"]); ?></td>
-                                                <td><?php echo htmlspecialchars($row["num_adults"]); ?></td>
-                                                <td><?php echo htmlspecialchars($row["Price"]); ?></td>
-                                                <td><?php echo htmlspecialchars($row["BookingStats"]); ?></td>
-                                                <td><a href="table-datatable-basic-view.php?Paymentid=<?php echo urlencode($row["id"]); ?>">View</a></td>
+                                                <th>Reservation ID</th>
+                                                <th>Guest Name</th>
+                                                <th>Room Type</th>
+                                                <th>Check-in</th>
+                                                <th>Check-out</th>
+                                                <th>Number of Guests</th>
+                                                <th>Total Booking Amount</th>
+                                                <th>Booking Status</th>
+                                                <th>View</th>
                                             </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                    
-                                </table>
+                                        </thead>
+
+                                        <tbody>
+                                            <?php while ($row = $stmtBookings->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                <tr>
+                                                    <td><?php echo htmlspecialchars($row["id"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["name"]); ?></td>
+                                                    <td>
+                                                        <span class="text-muted"><?php echo htmlspecialchars($row["room_type"]); ?></span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted"><?php echo htmlspecialchars($row["start_date"]); ?></span>
+                                                    </td>
+                                                    <td><?php echo htmlspecialchars($row["end_date"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["num_adults"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["Price"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["BookingStats"]); ?></td>
+                                                    <td><a href="table-datatable-basic-view.php?Paymentid=<?php echo urlencode($row["id"]); ?>">View</a></td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    
+
                 </div>
             </div>
             <!-- #/ container -->
         </div>
-                <!--**********************************
+        <!--**********************************
             Content body end
         ***********************************-->
-        
-        
+
+
         <!--**********************************
             Footer start
         ***********************************-->
@@ -429,15 +441,15 @@
     ***********************************-->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-    // Select all progress bars
-    const progressBars = document.querySelectorAll('.progress-bar');
+            // Select all progress bars
+            const progressBars = document.querySelectorAll('.progress-bar');
 
-    // Update each progress bar width based on the data-progress attribute
-    progressBars.forEach(bar => {
-        const progress = bar.getAttribute('data-progress');
-        bar.style.width = `${progress}%`;
-    });
-});
+            // Update each progress bar width based on the data-progress attribute
+            progressBars.forEach(bar => {
+                const progress = bar.getAttribute('data-progress');
+                bar.style.width = `${progress}%`;
+            });
+        });
     </script>
 
 
