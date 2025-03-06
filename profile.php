@@ -294,10 +294,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     document.getElementById("resetPasswordBtn").addEventListener("click", function() {
         document.getElementById("resetPasswordForm").style.display = "block";
+        document.querySelector('.button-container').style.display = 'none';
     });
 
     document.getElementById("cancelResetPassword").addEventListener("click", function() {
         document.getElementById("resetPasswordForm").style.display = "none";
+        document.querySelector('.button-container').style.display = 'flex';
     });
     </script>
 </body>
