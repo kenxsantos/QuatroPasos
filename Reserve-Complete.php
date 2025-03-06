@@ -1,10 +1,11 @@
 <?php
 // Database connection variables
 include('Connection/SQLIcon.php');
-$booking_id = isset($_GET['booking_id']) ? $_GET['booking_id'] : null;
+
+$booking_id = $_GET['booking_id'];
 
 // Prepare the SQL statement to fetch booking info
-$sql = "SELECT start_date, end_date, RoomType, Price FROM bookings WHERE id = ?";
+$sql = "SELECT start_date, end_date, room_type, Price FROM bookings WHERE id = ?";
 
 // Use prepared statement to prevent SQL injection
 if ($stmt = $conn->prepare($sql)) {
@@ -13,7 +14,7 @@ if ($stmt = $conn->prepare($sql)) {
     // Execute the statement
     if ($stmt->execute()) {
         // Bind result variables
-        $stmt->bind_result($start_date, $end_date, $RoomType, $Price    );
+        $stmt->bind_result($start_date, $end_date, $room_type, $Price);
 
         // Fetch the data
         if ($stmt->fetch()) {
@@ -21,7 +22,7 @@ if ($stmt = $conn->prepare($sql)) {
             $booking_data = [
                 'start_date' => $start_date,
                 'end_date' => $end_date,
-                'RoomType' => $RoomType,
+                'room_type' => $room_type,
                 'Price' => $Price
             ];
         } else {
@@ -47,80 +48,81 @@ $conn->close();
     <title>Almaris — Hotel Website Template</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" >
-    <meta content="Almaris — Hotel Website Template" name="description" >
-    <meta content="" name="keywords" >
-    <meta content="" name="author" >
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="" name="keywords">
+    <meta content="" name="author">
     <!-- CSS Files
     ================================================== -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
-    <link href="css/plugins.css" rel="stylesheet" type="text/css" >
-    <link href="css/swiper.css" rel="stylesheet" type="text/css" >
-    <link href="css/style.css" rel="stylesheet" type="text/css" >
-    <link href="css/coloring.css" rel="stylesheet" type="text/css" >
+    <link href="css/plugins.css" rel="stylesheet" type="text/css">
+    <link href="css/swiper.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/coloring.css" rel="stylesheet" type="text/css">
     <!-- color scheme -->
-    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css" >
+    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
 
     <style>
     .booking-form {
-      width: 100%;
-      max-width: 900px;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 900px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
 
     .booking-form h2 {
-      margin-top: 0;
+        margin-top: 0;
     }
 
     .booking-form label {
-      font-weight: bold;
+        font-weight: bold;
     }
 
-    .booking-form input, .booking-form button {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ddd;
-      border-radius: 5px;
+    .booking-form input,
+    .booking-form button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
     }
 
     .room-selection {
-      display: flex;
-      gap: 10px;
-      margin: 10px 0;
+        display: flex;
+        gap: 10px;
+        margin: 10px 0;
     }
 
     .room-selection button {
-      padding: 15px;
-      font-size: 16px;
-      border: 2px solid #007bff;
-      background-color: white;
-      cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
+        padding: 15px;
+        font-size: 16px;
+        border: 2px solid #007bff;
+        background-color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .room-selection button.selected {
-      background-color: #007bff;
-      color: white;
+        background-color: #007bff;
+        color: white;
     }
 
     .booking-form button.submit-btn {
-      background-color: #007bff;
-      color: white;
-      font-size: 1.2rem;
-      cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
     }
 
     .message {
-      margin-bottom: 20px;
-      color: green;
+        margin-bottom: 20px;
+        color: green;
     }
 
     .error {
-      color: red;
+        color: red;
     }
 
     /* Forms */
@@ -142,7 +144,8 @@ $conn->close();
         margin-bottom: 5px;
     }
 
-    input, select {
+    input,
+    select {
         width: 100%;
         padding: 8px;
         border: 1px solid #ccc;
@@ -159,15 +162,13 @@ $conn->close();
     }
 
     .message {
-            margin-bottom: 20px;
-            color: green;
-        }
+        margin-bottom: 20px;
+        color: green;
+    }
 
-        .error {
-            color: red;
-        }
-
-
+    .error {
+        color: red;
+    }
     </style>
 
 </head>
@@ -175,7 +176,7 @@ $conn->close();
 <body>
     <div id="wrapper">
         <a href="#" id="back-to-top"></a>
-        
+
         <!-- page preloader begin -->
         <div id="de-loader"></div>
         <!-- page preloader close -->
@@ -187,10 +188,13 @@ $conn->close();
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between xs-hide">
-                                <div class="header-widget d-flex">                                    
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>Emilio Aguinaldo Highway, Dasmariñas, Philippines, 4114</a></div>
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>0917 808 7127</a></div>
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-envelope"></i>quatropasoshotel@gmail.com</a></div>
+                                <div class="header-widget d-flex">
+                                    <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>Emilio
+                                            Aguinaldo Highway, Dasmariñas, Philippines, 4114</a></div>
+                                    <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>0917 808
+                                            7127</a></div>
+                                    <div class="topbar-widget"><a href="#"><i
+                                                class="icofont-envelope"></i>quatropasoshotel@gmail.com</a></div>
                                 </div>
 
                                 <div class="social-icons">
@@ -211,8 +215,8 @@ $conn->close();
                                 <!-- logo begin -->
                                 <div id="logo">
                                     <a href="default.php">
-                                        <img class="logo-main" src="images/logo-white.png" alt="" >
-                                        <img class="logo-mobile" src="images/logo-white.png" alt="" >
+                                        <img class="logo-main" src="images/logo-white.png" alt="">
+                                        <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
                                 </div>
                                 <!-- logo close -->
@@ -225,9 +229,9 @@ $conn->close();
                                 </ul>
                             </div>
                             <div class="de-flex-col">
-                                <div class="menu_side_area">          
+                                <div class="menu_side_area">
                                     <<a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
-                                    <span id="menu-btn"></span>
+                                        <span id="menu-btn"></span>
                                 </div>
                             </div>
                         </div>
@@ -247,7 +251,7 @@ $conn->close();
                     <div class="row justify-content-center">
                         <div class="col-lg-6 text-center">
                             <h1>Reservation</h1>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -257,34 +261,39 @@ $conn->close();
 
 
             <section class="relative lines-deco" style="padding: 40px 0;">
-            <div class="container" style="display: flex; flex-direction: column; align-items: center;">
-                <div class="booking-form">
-                    <h2>Reservation Complete</h2>
-                    <p>Thank you! Your reservation is still in process.</p>
+                <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+                    <div class="booking-form">
+                        <h2>Reservation Complete</h2>
+                        <p>Thank you! Your reservation is still in process.</p>
 
-                    <form action="default.php" method="POST" enctype="multipart/form-data">
-                        <label>Booking ID</label>
-                        <label>Start Date</label>
-                        <label>End Date</label>
+                        <form action="default.php" method="POST" enctype="multipart/form-data">
+                            <label>Booking ID</label>
+                            <label>Start Date</label>
+                            <label>End Date</label>
 
-                        <input type="text" placeholder="<?php echo htmlspecialchars($booking_id); ?>" readonly>
-                        <input type="text" placeholder="<?php echo htmlspecialchars($booking_data['start_date']); ?>" readonly>
-                        <input type="text" placeholder="<?php echo htmlspecialchars($booking_data['end_date']); ?>" readonly>
+                            <input type="text" placeholder="<?php echo htmlspecialchars($booking_id); ?>" readonly>
+                            <input type="text"
+                                placeholder="<?php echo htmlspecialchars($booking_data['start_date']); ?>" readonly>
+                            <input type="text" placeholder="<?php echo htmlspecialchars($booking_data['end_date']); ?>"
+                                readonly>
 
-                        <label>Room Type</label>
-                        <label>Price</label>
-                        <label></label>
-                        <input type="text" placeholder="<?php echo htmlspecialchars($booking_data['RoomType']); ?>" readonly>
-                        <input type="text" placeholder="<?php echo htmlspecialchars($booking_data['Price']); ?>" readonly>
+                            <label>Room Type</label>
+                            <label>Price</label>
+                            <label></label>
+                            <input type="text" placeholder="<?php echo htmlspecialchars($booking_data['room_type']); ?>"
+                                readonly>
+                            <input type="text" placeholder="<?php echo htmlspecialchars($booking_data['Price']); ?>"
+                                readonly>
 
-                        <button type="submit" style="background-color: #E49242!important; color: white;">Done</button>
-                    </form>
+                            <button type="submit"
+                                style="background-color: #E49242!important; color: white;">Done</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
         </div>
         <!-- content close -->
-        
+
         <!-- footer begin -->
         <footer class="text-light section-dark">
             <div class="container">
@@ -310,7 +319,7 @@ $conn->close();
                                 M. contact@almaris.com
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
             <div class="subfooter">
@@ -327,7 +336,7 @@ $conn->close();
     </div>
 
 
-    
+
     <!-- Javascript Files
     ================================================== -->
     <script src="js/plugins.js"></script>
@@ -335,20 +344,20 @@ $conn->close();
     <script src="js/swiper.js"></script>
     <script src="js/custom-marquee.js"></script>
     <script src="js/custom-swiper-1.js"></script>
-     <!-- Javascript for form validation and confirmation -->
-     <script>
-            function validateForm() {
-                const imageInput = document.getElementById('image');
-                if (!imageInput.files.length) {
-                    alert('Please upload a payment screenshot.');
-                    return false;
-                }
+    <!-- Javascript for form validation and confirmation -->
+    <script>
+    function validateForm() {
+        const imageInput = document.getElementById('image');
+        if (!imageInput.files.length) {
+            alert('Please upload a payment screenshot.');
+            return false;
+        }
 
-                // Confirmation popup
-                const confirmUpload = confirm('You have uploaded an image. Do you want to proceed with the submission?');
-                return confirmUpload; // Proceed if user confirms
-            }
-        </script>
+        // Confirmation popup
+        const confirmUpload = confirm('You have uploaded an image. Do you want to proceed with the submission?');
+        return confirmUpload; // Proceed if user confirms
+    }
+    </script>
 
 
 </body>

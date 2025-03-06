@@ -4,16 +4,13 @@ require 'vendor/autoload.php';
 include('Connection/SQLIcon.php');
 
 use GuzzleHttp\Client;
-// Import the Guzzle Client
 use Paymongo\SourceError;
-// Import the SourceError class
 
-// Initialize Guzzle HTTP client
 $client = new Client();
 $booking_id = isset($_GET['booking_id']) ? $_GET['booking_id'] : null;
 
 // Prepare the SQL statement to fetch booking info
-$sql = 'SELECT start_date, end_date, RoomType, num_adults, num_children, Price FROM bookings WHERE id = ?';
+$sql = 'SELECT start_date, end_date, room_type, num_adults, num_children, Price FROM bookings WHERE id = ?';
 
 // Use prepared statement to prevent SQL injection
 if ($stmt = $conn->prepare($sql)) {
@@ -23,7 +20,7 @@ if ($stmt = $conn->prepare($sql)) {
     // Execute the statement
     if ($stmt->execute()) {
         // Bind result variables
-        $stmt->bind_result($start_date, $end_date, $RoomType, $num_adults, $num_children, $Price);
+        $stmt->bind_result($start_date, $end_date, $room_type, $num_adults, $num_children, $Price);
 
         // Fetch the data
         if ($stmt->fetch()) {
@@ -31,7 +28,7 @@ if ($stmt = $conn->prepare($sql)) {
             $booking_data = [
                 'start_date' => $start_date,
                 'end_date' => $end_date,
-                'RoomType' => $RoomType,
+                'room_type' => $room_type,
                 'num_adults' => $num_adults,
                 'num_children' => $num_children,
                 'Price' => $Price
@@ -137,7 +134,6 @@ try {
     } else {
         throw new Exception('Payment link not found in response.');
     }
-
 } catch (\GuzzleHttp\Exception\RequestException $e) {
     // Handle any request exceptions
     echo 'Request Error: ' . $e->getMessage();
@@ -174,120 +170,139 @@ try {
     <link id='colors' href='css/colors/scheme-01.css' rel='stylesheet' type='text/css'>
 
     <style>
-        .booking-form {
-            width: 100%;
-            max-width: 900px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
+    button.book-btn {
+        padding: 15px;
+        font-size: 16px;
+        border: 2px solid #007bff;
+        background-color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-        .booking-form h2 {
-            margin-top: 0;
-        }
+    .book-btn.selected {
+        background-color: #f3a84a;
+        color: white;
+    }
 
-        .booking-form label {
-            font-weight: bold;
-        }
+    .book-btn:hover {
+        background-color: #e69630;
+    }
 
-        .booking-form input,
-        .booking-form button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
 
-        .room-selection {
-            display: flex;
-            gap: 10px;
-            margin: 10px 0;
-        }
+    .booking-form {
+        width: 100%;
+        max-width: 900px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
 
-        .room-selection button {
-            padding: 15px;
-            font-size: 16px;
-            border: 2px solid #007bff;
-            background-color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+    .booking-form h2 {
+        margin-top: 0;
+    }
 
-        .room-selection button.selected {
-            background-color: #007bff;
-            color: white;
-        }
+    .booking-form label {
+        font-weight: bold;
+    }
 
-        .booking-form button.submit-btn {
-            background-color: #007bff;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
+    .booking-form input,
+    .booking-form button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
 
-        .message {
-            margin-bottom: 20px;
-            color: green;
-        }
+    .room-selection {
+        display: flex;
+        gap: 10px;
+        margin: 10px 0;
+    }
 
-        .error {
-            color: red;
-        }
+    .room-selection button {
+        padding: 15px;
+        font-size: 16px;
+        border: 2px solid #007bff;
+        background-color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-        /* Forms */
+    .room-selection button.selected {
+        background-color: #007bff;
+        color: white;
+    }
 
-        h1 {
-            font-size: 1.5em;
-        }
+    .booking-form button.submit-btn {
+        background-color: #007bff;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
 
-        form {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            max-width: 800px;
-        }
+    .message {
+        margin-bottom: 20px;
+        color: green;
+    }
 
-        label {
-            display: block;
-            font-size: 1em;
-            margin-bottom: 5px;
-        }
+    .error {
+        color: red;
+    }
 
-        input,
-        select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
+    /* Forms */
 
-        .full-width {
-            grid-column: span 3;
-        }
+    h1 {
+        font-size: 1.5em;
+    }
 
-        .half-width {
-            grid-column: span 1;
-        }
+    form {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        max-width: 800px;
+    }
 
-        .message {
-            margin-bottom: 20px;
-            color: green;
-        }
+    label {
+        display: block;
+        font-size: 1em;
+        margin-bottom: 5px;
+    }
 
-        .error {
-            color: red;
-        }
+    input,
+    select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
 
-        section.lines-deco:after {
-            content: none;
-        }
+    .full-width {
+        grid-column: span 3;
+    }
 
-        section.lines-deco:before {
-            content: none;
-        }
+    .half-width {
+        grid-column: span 1;
+    }
+
+    .message {
+        margin-bottom: 20px;
+        color: green;
+    }
+
+    .error {
+        color: red;
+    }
+
+    section.lines-deco:after {
+        content: none;
+    }
+
+    section.lines-deco:before {
+        content: none;
+    }
     </style>
 
 </head>
@@ -397,9 +412,9 @@ try {
 
                             <label>Room Type</label>
                             <label>Number of Adults</label>
-                            <label>Number of Adults</label>
+                            <label>Number of Childeren</label>
 
-                            <input type='text' placeholder="<?php echo htmlspecialchars($booking_data['RoomType']); ?>"
+                            <input type='text' placeholder="<?php echo htmlspecialchars($booking_data['room_type']); ?>"
                                 readonly>
                             <input type='text'
                                 placeholder="<?php echo htmlspecialchars($booking_data['num_adults']); ?>" readonly>
@@ -410,9 +425,13 @@ try {
                             <label></label>
                             <label></label>
 
+
                             <input type='text' placeholder="<?php echo htmlspecialchars($booking_data['Price']); ?>"
                                 readonly>
+                            <button type="button" class="book-btn">Day</button>
+                            <button type="button" class="book-btn">Night</button>
 
+                            <input type="hidden" id="room" name="room" required>
                         </form>
 
                         <!-- Payment Button -->
@@ -479,32 +498,38 @@ try {
     <script src='js/custom-swiper-1.js'></script>
     <!-- Javascript for form validation and confirmation -->
     <script>
+    const roomButtons = document.querySelectorAll('.book-btn');
+    const roomInput = document.getElementById('room');
 
-        function openPaymentLink() {
-            // Define the payment link from PHP
-            var paymentLink = '<?php echo htmlspecialchars($paymentLink); ?>';
+    roomButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            roomButtons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            roomInput.value = button.getAttribute('data-room');
+        });
+    });
 
-            // Open the payment link in a new tab
-            window.open(paymentLink, '_blank');
+    function openPaymentLink() {
+        var paymentLink = '<?php echo htmlspecialchars($paymentLink); ?>';
 
-            // Change the current tab's URL (you can change this to your desired URL)
-            var bookingId = '<?php echo $booking_id;
-            ?>';
-            window.location.href = 'Reserve-Complete.php?booking_id = ' + bookingId;
+        window.open(paymentLink, '_blank');
+        var bookingId = '<?php echo trim($booking_id); ?>'; // Trim to remove spaces
+        window.location.href = 'Reserve-Complete.php?booking_id=' + encodeURIComponent(bookingId);
+    }
+
+
+    function validateForm() {
+        const imageInput = document.getElementById('image');
+        if (!imageInput.files.length) {
+            alert('Please upload a payment screenshot.');
+            return false;
         }
 
-        function validateForm() {
-            const imageInput = document.getElementById('image');
-            if (!imageInput.files.length) {
-                alert('Please upload a payment screenshot.');
-                return false;
-            }
-
-            // Confirmation popup
-            const confirmUpload = confirm('You have uploaded an image. Do you want to proceed with the submission?');
-            return confirmUpload;
-            // Proceed if user confirms
-        }
+        // Confirmation popup
+        const confirmUpload = confirm('You have uploaded an image. Do you want to proceed with the submission?');
+        return confirmUpload;
+        // Proceed if user confirms
+    }
     </script>
 
 </body>

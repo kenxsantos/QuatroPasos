@@ -1,55 +1,37 @@
 <?php
+session_start(); // Start session at the very beginning
+
 include('Connection/SQLIcon.php');
 
-// Initialize variables for success or error messages
 $message = "";
 
-// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the form data
-    $start_date = $_POST['start_date'];
-    $end_date = $_POST['end_date'];
-    $num_adults = $_POST['num_adults'];
-    $num_children = $_POST['num_children'];
+    $start_date = isset($_POST['start_date']) ? trim($_POST['start_date']) : '';
+    $end_date = isset($_POST['end_date']) ? trim($_POST['end_date']) : '';
+    $num_adults = isset($_POST['num_adults']) ? (int) $_POST['num_adults'] : 0;
+    $num_children = isset($_POST['num_children']) ? (int) $_POST['num_children'] : 0;
 
-    // Validate that all fields are filled and that the number of adults is at least 1
-    if (!empty($start_date) && !empty($end_date) && !empty($num_adults) && $num_adults >= 1) {
-        // Prepare the SQL statement
-        $sql = "INSERT INTO bookings (start_date, end_date, num_adults, num_children) VALUES (?, ?, ?, ?)";
+    if (!empty($start_date) && !empty($end_date) && $num_adults >= 1) {
+        $query = "SELECT MAX(id) as last_id FROM bookings";
+        $result = $conn->query($query);
 
-        // Use prepared statement to prevent SQL injection
-        if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("ssii", $start_date, $end_date, $num_adults, $num_children);
-
-            // Execute the query
-            if ($stmt->execute()) {
-                // Get the ID of the last inserted row
-                $last_id = $conn->insert_id;
-
-                // Redirect to another page with the booking ID
-                $url = "Reserve-ChooseRoom.php?booking_id=" . $last_id . "&start_date=" . $start_date . "&end_date=" . $end_date . "&num_adults=" . $num_adults;
-                header("Location: " . $url);
-                exit(); // Stop further script execution after redirection
-            } else {
-                $message = "Error: " . $stmt->error;
-            }
-
-            // Close the statement
-            $stmt->close();
+        if ($result && $row = $result->fetch_assoc()) {
+            header("Location: Reserve-ChooseRoom.php?start_date={$start_date}&end_date={$end_date}&num_adults={$num_adults}&num_children={$num_children}");
+            exit();
         } else {
-            $message = "Error: " . $conn->error;
+            $message = "Error fetching booking details.";
         }
     } else {
         $message = "All fields are required, and the number of adults must be at least 1!";
     }
 }
 
-session_start(); // Start the session
-
-
-// Close the connection
-$conn->close();
+// Close the connection if it exists
+if (isset($conn)) {
+    $conn->close();
+}
 ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -391,6 +373,7 @@ $conn->close();
                             </div><br>
                             <button type="submit">Book Now</button>
                         </form>
+
                         <p><?php echo $message; ?></p>
                     </div>
                 </div>
@@ -608,6 +591,7 @@ $conn->close();
     // Initial render
     updateCalendar();
     </script>
+
 
 
 </body>
