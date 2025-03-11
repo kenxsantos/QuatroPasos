@@ -1,14 +1,5 @@
 <?php
 include('Connection/PDOcon.php');
-// getting DB of Basic Homepage Info
-$stmt = $pdo->query("SELECT * FROM `facilitiespage`");
-$stmt->execute();
-
-// Fetch All Rows into an Associative Array
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Initialize a Counter Variable
-$counter = 1;
 session_start(); // Start the session
 
 ?>
