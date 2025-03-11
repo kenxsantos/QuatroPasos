@@ -1,8 +1,9 @@
 <?php
 include 'db.php';
-
+session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = trim($_POST['name']);
+    $first_name = trim($_POST['first_name']);
+    $last_name = trim($_POST['last_name']);
     $email = trim($_POST['email']);
     $phone = trim($_POST['phone']);
     $address = trim($_POST['address']);
@@ -38,10 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $role_as = 0;
         $created_at = date('Y-m-d H:i:s');
 
-        $stmt = $conn->prepare("INSERT INTO users (name, email, phone, pass, role_as, created_at, address) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssiss", $name, $email, $phone, $hashed_password, $role_as, $created_at, $address);
+        $stmt = $conn->prepare("INSERT INTO users (firstname, lastname, email, phone, pass, role_as, created_at, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssiss", $first_name, $last_name, $email, $phone, $hashed_password, $role_as, $created_at, $address);
 
         if ($stmt->execute()) {
+            $_SESSION['success_message'] = "Registration successful!";
             header("Location: login.php");
             exit();
         } else {
@@ -60,13 +62,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Erratum – Multi purpose error page template for Service, corporate, agency, Consulting, startup.">
-    <meta name="keywords" content="Error page 404, page not found design, wrong url, coming soon, login">
     <meta name="author" content="Ashishmaraviya">
-    <link rel="icon" href="assets/images/favicon.png" type="image/x-icon" />
-    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon" />
-    <title>404 - Error page pack all in one</title>
+    <link rel="icon" href="assets/images/icon.png" type="image/x-icon" />
+    <title>Quatro Pasos | Sign Up Page</title>
     <!--Google font-->
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&display=swap"
@@ -119,19 +117,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="input-control">
                                     <div class="row p-l-5 p-r-5">
                                         <div class="col-md-6 p-l-10 p-r-10">
-                                            <input type="text" placeholder="Enter Name" name="name" required>
+                                            <input type="text" placeholder="First Name" name="first_name" required>
                                             <!-- Name field -->
                                         </div>
                                         <div class="col-md-6 p-l-10 p-r-10">
-                                            <input type="email" placeholder="Enter Email" name="email" required>
+                                            <input type="text" placeholder="Last Name" name="last_name" required>
+                                            <!-- Name field -->
                                         </div>
                                         <div class="col-md-12 p-l-10 p-r-10">
-                                            <input type="text" placeholder="Enter Phone" name="phone" required>
+                                            <input type="email" placeholder="Email" name="email" required>
+                                        </div>
+                                        <div class="col-md-12 p-l-10 p-r-10">
+                                            <input type="text" placeholder="Phone" name="phone" required>
                                             <!-- Phone field -->
                                         </div>
                                         <div class="col-md-6 p-l-10 p-r-10">
                                             <input class="password-field input-checkmark" type="password"
-                                                placeholder="Enter Password" name="password" required>
+                                                placeholder="Password" name="password" required>
                                             <!-- Password field -->
                                         </div>
                                         <div class="col-md-6 p-l-10 p-r-10">
@@ -140,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <!-- Confirm password -->
                                         </div>
                                         <div class="col-md-12 p-l-10 p-r-10">
-                                            <input type="text" placeholder="Enter Address" name="address" required>
+                                            <input type="text" placeholder="Address" name="address" required>
                                             <!-- Address field -->
                                         </div>
                                     </div>

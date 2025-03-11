@@ -31,13 +31,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = [];
 
     // Edit Name
-    if (isset($_POST['name'])) {
-        $name = trim($_POST['name']);
-        if (!empty($name)) {
-            $stmt = $pdo->prepare("UPDATE users  SET name = :name WHERE id = :id");
-            $stmt->execute(['name' => $name, 'id' => $user_id]);
+    if (isset($_POST['first_name'])) {
+        $first_name = trim($_POST['first_name']);
+        if (!empty($first_name)) {
+            $stmt = $pdo->prepare("UPDATE users  SET firstname = :firstname WHERE id = :id");
+            $stmt->execute(['firstname' => $first_name, 'id' => $user_id]);
         } else {
-            $errors[] = "Name cannot be empty.";
+            $errors[] = "First Name cannot be empty.";
+        }
+    }
+
+    if (isset($_POST['last_name'])) {
+        $last_name = trim($_POST['last_name']);
+        if (!empty($last_name)) {
+            $stmt = $pdo->prepare("UPDATE users  SET lastname = :lastname WHERE id = :id");
+            $stmt->execute(['lastname' => $last_name, 'id' => $user_id]);
+        } else {
+            $errors[] = "Last Name cannot be empty.";
         }
     }
 
@@ -219,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="User Avatar">
         </div>
         <div class="user-info">
-            <h3><?php echo htmlspecialchars($user['name']); ?></h3>
+            <h3><?php echo htmlspecialchars($user['firstname'] . " " . $user['lastname']); ?></h3>
             <p><?php echo htmlspecialchars($user['address']); ?></p>
             <p><?php echo htmlspecialchars($user['email']); ?></p>
             <p><?php echo htmlspecialchars($user['phone']); ?></p>
@@ -245,8 +255,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h3>Edit Profile</h3>
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" name="name" class="form-control"
-                    value="<?php echo htmlspecialchars($user['name']); ?>" required>
+                <input type="text" name="first_name" class="form-control"
+                    value="<?php echo htmlspecialchars($user['firstname']); ?>" required>
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="last_name" class="form-control"
+                    value="<?php echo htmlspecialchars($user['lastname']); ?>" required>
             </div>
             <div class="form-group">
                 <label>Email</label>
