@@ -202,6 +202,15 @@ if (isset($conn)) {
         opacity: 0.6;
         /* Make it look faded */
     }
+
+    select {
+        padding: 2px 30px;
+        border-radius: 2px;
+    }
+
+    select:focus {
+        outline: none;
+    }
     </style>
 
 </head>
@@ -343,8 +352,9 @@ if (isset($conn)) {
                             </div>
                         </div>
                         <h2 style="text-align: center;">Book an Appointment</h2>
+                        <h5 style="text-align: center;">Need a short stay? Double click the date to book!</h5>
+                        <br>
                         <form action="" method="POST">
-
                             <div style=" display: flex;">
                                 <div>
                                     <label for="start_date">Choose a Start Date:</label>
@@ -362,14 +372,23 @@ if (isset($conn)) {
                             <div style="display: flex; gap: 20px;">
                                 <div>
                                     <label for="num_adults">Number of Adults:</label>
-                                    <input type="number" id="num_adults" name="num_adults" min="1" value="0"
-                                        required><br>
+                                    <select id="num_adults" name="num_adults" required>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select><br>
                                 </div>
                                 <div>
                                     <label for="num_children">Number of Children:</label>
-                                    <input type="number" id="num_children" name="num_children" min="0" value="0"
-                                        required><br>
+                                    <select id="num_children" name="num_children" required>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select><br>
                                 </div>
+
                             </div><br>
                             <button type="submit">Book Now</button>
                         </form>
