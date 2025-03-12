@@ -5,24 +5,33 @@ include('Connection/SQLIcon.php');
 
 $message = "";
 
+
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $start_date = isset($_POST['start_date']) ? trim($_POST['start_date']) : '';
     $end_date = isset($_POST['end_date']) ? trim($_POST['end_date']) : '';
     $num_adults = isset($_POST['num_adults']) ? (int) $_POST['num_adults'] : 0;
     $num_children = isset($_POST['num_children']) ? (int) $_POST['num_children'] : 0;
+    $type_of_stay = isset($_POST['type_of_stay']) ? trim($_POST['type_of_stay']) : 'none';
 
-    if (!empty($start_date) && !empty($end_date) && $num_adults >= 1) {
+
+    if ($start_date !== $end_date) {
+        $type_of_stay = "long";
+    }
+
+    if (!empty($start_date) && !empty($end_date) && $num_adults >= 1 && $type_of_stay !== "none") {
         $query = "SELECT MAX(id) as last_id FROM bookings";
         $result = $conn->query($query);
 
         if ($result && $row = $result->fetch_assoc()) {
-            header("Location: Reserve-ChooseRoom.php?start_date={$start_date}&end_date={$end_date}&num_adults={$num_adults}&num_children={$num_children}");
+            header("Location: Reserve-ChooseRoom.php?start_date={$start_date}&end_date={$end_date}&num_adults={$num_adults}&num_children={$num_children}&type_of_stay={$type_of_stay}");
             exit();
         } else {
             $message = "Error fetching booking details.";
         }
     } else {
-        $message = "All fields are required, and the number of adults must be at least 1!";
+        $message = "All fields are required, and the number of adults must be at least 1! ";
     }
 }
 
@@ -368,7 +377,19 @@ if (isset($conn)) {
                                 </div>
                             </div><br>
 
+                            <div id="nightDayButtons" style="display: none; text-align: center;">
+                                <h5 style="text-align: center;">Choose your stay!</h5>
 
+                                <div>
+                                    <label for="type_of_stay">Choose Length of stay:</label>
+                                    <select id="type_of_stay" name="type_of_stay" required>
+                                        <option value="none">--Select Stay--</option>
+                                        <option value="day">Day (10 hours)</option>
+                                        <option value="night">Night (10 hours)</option>
+                                    </select><br>
+                                </div>
+                            </div>
+                            <br>
                             <div style="display: flex; gap: 20px;">
                                 <div>
                                     <label for="num_adults">Number of Adults:</label>
@@ -377,6 +398,7 @@ if (isset($conn)) {
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
+                                        <option value="4">4</option>
                                     </select><br>
                                 </div>
                                 <div>
@@ -555,6 +577,9 @@ if (isset($conn)) {
 
                         // Highlight the range between start and end date
                         highlightRange();
+                        if (startDate === endDate) {
+                            showNightDayButtons();
+                        }
                     } else {
                         // Reset if both start and end date are already selected
                         clearHighlights();
@@ -563,11 +588,54 @@ if (isset($conn)) {
                         document.getElementById('start_date').value = selectedDate;
                         document.getElementById('end_date').value = '';
                         this.classList.add('selected-date');
+
+                        hideNightDayButtons();
                     }
                 });
             }
         });
     }
+
+    function showNightDayButtons() {
+        const nightDayButtons = document.getElementById("nightDayButtons");
+        nightDayButtons.style.display = "block"; // Show buttons
+
+        // Ensure event listeners are only added once
+        if (!document.getElementById("nightButton").dataset.listenerAdded) {
+            document.getElementById("nightButton").addEventListener("click", function() {
+                alert("Night selected!");
+            });
+            document.getElementById("nightButton").dataset.listenerAdded = "true";
+        }
+
+        if (!document.getElementById("dayButton").dataset.listenerAdded) {
+            document.getElementById("dayButton").addEventListener("click", function() {
+                alert("Day selected!");
+            });
+            document.getElementById("dayButton").dataset.listenerAdded = "true";
+        }
+    }
+
+    function hideNightDayButtons() {
+        document.getElementById("nightDayButtons").style.display = "none";
+    }
+
+    // Listen for input changes to show/hide buttons dynamically
+    document.getElementById("start_date").addEventListener("input", function() {
+        if (startDate === endDate) {
+            showNightDayButtons();
+        } else {
+            hideNightDayButtons();
+        }
+    });
+
+    document.getElementById("end_date").addEventListener("input", function() {
+        if (startDate === endDate) {
+            showNightDayButtons();
+        } else {
+            hideNightDayButtons();
+        }
+    });
 
     // Update the calendar
     function updateCalendar() {
