@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('Connection/PDOcon.php');
 $roomdb = $pdo->query("SELECT *  FROM `room`");
 
@@ -121,8 +122,16 @@ $pdo = null;
                             </div>
                             <div class="de-flex-col">
                                 <div class="menu_side_area">
-                                    <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
-                                    <span id="menu-btn"></span>
+                                    <div class="menu_side_area">
+                                        <?php if (isset($_SESSION['user_name'])): ?>
+                                        <a href="profile.php"
+                                            class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                        <!-- Show user name -->
+                                        <?php else: ?>
+                                        <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
+                                        <!-- Show login if not logged in -->
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
