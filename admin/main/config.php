@@ -1,16 +1,15 @@
 <?php
+$host = 'localhost';
+$dbname = 'u979976746_QuatroPasos';
+$username = 'root';
+$password = '';
 
-$server = "localhost";
-$username = "root";
-$password = "";
-$database = "quatropasoshotel2";
+//creating database connection here
+$conn = mysqli_connect($host, $username, $password, $dbname);
 
-$conn = mysqli_connect($server,$username,$password,$database);
-
-if(!$conn){
-    die("<script>alert('connection Failed.')</script>"); 
+//chek database connection naman
+if (!$conn) {
+    die("Connection Failed" . mysqli_connect_error());
+} else {
+    echo "";
 }
-else{
-    
- }
-?>
