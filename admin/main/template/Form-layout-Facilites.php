@@ -135,46 +135,9 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">
-            <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu">
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="index-ticket.html" aria-expanded="false">
-                            <i class="mdi mdi-view-dashboard"></i><span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="mega-menu mega-menu-sm active">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="mdi mdi-page-layout-body"></i><span class="nav-text">Layouts</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./form-layout-home.php">Home</a>
-                            </li>
-                            <li><a href="./Form-layout-Accommo.php">Accommodation</a>
-                            </li>
-                            <li class="active"><a href="./Form-layout-Facilites.php" class="active">Facilities</a>
-                            </li>
-                            <li><a href="./form-layout-Promo.php">Promos</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="" href="./table-datatable-basic.php" aria-expanded="false">
-                            <i class="mdi mdi-table"></i><span class="nav-text">Room Booking</span>
-                        </a>
-                    </li>
-
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="" href="https://dashboard.paymongo.com/payments" target="_blank"
-                            aria-expanded="false">
-                            <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
-                        </a>
-                    </li>
-
-
-                </ul>
-            </div>
-        </div>
+        <?php
+        include('sidebar.php');
+        ?>
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -198,19 +161,19 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
                 </div>
                 <div class="row">
                     <?php while ($row = mysqli_fetch_assoc($roomdb)) { ?>
-                    <div class="col-lg-4" style="cursor: pointer">
-                        <div class="card">
-                            <a href="Form-layout-Facilities-Edit.php?roomid=<?php echo $row['ID']; ?>">
-                                <div class="card-body">
-                                    <h4 class="card-title"><?php echo $row['Event']; ?></h4>
-                                    <div class="card-content">
-                                        <p>This is card content paragraph text.</p>
+                        <div class="col-lg-4" style="cursor: pointer">
+                            <div class="card">
+                                <a href="Form-layout-Facilities-Edit.php?roomid=<?php echo $row['ID']; ?>">
+                                    <div class="card-body">
+                                        <h4 class="card-title"><?php echo $row['Event']; ?></h4>
+                                        <div class="card-content">
+                                            <p>This is card content paragraph text.</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
+                                </a>
 
+                            </div>
                         </div>
-                    </div>
                     <?php } ?>
 
                     <!-- <div class="col-lg-4" style="cursor: pointer">

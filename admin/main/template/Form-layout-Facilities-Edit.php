@@ -156,7 +156,8 @@ mysqli_close($conn);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span
+                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
                 <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
@@ -177,22 +178,29 @@ mysqli_close($conn);
                     <ul>
                         <li class="icons">
                             <a href="javascript:void(0)" class="log-user">
-                                <span><?= $row2["firstname"] ?></span> <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
+                                <span><?= $row2["firstname"] ?></span> <i class="fa fa-caret-down f-s-14"
+                                    aria-hidden="true"></i>
                             </a>
                             <div class="drop-down dropdown-profile animated bounceInDown">
                                 <div class="dropdown-content-body">
                                     <ul>
-                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My Profile</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My
+                                                    Profile</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My Wallet</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My
+                                                    Wallet</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-envelope"></i> <span>Inbox</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-envelope"></i>
+                                                <span>Inbox</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i> <span>Setting</span></a>
+                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i>
+                                                <span>Setting</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock Screen</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock
+                                                    Screen</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-power"></i> <span>Logout</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-power"></i>
+                                                <span>Logout</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -209,33 +217,9 @@ mysqli_close($conn);
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">
-            <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu">
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="index-ticket.html" aria-expanded="false">
-                            <i class="mdi mdi-view-dashboard"></i><span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="mega-menu mega-menu-sm active">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="mdi mdi-page-layout-body"></i><span class="nav-text">Layouts</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./form-layout-home.php">Home</a>
-                            </li>
-                            <li><a href="./Form-layout-Accommo.php">Accommodation</a>
-                            </li>
-                            <li class="active"><a href="./Form-layout-Facilites.php" class="active">Facilities</a>
-                            </li>
-                            <li><a>Promos</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
+        <?php
+        include('sidebar.php');
+        ?>
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -261,7 +245,8 @@ mysqli_close($conn);
                     <div class="col-xl-12">
                         <div class="card forms-card">
                             <div class="photo-content">
-                                <div class="cover-photo" style="background-image: url(<?php echo $row['ImagePath']; ?>)!important"></div>
+                                <div class="cover-photo"
+                                    style="background-image: url(<?php echo $row['ImagePath']; ?>)!important"></div>
                             </div>
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Facilities - Weddings</h4>
@@ -271,7 +256,8 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Upload File:</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="file" class="form-control" name="image" id="image" aria-describedby="inputGroupPrepend2">
+                                                    <input type="file" class="form-control" name="image" id="image"
+                                                        aria-describedby="inputGroupPrepend2">
                                                 </div>
                                             </div>
                                         </div>
@@ -280,7 +266,9 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Placeholder:</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="Event" id="Event" placeholder="<?php echo htmlspecialchars($row['Event']); ?>" aria-describedby="validationDefaultUsername2">
+                                                    <input type="text" class="form-control" name="Event" id="Event"
+                                                        placeholder="<?php echo htmlspecialchars($row['Event']); ?>"
+                                                        aria-describedby="validationDefaultUsername2">
                                                 </div>
                                             </div>
                                         </div>
@@ -289,7 +277,8 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Description:</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <textarea class="form-control" id="Info" name="Info" rows="6" placeholder="<?php echo htmlspecialchars($row['Info']); ?>"></textarea>
+                                                    <textarea class="form-control" id="Info" name="Info" rows="6"
+                                                        placeholder="<?php echo htmlspecialchars($row['Info']); ?>"></textarea>
                                                 </div>
                                             </div>
                                         </div>

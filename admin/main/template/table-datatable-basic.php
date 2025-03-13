@@ -280,43 +280,9 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">
-            <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu">
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="index-ticket.php" aria-expanded="false">
-                            <i class="mdi mdi-view-dashboard"></i><span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="mdi mdi-page-layout-body"></i><span class="nav-text">Layouts</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./form-layout-home.php">Home</a>
-                            </li>
-                            <li></li><a href="./Form-layout-Accommo.php">Accommodation</a>
-                    </li>
-                    <li><a href="./Form-layout-Facilites.php">Facilities</a>
-                    </li>
-                    <li><a>Promos</a>
-                    </li>
-                </ul>
-                </li>
-                <li class="mega-menu mega-menu-sm active">
-                    <a class="" href="./table-datatable-basic.php" aria-expanded="false">
-                        <i class="mdi mdi-table"></i><span class="nav-text">Room Booking</span>
-                    </a>
-                </li>
-                <li class="mega-menu mega-menu-sm">
-                    <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
-                        <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
-                    </a>
-                </li>
-
-                </ul>
-            </div>
-        </div>
+        <?php
+        include('sidebar.php');
+        ?>
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -379,16 +345,16 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
 
                         ?>
 
-                        <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
-                            <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
-                        </h5>
-                        <div class="progress">
-                            <div class="progress-bar bg-lgreen wow animated progress-animated"
-                                data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;"
-                                role="progressbar">
-                                <span class="sr-only">25% Complete</span>
-                            </div>
-                        </div><br>
+                                <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
+                                    <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
+                                </h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-lgreen wow animated progress-animated"
+                                        data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;"
+                                        role="progressbar">
+                                        <span class="sr-only">25% Complete</span>
+                                    </div>
+                                </div><br>
 
                         <?php
                             }
@@ -426,25 +392,25 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
 
                                         <tbody>
                                             <?php while ($row = $stmtBookings->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($row["id"]); ?></td>
-                                                <td><?php echo htmlspecialchars($row["name"]); ?></td>
-                                                <td>
-                                                    <span
-                                                        class="text-muted"><?php echo htmlspecialchars($row["room_type"]); ?></span>
-                                                </td>
-                                                <td>
-                                                    <span
-                                                        class="text-muted"><?php echo htmlspecialchars($row["start_date"]); ?></span>
-                                                </td>
-                                                <td><?php echo htmlspecialchars($row["end_date"]); ?></td>
-                                                <td><?php echo htmlspecialchars($row["num_adults"]); ?></td>
-                                                <td><?php echo htmlspecialchars($row["Price"]); ?></td>
-                                                <td><?php echo htmlspecialchars($row["status"]); ?></td>
-                                                <td><a
-                                                        href="table-datatable-basic-view.php?Paymentid=<?php echo urlencode($row["id"]); ?>">View</a>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td><?php echo htmlspecialchars($row["id"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["name"]); ?></td>
+                                                    <td>
+                                                        <span
+                                                            class="text-muted"><?php echo htmlspecialchars($row["room_type"]); ?></span>
+                                                    </td>
+                                                    <td>
+                                                        <span
+                                                            class="text-muted"><?php echo htmlspecialchars($row["start_date"]); ?></span>
+                                                    </td>
+                                                    <td><?php echo htmlspecialchars($row["end_date"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["num_adults"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["Price"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["status"]); ?></td>
+                                                    <td><a
+                                                            href="table-datatable-basic-view.php?Paymentid=<?php echo urlencode($row["id"]); ?>">View</a>
+                                                    </td>
+                                                </tr>
                                             <?php } ?>
                                         </tbody>
 
@@ -485,16 +451,16 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
         Scripts
     ***********************************-->
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Select all progress bars
-        const progressBars = document.querySelectorAll('.progress-bar');
+        document.addEventListener("DOMContentLoaded", function() {
+            // Select all progress bars
+            const progressBars = document.querySelectorAll('.progress-bar');
 
-        // Update each progress bar width based on the data-progress attribute
-        progressBars.forEach(bar => {
-            const progress = bar.getAttribute('data-progress');
-            bar.style.width = `${progress}%`;
+            // Update each progress bar width based on the data-progress attribute
+            progressBars.forEach(bar => {
+                const progress = bar.getAttribute('data-progress');
+                bar.style.width = `${progress}%`;
+            });
         });
-    });
     </script>
 
 
