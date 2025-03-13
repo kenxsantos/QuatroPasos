@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Redirect based on role
             if ($row['role_as'] == 1) {
-                header("Location: ../admin.php"); // Redirect to admin page
+                header("Location: http://localhost/quatropasos.online/public_html/admin/main/template/form-layout-home.php"); // Redirect to admin page
             } else {
                 header("Location: ../default.php"); // Redirect to default page
             }
