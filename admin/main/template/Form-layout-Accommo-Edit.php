@@ -1,12 +1,12 @@
 <?php
 session_start(); // Start the session
-include ('../../../Connection/PDOcon.php');
+include('../../../Connection/PDOcon.php');
 
 
 // Check if the user is logged in and their role is equal to 1
 $isLoggedIn = isset($_SESSION['user_id']);
 if ($isLoggedIn) {
-    $stmt2 = $pdo->prepare("SELECT * FROM `user` WHERE id = ?");
+    $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
     $stmt2->execute([$_SESSION['user_id']]);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
@@ -150,11 +150,11 @@ mysqli_close($conn);
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="">
     <link href="../css/style.css" rel="stylesheet">
-    
+
 </head>
 
 <body>
-    
+
     <!--*******************
         Preloader start
     ********************-->
@@ -169,7 +169,7 @@ mysqli_close($conn);
         Preloader end
     ********************-->
 
-    
+
     <!--**********************************
         Main wrapper start
     ***********************************-->
@@ -179,10 +179,11 @@ mysqli_close($conn);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span
+                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
-                <div class="hamburger"><span class="line"></span>  <span class="line"></span>  <span class="line"></span>
+                <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
                 </div>
             </div>
         </div>
@@ -193,28 +194,35 @@ mysqli_close($conn);
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header">
             <div class="header-content">
                 <div class="header-right">
                     <ul>
                         <li class="icons">
                             <a href="javascript:void(0)" class="log-user">
-                                <span><?=$row2["name"]?></span>  <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
+                                <span><?= $row2["firstname"] ?></span> <i class="fa fa-caret-down f-s-14"
+                                    aria-hidden="true"></i>
                             </a>
                             <div class="drop-down dropdown-profile animated bounceInDown">
                                 <div class="dropdown-content-body">
                                     <ul>
-                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My Profile</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My
+                                                    Profile</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My Wallet</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My
+                                                    Wallet</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-envelope"></i> <span>Inbox</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-envelope"></i>
+                                                <span>Inbox</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i> <span>Setting</span></a>
+                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i>
+                                                <span>Setting</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock Screen</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock
+                                                    Screen</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-power"></i> <span>Logout</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-power"></i>
+                                                <span>Logout</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -231,7 +239,7 @@ mysqli_close($conn);
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
+        <div class="nk-sidebar">
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="mega-menu mega-menu-sm">
@@ -260,7 +268,8 @@ mysqli_close($conn);
                         </a>
                     </li>
                     <li class="mega-menu mega-menu-sm">
-                        <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
+                        <a class="" href="https://dashboard.paymongo.com/payments" target="_blank"
+                            aria-expanded="false">
                             <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
                         </a>
                     </li>
@@ -293,7 +302,8 @@ mysqli_close($conn);
                     <div class="col-xl-12">
                         <div class="card forms-card">
                             <div class="photo-content">
-                                <div class="cover-photo" style="background-image: url(<?php echo $row['img']; ?>)!important"></div>
+                                <div class="cover-photo"
+                                    style="background-image: url(<?php echo $row['img']; ?>)!important"></div>
                             </div>
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Accommodation - <?php echo $row['type']; ?></h4>
@@ -303,7 +313,8 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Upload File</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="file" class="form-control" name="image" id="image" aria-describedby="inputGroupPrepend2">
+                                                    <input type="file" class="form-control" name="image" id="image"
+                                                        aria-describedby="inputGroupPrepend2">
                                                 </div>
                                             </div>
                                         </div>
@@ -312,7 +323,9 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Room Type</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="type" id="type" placeholder="<?php echo htmlspecialchars($row['type']); ?>" aria-describedby="validationDefaultUsername2">
+                                                    <input type="text" class="form-control" name="type" id="type"
+                                                        placeholder="<?php echo htmlspecialchars($row['type']); ?>"
+                                                        aria-describedby="validationDefaultUsername2">
                                                 </div>
                                             </div>
                                         </div>
@@ -320,7 +333,9 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Price</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="Price" id="Price" placeholder="<?php echo htmlspecialchars($row['Price']); ?>" aria-describedby="validationDefaultUsername2">
+                                                    <input type="text" class="form-control" name="Price" id="Price"
+                                                        placeholder="<?php echo htmlspecialchars($row['Price']); ?>"
+                                                        aria-describedby="validationDefaultUsername2">
                                                 </div>
                                             </div>
                                         </div>
@@ -328,7 +343,9 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Pax</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="Pax" id="Pax" placeholder="<?php echo htmlspecialchars($row['Pax']); ?>" aria-describedby="validationDefaultUsername2">
+                                                    <input type="text" class="form-control" name="Pax" id="Pax"
+                                                        placeholder="<?php echo htmlspecialchars($row['Pax']); ?>"
+                                                        aria-describedby="validationDefaultUsername2">
                                                 </div>
                                             </div>
                                         </div>
@@ -336,7 +353,9 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Beddings</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="bedding" id="bedding" placeholder="<?php echo htmlspecialchars($row['bedding']); ?>" aria-describedby="validationDefaultUsername2">
+                                                    <input type="text" class="form-control" name="bedding" id="bedding"
+                                                        placeholder="<?php echo htmlspecialchars($row['bedding']); ?>"
+                                                        aria-describedby="validationDefaultUsername2">
                                                 </div>
                                             </div>
                                         </div>
@@ -344,13 +363,16 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Room Provided</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="AvRooms" id="AvRooms" placeholder="<?php echo htmlspecialchars($row['AvRooms']); ?>" aria-describedby="validationDefaultUsername2">
+                                                    <input type="text" class="form-control" name="AvRooms" id="AvRooms"
+                                                        placeholder="<?php echo htmlspecialchars($row['AvRooms']); ?>"
+                                                        aria-describedby="validationDefaultUsername2">
                                                 </div>
                                             </div>
                                         </div>
-                                    
-                                        
-                                        <button type="submit" name="update" class="btn btn-primary btn-form mr-2">Submit</button>
+
+
+                                        <button type="submit" name="update"
+                                            class="btn btn-primary btn-form mr-2">Submit</button>
                                         <button type="submit" name="delete" class="btn btn-danger">Delete</button>
                                     </form>
                                 </div>
@@ -358,15 +380,15 @@ mysqli_close($conn);
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <!-- #/ container -->
         </div>
         <!--**********************************
             Content body end
         ***********************************-->
-        
-        
+
+
         <!--**********************************
             Footer start
         ***********************************-->

@@ -1,13 +1,13 @@
 <?php
 session_start(); // Start the session
 
-include ('../../../Connection/PDOcon.php');
+include('../../../Connection/PDOcon.php');
 
 
 // Check if the user is logged in and their role is equal to 1
 $isLoggedIn = isset($_SESSION['user_id']);
 if ($isLoggedIn) {
-    $stmt2 = $pdo->prepare("SELECT * FROM `user` WHERE id = ?");
+    $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
     $stmt2->execute([$_SESSION['user_id']]);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
@@ -109,11 +109,11 @@ mysqli_close($conn);
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
     <link href="../css/style.css" rel="stylesheet">
-    
+
 </head>
 
 <body>
-    
+
     <!--*******************
         Preloader start
     ********************-->
@@ -128,7 +128,7 @@ mysqli_close($conn);
         Preloader end
     ********************-->
 
-    
+
     <!--**********************************
         Main wrapper start
     ***********************************-->
@@ -141,7 +141,7 @@ mysqli_close($conn);
             <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
-                <div class="hamburger"><span class="line"></span>  <span class="line"></span>  <span class="line"></span>
+                <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
                 </div>
             </div>
         </div>
@@ -152,13 +152,13 @@ mysqli_close($conn);
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header">
             <div class="header-content">
                 <div class="header-right">
                     <ul>
                         <li class="icons">
                             <a href="javascript:void(0)" class="log-user">
-                                <span><?=$row2["name"]?></span>  <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
+                                <span><?= $row2["firstname"] ?></span> <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
                             </a>
                             <div class="drop-down dropdown-profile animated bounceInDown">
                                 <div class="dropdown-content-body">
@@ -190,7 +190,7 @@ mysqli_close($conn);
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
+        <div class="nk-sidebar">
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="mega-menu mega-menu-sm">
@@ -219,7 +219,7 @@ mysqli_close($conn);
                         </a>
                     </li>
 
-                     
+
                     </li>
                     <li class="mega-menu mega-menu-sm">
                         <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
@@ -301,7 +301,7 @@ mysqli_close($conn);
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <button type="submit" class="btn btn-primary btn-form mr-2">Submit</button>
                                         <button type="button" class="btn btn-light text-dark btn-form">Cancel</button>
                                     </form>
@@ -310,15 +310,15 @@ mysqli_close($conn);
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <!-- #/ container -->
         </div>
         <!--**********************************
             Content body end
         ***********************************-->
-        
-        
+
+
         <!--**********************************
             Footer start
         ***********************************-->

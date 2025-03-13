@@ -1,12 +1,12 @@
 <?php
 session_start(); // Start the session
-include ('../../../Connection/PDOcon.php');
+include('../../../Connection/PDOcon.php');
 
 
 // Check if the user is logged in and their role is equal to 1
 $isLoggedIn = isset($_SESSION['user_id']);
 if ($isLoggedIn) {
-    $stmt2 = $pdo->prepare("SELECT * FROM `user` WHERE id = ?");
+    $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
     $stmt2->execute([$_SESSION['user_id']]);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
@@ -46,11 +46,11 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
     <link href="../css/style.css" rel="stylesheet">
-    
+
 </head>
 
 <body>
-    
+
     <!--*******************
         Preloader start
     ********************-->
@@ -65,7 +65,7 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
         Preloader end
     ********************-->
 
-    
+
     <!--**********************************
         Main wrapper start
     ***********************************-->
@@ -75,10 +75,11 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span
+                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
-                <div class="hamburger"><span class="line"></span>  <span class="line"></span>  <span class="line"></span>
+                <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
                 </div>
             </div>
         </div>
@@ -89,28 +90,35 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header">
             <div class="header-content">
                 <div class="header-right">
                     <ul>
                         <li class="icons">
                             <a href="javascript:void(0)" class="log-user">
-                                <span><?=$row2["name"]?></span>  <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
+                                <span><?= $row2["firstname"] ?></span> <i class="fa fa-caret-down f-s-14"
+                                    aria-hidden="true"></i>
                             </a>
                             <div class="drop-down dropdown-profile animated bounceInDown">
                                 <div class="dropdown-content-body">
                                     <ul>
-                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My Profile</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My
+                                                    Profile</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My Wallet</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My
+                                                    Wallet</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-envelope"></i> <span>Inbox</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-envelope"></i>
+                                                <span>Inbox</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i> <span>Setting</span></a>
+                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i>
+                                                <span>Setting</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock Screen</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock
+                                                    Screen</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-power"></i> <span>Logout</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-power"></i>
+                                                <span>Logout</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -127,7 +135,7 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
+        <div class="nk-sidebar">
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="mega-menu mega-menu-sm">
@@ -155,13 +163,14 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
                             <i class="mdi mdi-table"></i><span class="nav-text">Room Booking</span>
                         </a>
                     </li>
-                    
+
                     <li class="mega-menu mega-menu-sm">
-                        <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
+                        <a class="" href="https://dashboard.paymongo.com/payments" target="_blank"
+                            aria-expanded="false">
                             <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
                         </a>
                     </li>
-                
+
 
                 </ul>
             </div>
@@ -173,7 +182,7 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
         <!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body">  
+        <div class="content-body">
             <div class="container-fluid">
                 <div class="row page-titles">
                     <div class="col p-0">
@@ -199,7 +208,7 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
                                     </div>
                                 </div>
                             </a>
-                            
+
                         </div>
                     </div>
                     <?php } ?>
@@ -224,17 +233,17 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
                             </div>
                         </div>
                     </div> -->
-                    
+
                 </div>
-                
+
             </div>
             <!-- #/ container -->
         </div>
         <!--**********************************
             Content body end
         ***********************************-->
-        
-        
+
+
         <!--**********************************
             Footer start
         ***********************************-->
