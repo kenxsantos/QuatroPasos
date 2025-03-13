@@ -1,45 +1,45 @@
-<?php 
-    session_start(); // Start the session
-    include ('../../../Connection/PDOcon.php');
-    
-    
-    // Check if the user is logged in and their role is equal to 1
-    $isLoggedIn = isset($_SESSION['user_id']);
-    if ($isLoggedIn) {
-        $stmt2 = $pdo->prepare("SELECT * FROM `user` WHERE id = ?");
-        $stmt2->execute([$_SESSION['user_id']]);
-        $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-    
-        if ($row2) {
-            $roleCheck = $row2["role_as"];
-    
-            if ($roleCheck == 1) {
-                // User has the correct role
-                // Continue with the logic for users with role 1
-            } else {
-                header("Location: ../../../AuthAndStatusPages/401.php");
-                exit(); // Prevent further execution
-            }
+<?php
+session_start(); // Start the session
+include('../../../Connection/PDOcon.php');
+
+
+// Check if the user is logged in and their role is equal to 1
+$isLoggedIn = isset($_SESSION['user_id']);
+if ($isLoggedIn) {
+    $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
+    $stmt2->execute([$_SESSION['user_id']]);
+    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+    if ($row2) {
+        $roleCheck = $row2["role_as"];
+
+        if ($roleCheck == 1) {
+            // User has the correct role
+            // Continue with the logic for users with role 1
         } else {
-            // Handle the case where no user was found
             header("Location: ../../../AuthAndStatusPages/401.php");
-            exit();
+            exit(); // Prevent further execution
         }
     } else {
-        // User is not logged in
+        // Handle the case where no user was found
         header("Location: ../../../AuthAndStatusPages/401.php");
         exit();
     }
-    
-    // Fetch bookings data
-    $stmtBookings = $pdo->query("SELECT * FROM `bookings`");
+} else {
+    // User is not logged in
+    header("Location: ../../../AuthAndStatusPages/401.php");
+    exit();
+}
 
-    // Fetch rooms data
-    $stmtRooms = $pdo->query("SELECT * FROM `room`");
+// Fetch bookings data
+$stmtBookings = $pdo->query("SELECT * FROM `bookings`");
 
-    // Query to select room types from the `room` table
-    $sqlRoomTypes = "SELECT type FROM room";
-    $stmtRoomTypes = $pdo->query($sqlRoomTypes);
+// Fetch rooms data
+$stmtRooms = $pdo->query("SELECT * FROM `room`");
+
+// Query to select room types from the `room` table
+$sqlRoomTypes = "SELECT type FROM room";
+$stmtRoomTypes = $pdo->query($sqlRoomTypes);
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +54,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
     <!-- Custom Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
-    
+
 </head>
 
 <body>
@@ -73,7 +73,7 @@
         Preloader end
     ********************-->
 
-    
+
     <!--**********************************
         Main wrapper start
     ***********************************-->
@@ -83,10 +83,11 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span
+                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
-                <div class="hamburger"><span class="line"></span>  <span class="line"></span>  <span class="line"></span>
+                <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
                 </div>
             </div>
         </div>
@@ -97,28 +98,35 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header">
             <div class="header-content">
                 <div class="header-right">
                     <ul>
                         <li class="icons">
                             <a href="javascript:void(0)" class="log-user">
-                               <span><?=$row2["name"]?></span>  <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
+                                <span><?= $row2["firstname"] ?></span> <i class="fa fa-caret-down f-s-14"
+                                    aria-hidden="true"></i>
                             </a>
                             <div class="drop-down dropdown-profile animated bounceInDown">
                                 <div class="dropdown-content-body">
                                     <ul>
-                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My Profile</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My
+                                                    Profile</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My Wallet</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My
+                                                    Wallet</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-envelope"></i> <span>Inbox</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-envelope"></i>
+                                                <span>Inbox</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i> <span>Setting</span></a>
+                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i>
+                                                <span>Setting</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock Screen</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock
+                                                    Screen</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-power"></i> <span>Logout</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-power"></i>
+                                                <span>Logout</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -135,7 +143,7 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
+        <div class="nk-sidebar">
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="mega-menu mega-menu-sm">
@@ -151,23 +159,23 @@
                             <li><a href="./form-layout-home.php">Home</a>
                             </li>
                             <li></li><a href="./Form-layout-Accommo.php">Accommodation</a>
-                            </li>
-                            <li><a href="./Form-layout-Facilites.php">Facilities</a>
-                            </li>
-                            <li><a>Promos</a>
-                            </li>
-                        </ul>
                     </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="" href="./table-datatable-basic.php" aria-expanded="false">
-                            <i class="mdi mdi-table"></i><span class="nav-text">Room Booking</span>
-                        </a>
+                    <li><a href="./Form-layout-Facilites.php">Facilities</a>
                     </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
-                            <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
-                        </a>
+                    <li><a>Promos</a>
                     </li>
+                </ul>
+                </li>
+                <li class="mega-menu mega-menu-sm">
+                    <a class="" href="./table-datatable-basic.php" aria-expanded="false">
+                        <i class="mdi mdi-table"></i><span class="nav-text">Room Booking</span>
+                    </a>
+                </li>
+                <li class="mega-menu mega-menu-sm">
+                    <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
+                        <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
+                    </a>
+                </li>
 
                 </ul>
             </div>
@@ -225,12 +233,12 @@
                         </div>
                     </div>
                 </div> -->
-                
+
                 <!-- Rooms Available -->
                 <a href="table-datatable-basic.php">
                     <div class="card sale-widget">
                         <div class="card-body">
-                            
+
 
                             <h4 class="d-inline-block text-uppercase card-title mb-5">Rooms Available</h4>
 
@@ -240,14 +248,14 @@
                                 // Loop through each room type
                                 while ($roomRow = $stmtRoomTypes->fetch(PDO::FETCH_ASSOC)) {
                                     $roomType = $roomRow['type'];
-                                    $BookingStats = 'Confirmed';
+                                    $status = 'confirmed';
 
                                     // Prepare and execute a query to count bookings within the specified date range
                                     $sqlCount = "SELECT COUNT(*) AS count FROM bookings 
-                                                WHERE RoomType = :roomType AND BookingStats = :BookingStats";
+                                                WHERE RoomType = :roomType AND status = :status";
                                     $stmtCount = $pdo->prepare($sqlCount);
                                     $stmtCount->bindParam(':roomType', $roomType);
-                                    $stmtCount->bindParam(':BookingStats', $BookingStats);
+                                    $stmtCount->bindParam(':status', $status);
                                     $stmtCount->execute();
 
                                     // Fetch the result
@@ -264,30 +272,32 @@
                                         echo "Total cannot be zero.";
                                     }
 
-                                    ?>
+                            ?>
 
-                                    <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?> 
-                                        <span class="pull-right"><?php  echo($RoomsAvailable); ?></span>
-                                    </h5>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-lgreen wow animated progress-animated" data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;" role="progressbar">
-                                            <span class="sr-only">25% Complete</span>
-                                        </div>
-                                    </div><br>
+                            <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
+                                <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
+                            </h5>
+                            <div class="progress">
+                                <div class="progress-bar bg-lgreen wow animated progress-animated"
+                                    data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;"
+                                    role="progressbar">
+                                    <span class="sr-only">25% Complete</span>
+                                </div>
+                            </div><br>
 
-                                    <?php
+                            <?php
                                 }
                             } else {
                                 echo "No RoomTypes found in table2.";
                             }
                             ?>
 
-                        
+
                         </div>
                     </div>
                 </a>
-                
-                 
+
+
                 <!-- row -->
                 <div class="row">
                     <div class="col-xl-8 col-xxl-7 col-lg-8">
@@ -298,7 +308,7 @@
                                     <form action="#">
                                         <div class="form-row">
                                             <div class="form-group m-b-0">
-                                                <select  class="selectpicker show-tick" data-width="auto">
+                                                <select class="selectpicker show-tick" data-width="auto">
                                                     <option selected="selected">Last 30 Days</option>
                                                     <option>Last 1 MOnth</option>
                                                     <option>Last 6 MOnth</option>
@@ -310,12 +320,12 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <canvas id="monthly-orders-chart"style="display: none;"></canvas>
-                                    <canvas id="sales-graph"></canvas>
+                                <canvas id="monthly-orders-chart" style="display: none;"></canvas>
+                                <canvas id="sales-graph"></canvas>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-xl-4 col-xxl-5 col-lg-4">
                         <div class="card" style="padding-bottom: 200px;">
                             <div class="card-header">
@@ -329,55 +339,56 @@
                 </div>
 
                 <a style="cursor: pointer">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card">
-                        <br>
-                            <div class="card-header pt-0 pb-4 d-flex justify-content-between align-items-center">
-                                <h4 class="card-title"> Booked Rooms</h4>
-                                
-                            </div>
-                            <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table table-padded table-responsive-fix-big">
-                                        <thead>
-                                            <tr>
-                                                <th>Reservation ID</th>
-                                                <th>Guest Name</th>
-                                                <th>Check-in</th>
-                                                <th>Check-out</th>
-                                                <th>Room Type</th>
-                                                <th>Number of Guests</th>
-                                                <th>Total Booking Amount</th>
-                                            </tr>
-                                        </thead>
-                   
-                                        <!-- Book Rooms -->
-                                        <?php while ($row = $stmtBookings->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <tbody>
-                                            <tr>
-                                                <td><?php echo $row["id"]?></td>
-                                                <td><?php echo $row["name"]?></td>
-                                                <td>
-                                                    <span class="text-muted"><?php echo $row["RoomType"]?></span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted"><?php echo $row["start_date"]?></span>
-                                                </td>
-                                                <td><?php echo $row["end_date"]?></td>
-                                                <td><?php echo $sum = $row["num_adults"] + $row["num_children"]?></td>
-                                                <td><?php echo $row["created_at"]?></td>
-                                            </tr>
-                                           
-                                        </tbody>
-                                        <?php }?>
-                                        <!-- Book Rooms End -->  
-                                    </table>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <br>
+                                <div class="card-header pt-0 pb-4 d-flex justify-content-between align-items-center">
+                                    <h4 class="card-title"> Booked Rooms</h4>
+
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-padded table-responsive-fix-big">
+                                            <thead>
+                                                <tr>
+                                                    <th>Reservation ID</th>
+                                                    <th>Guest Name</th>
+                                                    <th>Check-in</th>
+                                                    <th>Check-out</th>
+                                                    <th>Room Type</th>
+                                                    <th>Number of Guests</th>
+                                                    <th>Total Booking Amount</th>
+                                                </tr>
+                                            </thead>
+
+                                            <!-- Book Rooms -->
+                                            <?php while ($row = $stmtBookings->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <tbody>
+                                                <tr>
+                                                    <td><?php echo $row["id"] ?></td>
+                                                    <td><?php echo $row["name"] ?></td>
+                                                    <td>
+                                                        <span class="text-muted"><?php echo $row["RoomType"] ?></span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted"><?php echo $row["start_date"] ?></span>
+                                                    </td>
+                                                    <td><?php echo $row["end_date"] ?></td>
+                                                    <td><?php echo $sum = $row["num_adults"] + $row["num_children"] ?>
+                                                    </td>
+                                                    <td><?php echo $row["created_at"] ?></td>
+                                                </tr>
+
+                                            </tbody>
+                                            <?php } ?>
+                                            <!-- Book Rooms End -->
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </a>
             </div>
             <!-- #/ container -->
@@ -396,16 +407,16 @@
         Scripts
     ***********************************-->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-    // Select all progress bars
-    const progressBars = document.querySelectorAll('.progress-bar');
+    document.addEventListener("DOMContentLoaded", function() {
+        // Select all progress bars
+        const progressBars = document.querySelectorAll('.progress-bar');
 
-    // Update each progress bar width based on the data-progress attribute
-    progressBars.forEach(bar => {
-        const progress = bar.getAttribute('data-progress');
-        bar.style.width = `${progress}%`;
+        // Update each progress bar width based on the data-progress attribute
+        progressBars.forEach(bar => {
+            const progress = bar.getAttribute('data-progress');
+            bar.style.width = `${progress}%`;
+        });
     });
-});
     </script>
     <script src="../../assets/plugins/common/common.min.js"></script>
     <script src="../js/custom.min.js"></script>

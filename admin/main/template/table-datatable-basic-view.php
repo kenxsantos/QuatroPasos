@@ -1,11 +1,11 @@
 <?php
 session_start(); // Start the session
-include ('../../../Connection/PDOcon.php');
+include('../../../Connection/PDOcon.php');
 
 // Check if the user is logged in and their role is equal to 1
 $isLoggedIn = isset($_SESSION['user_id']);
 if ($isLoggedIn) {
-    $stmt2 = $pdo->prepare("SELECT * FROM `user` WHERE id = ?");
+    $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
     $stmt2->execute([$_SESSION['user_id']]);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
@@ -32,7 +32,7 @@ if ($isLoggedIn) {
 
 include '../config.php';
 
-// Check connection
+// Check connectionBooking ID is missing.
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -98,11 +98,11 @@ mysqli_close($conn);
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="">
     <link href="../css/style.css" rel="stylesheet">
-    
+
 </head>
 
 <body>
-    
+
     <!--*******************
         Preloader start
     ********************-->
@@ -117,7 +117,7 @@ mysqli_close($conn);
         Preloader end
     ********************-->
 
-    
+
     <!--**********************************
         Main wrapper start
     ***********************************-->
@@ -127,10 +127,11 @@ mysqli_close($conn);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span
+                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
-                <div class="hamburger"><span class="line"></span>  <span class="line"></span>  <span class="line"></span>
+                <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
                 </div>
             </div>
         </div>
@@ -141,28 +142,35 @@ mysqli_close($conn);
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header">
             <div class="header-content">
                 <div class="header-right">
                     <ul>
                         <li class="icons">
                             <a href="javascript:void(0)" class="log-user">
-                                <span><?=$row2["name"]?></span> <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
+                                <span><?= $row2["firstname"] ?></span> <i class="fa fa-caret-down f-s-14"
+                                    aria-hidden="true"></i>
                             </a>
                             <div class="drop-down dropdown-profile animated bounceInDown">
                                 <div class="dropdown-content-body">
                                     <ul>
-                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My Profile</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My
+                                                    Profile</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My Wallet</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My
+                                                    Wallet</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-envelope"></i> <span>Inbox</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-envelope"></i>
+                                                <span>Inbox</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i> <span>Setting</span></a>
+                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i>
+                                                <span>Setting</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock Screen</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock
+                                                    Screen</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-power"></i> <span>Logout</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-power"></i>
+                                                <span>Logout</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -179,7 +187,7 @@ mysqli_close($conn);
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
+        <div class="nk-sidebar">
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="mega-menu mega-menu-sm">
@@ -208,7 +216,8 @@ mysqli_close($conn);
                         </a>
                     </li>
                     <li class="mega-menu mega-menu-sm">
-                        <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
+                        <a class="" href="https://dashboard.paymongo.com/payments" target="_blank"
+                            aria-expanded="false">
                             <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
                         </a>
                     </li>
@@ -241,14 +250,14 @@ mysqli_close($conn);
                     <div class="col-xl-12">
                         <div class="card forms-card">
                             <div class="card-body">
-                            <p>Receipt:</p>
-                            <?php
-                            if (empty($row['payment_image'])) {
-                                echo "<p>No receipt submitted</p>";
-                            } else {
-                                echo '<img src="../../../' . htmlspecialchars($row['payment_image']) . '" style="width:30%"><br><br>';
-                            }
-                            ?>
+                                <p>Receipt:</p>
+                                <?php
+                                if (empty($row['payment_image'])) {
+                                    echo "<p>No receipt submitted</p>";
+                                } else {
+                                    echo '<img src="../../../' . htmlspecialchars($row['payment_image']) . '" style="width:30%"><br><br>';
+                                }
+                                ?>
                                 <h4 class="card-title mb-4">Booking ID - <?php echo $row['id']; ?></h4>
                                 <div class="basic-form">
                                     <form method="POST" enctype="multipart/form-data">
@@ -256,7 +265,9 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Price</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="Price" id="Price" value="₱<?php echo htmlspecialchars($row['Price']); ?>" aria-describedby="validationDefaultUsername2" readonly>
+                                                    <input type="text" class="form-control" name="Price" id="Price"
+                                                        value="₱<?php echo htmlspecialchars($row['Price']); ?>"
+                                                        aria-describedby="validationDefaultUsername2" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -264,7 +275,10 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Start Date</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="start_date" id="start_date" value="<?php echo htmlspecialchars($row['start_date']); ?>" aria-describedby="validationDefaultUsername2" readonly>
+                                                    <input type="text" class="form-control" name="start_date"
+                                                        id="start_date"
+                                                        value="<?php echo htmlspecialchars($row['start_date']); ?>"
+                                                        aria-describedby="validationDefaultUsername2" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -272,7 +286,10 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">End Date</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="end_date" id="end_date" value="<?php echo htmlspecialchars($row['end_date']); ?>" aria-describedby="validationDefaultUsername2" readonly>
+                                                    <input type="text" class="form-control" name="end_date"
+                                                        id="end_date"
+                                                        value="<?php echo htmlspecialchars($row['end_date']); ?>"
+                                                        aria-describedby="validationDefaultUsername2" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -280,7 +297,10 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Room Type</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="room_type" id="room_type" value="<?php echo htmlspecialchars($row['room_type']); ?>" aria-describedby="validationDefaultUsername2" readonly>
+                                                    <input type="text" class="form-control" name="room_type"
+                                                        id="room_type"
+                                                        value="<?php echo htmlspecialchars($row['room_type']); ?>"
+                                                        aria-describedby="validationDefaultUsername2" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -288,7 +308,10 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Pax</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="num_adults" id="num_adults" value="<?php echo htmlspecialchars($row['num_adults']); ?>" aria-describedby="validationDefaultUsername2" readonly>
+                                                    <input type="text" class="form-control" name="num_adults"
+                                                        id="num_adults"
+                                                        value="<?php echo htmlspecialchars($row['num_adults']); ?>"
+                                                        aria-describedby="validationDefaultUsername2" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -297,36 +320,51 @@ mysqli_close($conn);
                                             <div class="col-sm-9">
                                                 <div class="input-group">
                                                     <select class="form-control" name="BookingStats" id="BookingStats">
-                                                        <option value="Pending" <?php if($row['BookingStats'] == 'Pending') echo 'selected'; ?>>Pending</option>
-                                                        <option value="Confirmed" <?php if($row['BookingStats'] == 'Confirmed') echo 'selected'; ?>>Confirmed</option>
-                                                        <option value="Cancelled" <?php if($row['BookingStats'] == 'Cancelled') echo 'selected'; ?>>Cancelled</option>
-                                                        <option value="Waitlisted" <?php if($row['BookingStats'] == 'Waitlisted') echo 'selected'; ?>>Waitlisted</option>
-                                                        <option value="Checked-in" <?php if($row['BookingStats'] == 'Checked-in') echo 'selected'; ?>>Checked-in</option>
-                                                        <option value="Checked-out" <?php if($row['BookingStats'] == 'Checked-out') echo 'selected'; ?>>Checked-out</option>
-                                                        <option value="No-show" <?php if($row['BookingStats'] == 'No-show') echo 'selected'; ?>>No Show</option>
+                                                        <option value="Pending"
+                                                            <?php if ($row['BookingStats'] == 'Pending') echo 'selected'; ?>>
+                                                            Pending</option>
+                                                        <option value="Confirmed"
+                                                            <?php if ($row['BookingStats'] == 'Confirmed') echo 'selected'; ?>>
+                                                            Confirmed</option>
+                                                        <option value="Cancelled"
+                                                            <?php if ($row['BookingStats'] == 'Cancelled') echo 'selected'; ?>>
+                                                            Cancelled</option>
+                                                        <option value="Waitlisted"
+                                                            <?php if ($row['BookingStats'] == 'Waitlisted') echo 'selected'; ?>>
+                                                            Waitlisted</option>
+                                                        <option value="Checked-in"
+                                                            <?php if ($row['BookingStats'] == 'Checked-in') echo 'selected'; ?>>
+                                                            Checked-in</option>
+                                                        <option value="Checked-out"
+                                                            <?php if ($row['BookingStats'] == 'Checked-out') echo 'selected'; ?>>
+                                                            Checked-out</option>
+                                                        <option value="No-show"
+                                                            <?php if ($row['BookingStats'] == 'No-show') echo 'selected'; ?>>
+                                                            No Show</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                    
-                                        
-                                        <button type="submit" name="update" class="btn btn-primary btn-form mr-2">Confirm</button>
+
+
+
+                                        <button type="submit" name="update"
+                                            class="btn btn-primary btn-form mr-2">Confirm</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <!-- #/ container -->
         </div>
         <!--**********************************
             Content body end
         ***********************************-->
-        
-        
+
+
         <!--**********************************
             Footer start
         ***********************************-->

@@ -5,7 +5,7 @@ include('../../../Connection/PDOcon.php');
 // Check if the user is logged in and their role is equal to 1
 $isLoggedIn = isset($_SESSION['user_id']);
 if ($isLoggedIn) {
-    $stmt2 = $pdo->prepare("SELECT * FROM `user` WHERE id = ?");
+    $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
     $stmt2->execute([$_SESSION['user_id']]);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
@@ -83,7 +83,8 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span
+                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
                 <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
@@ -119,37 +120,49 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                     <ul>
                                         <li class="notification-unread">
                                             <a href="javascript:void()">
-                                                <img class="pull-left mr-3 avatar-img" src="../../assets/images/avatar/1.jpg" alt="">
+                                                <img class="pull-left mr-3 avatar-img"
+                                                    src="../../assets/images/avatar/1.jpg" alt="">
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Druid Wensleydale</div>
-                                                    <div class="notification-text">A wonderful serenit has take possession</div><small class="notification-timestamp">08 Hours ago</small>
+                                                    <div class="notification-text">A wonderful serenit has take
+                                                        possession</div><small class="notification-timestamp">08 Hours
+                                                        ago</small>
                                                 </div>
                                             </a><span class="notify-close"><i class="ti-close"></i></span>
                                         </li>
                                         <li class="notification-unread">
                                             <a href="javascript:void()">
-                                                <img class="pull-left mr-3 avatar-img" src="../../assets/images/avatar/2.jpg" alt="">
+                                                <img class="pull-left mr-3 avatar-img"
+                                                    src="../../assets/images/avatar/2.jpg" alt="">
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Fig Nelson</div>
-                                                    <div class="notification-text">A wonderful serenit has take possession</div><small class="notification-timestamp">08 Hours ago</small>
+                                                    <div class="notification-text">A wonderful serenit has take
+                                                        possession</div><small class="notification-timestamp">08 Hours
+                                                        ago</small>
                                                 </div>
                                             </a><span class="notify-close"><i class="ti-close"></i></span>
                                         </li>
                                         <li>
                                             <a href="javascript:void()">
-                                                <img class="pull-left mr-3 avatar-img" src="../../assets/images/avatar/3.jpg" alt="">
+                                                <img class="pull-left mr-3 avatar-img"
+                                                    src="../../assets/images/avatar/3.jpg" alt="">
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Bailey Wonger</div>
-                                                    <div class="notification-text">A wonderful serenit has take possession</div><small class="notification-timestamp">08 Hours ago</small>
+                                                    <div class="notification-text">A wonderful serenit has take
+                                                        possession</div><small class="notification-timestamp">08 Hours
+                                                        ago</small>
                                                 </div>
                                             </a><span class="notify-close"><i class="ti-close"></i></span>
                                         </li>
                                         <li>
                                             <a href="javascript:void()">
-                                                <img class="pull-left mr-3 avatar-img" src="../../assets/images/avatar/4.jpg" alt="">
+                                                <img class="pull-left mr-3 avatar-img"
+                                                    src="../../assets/images/avatar/4.jpg" alt="">
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Bodrum Salvador</div>
-                                                    <div class="notification-text">A wonderful serenit has take possession</div><small class="notification-timestamp">08 Hours ago</small>
+                                                    <div class="notification-text">A wonderful serenit has take
+                                                        possession</div><small class="notification-timestamp">08 Hours
+                                                        ago</small>
                                                 </div>
                                             </a><span class="notify-close"><i class="ti-close"></i></span>
                                         </li>
@@ -167,41 +180,60 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                     <ul>
                                         <li>
                                             <a href="javascript:void()">
-                                                <span class="mr-3 avatar-icon bg-success-lighten-2"><i class="fa fa-check"></i></span>
+                                                <span class="mr-3 avatar-icon bg-success-lighten-2"><i
+                                                        class="fa fa-check"></i></span>
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Druid Wensleydale</div>
-                                                    <span class="notification-text">A wonderful serenit of my entire soul.</span>
+                                                    <span class="notification-text">A wonderful serenit of my entire
+                                                        soul.</span>
                                                     <small class="notification-timestamp">20 May 2018, 15:32</small>
                                                 </div>
                                             </a>
                                             <span class="notify-close"><i class="ti-close"></i>
                                             </span>
                                         </li>
-                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="fa fa-close"></i></span>
+                                        <li><a href="javascript:void()"><span
+                                                    class="mr-3 avatar-icon bg-danger-lighten-2"><i
+                                                        class="fa fa-close"></i></span>
                                                 <div class="notification-content">
-                                                    <div class="notification-heading">Inverness McKenzie</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small>
+                                                    <div class="notification-heading">Inverness McKenzie</div><span
+                                                        class="notification-text">A wonderful serenit of my entire
+                                                        soul.</span> <small class="notification-timestamp">20 May 2018,
+                                                        15:32</small>
                                                 </div>
                                             </a>
                                             <span class="notify-close"><i class="ti-close"></i>
                                             </span>
                                         </li>
-                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-success-lighten-2"><i class="fa fa-check"></i></span>
+                                        <li><a href="javascript:void()"><span
+                                                    class="mr-3 avatar-icon bg-success-lighten-2"><i
+                                                        class="fa fa-check"></i></span>
                                                 <div class="notification-content">
-                                                    <div class="notification-heading">McKenzie Inverness</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small>
+                                                    <div class="notification-heading">McKenzie Inverness</div><span
+                                                        class="notification-text">A wonderful serenit of my entire
+                                                        soul.</span> <small class="notification-timestamp">20 May 2018,
+                                                        15:32</small>
                                                 </div>
                                             </a>
                                             <span class="notify-close"><i class="ti-close"></i>
                                             </span>
                                         </li>
-                                        <li><a href="javascript:void()"><span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="fa fa-close"></i></span>
+                                        <li><a href="javascript:void()"><span
+                                                    class="mr-3 avatar-icon bg-danger-lighten-2"><i
+                                                        class="fa fa-close"></i></span>
                                                 <div class="notification-content">
-                                                    <div class="notification-heading">Inverness McKenzie</div><span class="notification-text">A wonderful serenit of my entire soul.</span> <small class="notification-timestamp">20 May 2018, 15:32</small>
+                                                    <div class="notification-heading">Inverness McKenzie</div><span
+                                                        class="notification-text">A wonderful serenit of my entire
+                                                        soul.</span> <small class="notification-timestamp">20 May 2018,
+                                                        15:32</small>
                                                 </div>
                                             </a>
                                             <span class="notify-close"><i class="ti-close"></i>
                                             </span>
                                         </li>
-                                        <li class="text-left"><a href="javascript:void()" class="more-link">Show All Notifications</a> <span class="pull-right"><i class="fa fa-angle-right"></i></span>
+                                        <li class="text-left"><a href="javascript:void()" class="more-link">Show All
+                                                Notifications</a> <span class="pull-right"><i
+                                                    class="fa fa-angle-right"></i></span>
                                         </li>
                                     </ul>
                                 </div>
@@ -209,22 +241,29 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                         </li>
                         <li class="icons">
                             <a href="javascript:void(0)" class="log-user">
-                                <span><?= $row2["name"] ?></span> <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
+                                <span><?= $row2["firstname"] ?></span> <i class="fa fa-caret-down f-s-14"
+                                    aria-hidden="true"></i>
                             </a>
                             <div class="drop-down dropdown-profile animated bounceInDown">
                                 <div class="dropdown-content-body">
                                     <ul>
-                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My Profile</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My
+                                                    Profile</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My Wallet</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My
+                                                    Wallet</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-envelope"></i> <span>Inbox</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-envelope"></i>
+                                                <span>Inbox</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i> <span>Setting</span></a>
+                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i>
+                                                <span>Setting</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock Screen</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock
+                                                    Screen</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-power"></i> <span>Logout</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-power"></i>
+                                                <span>Logout</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -314,14 +353,14 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                             // Loop through each room type
                             while ($roomRow = $stmtRoomTypes->fetch(PDO::FETCH_ASSOC)) {
                                 $roomType = $roomRow['type'];
-                                $BookingStats = 'Confirmed';
+                                $status = 'confirmed';
 
                                 // Prepare and execute a query to count bookings within the specified date range
                                 $sqlCount = "SELECT COUNT(*) AS count FROM bookings 
-                                            WHERE room_type = :roomType AND BookingStats = :BookingStats";
+                                            WHERE room_type = :roomType AND status = :status";
                                 $stmtCount = $pdo->prepare($sqlCount);
                                 $stmtCount->bindParam(':roomType', $roomType);
-                                $stmtCount->bindParam(':BookingStats', $BookingStats);
+                                $stmtCount->bindParam(':status', $status);
                                 $stmtCount->execute();
 
                                 // Fetch the result
@@ -340,14 +379,16 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
 
                         ?>
 
-                                <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
-                                    <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
-                                </h5>
-                                <div class="progress">
-                                    <div class="progress-bar bg-lgreen wow animated progress-animated" data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;" role="progressbar">
-                                        <span class="sr-only">25% Complete</span>
-                                    </div>
-                                </div><br>
+                        <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
+                            <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
+                        </h5>
+                        <div class="progress">
+                            <div class="progress-bar bg-lgreen wow animated progress-animated"
+                                data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;"
+                                role="progressbar">
+                                <span class="sr-only">25% Complete</span>
+                            </div>
+                        </div><br>
 
                         <?php
                             }
@@ -385,21 +426,25 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
 
                                         <tbody>
                                             <?php while ($row = $stmtBookings->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                <tr>
-                                                    <td><?php echo htmlspecialchars($row["id"]); ?></td>
-                                                    <td><?php echo htmlspecialchars($row["name"]); ?></td>
-                                                    <td>
-                                                        <span class="text-muted"><?php echo htmlspecialchars($row["room_type"]); ?></span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="text-muted"><?php echo htmlspecialchars($row["start_date"]); ?></span>
-                                                    </td>
-                                                    <td><?php echo htmlspecialchars($row["end_date"]); ?></td>
-                                                    <td><?php echo htmlspecialchars($row["num_adults"]); ?></td>
-                                                    <td><?php echo htmlspecialchars($row["Price"]); ?></td>
-                                                    <td><?php echo htmlspecialchars($row["BookingStats"]); ?></td>
-                                                    <td><a href="table-datatable-basic-view.php?Paymentid=<?php echo urlencode($row["id"]); ?>">View</a></td>
-                                                </tr>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($row["id"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["name"]); ?></td>
+                                                <td>
+                                                    <span
+                                                        class="text-muted"><?php echo htmlspecialchars($row["room_type"]); ?></span>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="text-muted"><?php echo htmlspecialchars($row["start_date"]); ?></span>
+                                                </td>
+                                                <td><?php echo htmlspecialchars($row["end_date"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["num_adults"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["Price"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["status"]); ?></td>
+                                                <td><a
+                                                        href="table-datatable-basic-view.php?Paymentid=<?php echo urlencode($row["id"]); ?>">View</a>
+                                                </td>
+                                            </tr>
                                             <?php } ?>
                                         </tbody>
 
@@ -440,16 +485,16 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
         Scripts
     ***********************************-->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Select all progress bars
-            const progressBars = document.querySelectorAll('.progress-bar');
+    document.addEventListener("DOMContentLoaded", function() {
+        // Select all progress bars
+        const progressBars = document.querySelectorAll('.progress-bar');
 
-            // Update each progress bar width based on the data-progress attribute
-            progressBars.forEach(bar => {
-                const progress = bar.getAttribute('data-progress');
-                bar.style.width = `${progress}%`;
-            });
+        // Update each progress bar width based on the data-progress attribute
+        progressBars.forEach(bar => {
+            const progress = bar.getAttribute('data-progress');
+            bar.style.width = `${progress}%`;
         });
+    });
     </script>
 
 
