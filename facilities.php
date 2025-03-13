@@ -1,14 +1,21 @@
 <?php
 include('Connection/PDOcon.php');
-session_start(); // Start the session
+// getting DB of Basic Homepage Info
+$stmt = $pdo->query("SELECT * FROM `facilitiespage`");
+$stmt->execute();
 
+// Fetch All Rows into an Associative Array
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Initialize a Counter Variable
+$counter = 1;
 ?>
 
 <!DOCTYPE html>
 <html lang="zxx">
 
 <head>
-    <title>Quatro Pasos - Facilities</title>
+    <title>Almaris — Hotel Website Template</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -87,13 +94,16 @@ session_start(); // Start the session
                             </div>
                             <div class="de-flex-col">
                                 <div class="menu_side_area">
-                                    <?php if (isset($_SESSION['user_name'])): ?>
-                                    <a href="profile.php"
-                                        class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
-                                    <!-- Show user name -->
-
-                                    <?php endif; ?>
-                                    <span id="menu-btn"></span>
+                                    <div class="menu_side_area">
+                                        <?php if (isset($_SESSION['user_name'])): ?>
+                                        <a href="profile.php"
+                                            class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                        <!-- Show user name -->
+                                        <?php else: ?>
+                                        <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
+                                        <!-- Show login if not logged in -->
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -124,60 +134,60 @@ session_start(); // Start the session
 
             <section class="relative lines-deco">
                 <div class="container">
-                    <div class="row g-0 align-items-center justify-content-center">
-                        <div class="col-lg-5">
-                            <div class="relative wow fadeInUp" data-wow-delay=".3s">
-                                <div class="shape-mask-1 jarallax">
-                                    <img src="admin/main/template/uploads/1.jpg" class="jarallax-img" alt="">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-5">
-                            <div class="ms-lg-5 wow scaleIn">
-                                <h2 class="wow fadeInUp">Weddings</h2>
-                                <p>Our hotel offers a beautiful and elegant space perfect for your wedding. With
-                                    stunning surroundings, cozy rooms, delicious food, and excellent amenities, we have
-                                    everything you need for your special day. Celebrate your love with us!</p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php foreach ($result as $row) {
+                        // Step 6: Check if Counter is Odd or Even
+                        if ($counter % 2 == 0) {
+                            // Even Counter
+                    ?>
                     <div class="row g-0 align-items-center justify-content-center">
                         <div class="col-lg-5">
                             <div class="me-lg-5 wow scaleIn">
-                                <h2 class="wow fadeInUp">Wellness Event</h2>
-                                <p>Our hotel has a peaceful space perfect for your wellness event. With calm
-                                    surroundings, bright rooms, cozy accommodations, and healthy food, we have
-                                    everything you need for a relaxing experience. Find peace with us.</p>
+                                <h2 class="wow fadeInUp"><?php echo $row['Event']; ?> </h2>
+                                <p>><?php echo $row['Info']; ?></p>
                             </div>
                         </div>
 
                         <div class="col-lg-5">
                             <div class="relative wow fadeInUp" data-wow-delay=".3s">
                                 <div class="shape-mask-2 jarallax">
-                                    <img src="admin/main/template/uploads/3.jpg" class="jarallax-img" alt="">
+                                    <img src="admin/main/template/<?php echo $row['ImagePath']; ?>" class="jarallax-img"
+                                        alt="">
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
+                    <?php
+                        } else {
+                            // Odd Counter
+                        ?>
                     <div class="row g-0 align-items-center justify-content-center">
                         <div class="col-lg-5">
                             <div class="relative wow fadeInUp" data-wow-delay=".3s">
                                 <div class="shape-mask-1 jarallax">
-                                    <img src="admin/main/template/uploads/bdays.jpg" class="jarallax-img" alt="">
+                                    <img src="admin/main/template/<?php echo $row['ImagePath']; ?>" class="jarallax-img"
+                                        alt="">
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-lg-5">
                             <div class="ms-lg-5 wow scaleIn">
-                                <h2 class="wow fadeInUp">Birthdays</h2>
-                                <p>Our hotel has a fun and welcoming space perfect for your birthday celebration. With
-                                    comfortable rooms, tasty food, and great amenities, we have everything you need for
-                                    a memorable party. Celebrate with us!</p>
+                                <h2 class="wow fadeInUp"><?php echo $row['Event']; ?></h2>
+                                <p><?php echo $row['Info']; ?></p>
                             </div>
                         </div>
                     </div>
+
+                    <?php
+                        }
+
+                        // Step 7: Increment the Counter After Each Iteration
+                        $counter++;
+                    } ?>
+
+
 
                 </div>
 

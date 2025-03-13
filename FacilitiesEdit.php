@@ -1,4 +1,5 @@
 <?php
+session_start();
 try {
     include('Connection/PDOcon.php');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -75,9 +76,12 @@ $pdo = null;
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between xs-hide">
                                 <div class="header-widget d-flex">
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>Emilio Aguinaldo Highway, Dasmariñas, Philippines, 4114</a></div>
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>0917 808 7127</a></div>
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-envelope"></i>quatropasoshotel@gmail.com</a></div>
+                                    <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>Emilio
+                                            Aguinaldo Highway, Dasmariñas, Philippines, 4114</a></div>
+                                    <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>0917 808
+                                            7127</a></div>
+                                    <div class="topbar-widget"><a href="#"><i
+                                                class="icofont-envelope"></i>quatropasoshotel@gmail.com</a></div>
                                 </div>
 
                                 <div class="social-icons">
@@ -116,8 +120,16 @@ $pdo = null;
                             </div>
                             <div class="de-flex-col">
                                 <div class="menu_side_area">
-                                    <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
-                                    <span id="menu-btn"></span>
+                                    <div class="menu_side_area">
+                                        <?php if (isset($_SESSION['user_name'])): ?>
+                                        <a href="profile.php"
+                                            class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                        <!-- Show user name -->
+                                        <?php else: ?>
+                                        <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
+                                        <!-- Show login if not logged in -->
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -137,7 +149,8 @@ $pdo = null;
                     <div class="row justify-content-center">
                         <div class="col-lg-6 text-center">
                             <h1>Facilities - CMS</h1>
-                            <p class="mt-3 lead">Ready to elevate your travel experience? Reserve your room now and step into a world of comfort and luxury. Your perfect stay is just a click away.</p>
+                            <p class="mt-3 lead">Ready to elevate your travel experience? Reserve your room now and step
+                                into a world of comfort and luxury. Your perfect stay is just a click away.</p>
                         </div>
                     </div>
                 </div>
@@ -151,7 +164,8 @@ $pdo = null;
                             <div id="success_message" class="text-center">
                                 <h2>Your reservation has been sent successfully.</h2>
                                 <div class="col-lg-8 offset-lg-2">
-                                    <p>We will contact you shortly. Refresh this page if you want to make another reservation.</p>
+                                    <p>We will contact you shortly. Refresh this page if you want to make another
+                                        reservation.</p>
 
                                     <img src="images/misc/2.webp" class="w-100 rounded-up-100" alt="">
                                 </div>
@@ -166,12 +180,14 @@ $pdo = null;
                                         <div class="col-md-12">
                                             <div id='name_error' class='error'>Please enter your name.</div>
                                             <div>
-                                                <input type='text' name='subTxt' id='subTxt' class="form-control" placeholder="Sub Text">
+                                                <input type='text' name='subTxt' id='subTxt' class="form-control"
+                                                    placeholder="Sub Text">
                                             </div>
 
                                             <div id='email_error' class='error'>Please enter your valid E-mail ID.</div>
                                             <div>
-                                                <input type='text' name='FBname' id='FBname' class="form-control" placeholder="Facebook Handle">
+                                                <input type='text' name='FBname' id='FBname' class="form-control"
+                                                    placeholder="Facebook Handle">
                                             </div>
 
                                         </div>
@@ -180,12 +196,14 @@ $pdo = null;
                                         <div class="col-md-12">
 
                                             <p id='submit' class="mt20">
-                                                <input type='submit' id='send_message' value='Submit Form' class="btn-main">
+                                                <input type='submit' id='send_message' value='Submit Form'
+                                                    class="btn-main">
                                             </p>
                                         </div>
                                     </div>
                                 </form>
-                                <div id='error_message' class='error'>Sorry, error occured this time sending your message.</div>
+                                <div id='error_message' class='error'>Sorry, error occured this time sending your
+                                    message.</div>
                             </div>
                         </div>
                     </div>
