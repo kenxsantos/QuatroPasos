@@ -1,5 +1,12 @@
 <?php
 include 'db.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $first_name = trim($_POST['first_name']);
@@ -9,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address = trim($_POST['address']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
+    $verification_code = md5(uniqid($email, true));
 
     $errors = [];
 
@@ -39,8 +47,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $role_as = 0;
         $created_at = date('Y-m-d H:i:s');
 
-        $stmt = $conn->prepare("INSERT INTO users (firstname, lastname, email, phone, pass, role_as, created_at, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssiss", $first_name, $last_name, $email, $phone, $hashed_password, $role_as, $created_at, $address);
+        $stmt = $conn->prepare("INSERT INTO users (firstname, lastname, email, phone, pass, role_as, created_at, address,  verification_code, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0)");
+        $stmt->bind_param("sssssisss", $first_name, $last_name, $email, $phone, $hashed_password, $role_as, $created_at, $address, $verification_code);
+
+
+
+        //Email Verification
+        try {
+            // Mailtrap SMTP settings
+            // Looking to send emails in production? Check out our Email API/SMTP product!
+            $phpmailer = new PHPMailer();
+            $phpmailer->isSMTP();
+            $phpmailer->Host = 'sandbox.smtp.mailtrap.io';
+            $phpmailer->SMTPAuth = true;
+            $phpmailer->Port = 2525;
+            $phpmailer->Username = 'e6aa93a60f1fed';
+            $phpmailer->Password = 'd42fef387bfa29';
+
+            // Email details
+            $phpmailer->setFrom('no-reply@example.com', 'Quatro Pasos');
+            $phpmailer->addAddress($email);
+            $phpmailer->Subject = "Verify Your Email";
+            $phpmailer->isHTML(true);
+            $phpmailer->Body = "Click the link below to verify your email: <br>
+                       <a href='http://localhost/QuatroPasos/AuthAndStatusPages/verify.php?code=$verification_code'>Verify Email</a>";
+
+            $phpmailer->send();
+            echo "A verification email has been sent!";
+        } catch (Exception $e) {
+            echo "Email could not be sent. Mailer Error: {$phpmailer->ErrorInfo}";
+        }
 
         if ($stmt->execute()) {
             $_SESSION['success_message'] = "Registration successful!";
@@ -75,13 +111,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="assets/css/login.css">
     <style>
-    .error-container {
-        background-color: red;
-        color: white;
-        padding: 10px 0px;
-        margin: 8px 0;
-        font-size: 12px;
-    }
+        .error-container {
+            background-color: red;
+            color: white;
+            padding: 10px 0px;
+            margin: 8px 0;
+            font-size: 12px;
+        }
     </style>
 </head>
 
@@ -105,14 +141,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <img src="assets/images/logo.png" alt="logo" class="avatar" width="70%">
                                 </div>
                                 <!-- Show errors if any -->
-                                <?php if (!empty($errors)) : ?>
-                                <div class="error-container">
-                                    <ul>
-                                        <?php foreach ($errors as $error) : ?>
-                                        <li><?= htmlspecialchars($error) ?></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
+                                <?php if (!empty($errors)): ?>
+                                    <div class="error-container">
+                                        <ul>
+                                            <?php foreach ($errors as $error): ?>
+                                                <li><?= htmlspecialchars($error) ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
                                 <?php endif; ?>
                                 <div class="input-control">
                                     <div class="row p-l-5 p-r-5">
