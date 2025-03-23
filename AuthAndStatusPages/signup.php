@@ -1,11 +1,7 @@
 <?php
 include 'db.php';
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require __DIR__ . '/../vendor/autoload.php';
-
+require '../Connection/Script.php';
 
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -51,32 +47,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("sssssisss", $first_name, $last_name, $email, $phone, $hashed_password, $role_as, $created_at, $address, $verification_code);
 
 
-
-        //Email Verification
-        try {
-            // Mailtrap SMTP settings
-            // Looking to send emails in production? Check out our Email API/SMTP product!
-            $phpmailer = new PHPMailer();
-            $phpmailer->isSMTP();
-            $phpmailer->Host = 'sandbox.smtp.mailtrap.io';
-            $phpmailer->SMTPAuth = true;
-            $phpmailer->Port = 2525;
-            $phpmailer->Username = 'e6aa93a60f1fed';
-            $phpmailer->Password = 'd42fef387bfa29';
-
-            // Email details
-            $phpmailer->setFrom('quatropasos.admin@qpb.com', 'Quatro Pasos');
-            $phpmailer->addAddress($email);
-            $phpmailer->Subject = "Verify Your Email";
-            $phpmailer->isHTML(true);
-            $phpmailer->Body = "Click the link below to verify your email: <br>
-                       <a href='http://localhost/quatropasos.online/public_html/AuthAndStatusPages/verify.php?code=$verification_code'>Verify Email</a>";
-
-            $phpmailer->send();
-            echo "A verification email has been sent!";
-        } catch (Exception $e) {
-            echo "Email could not be sent. Mailer Error: {$phpmailer->ErrorInfo}";
-        }
+        sendMail($email, "Verify Your Email - Quatro Pasos", "
+            <p>Dear User,</p>
+            <p>Thank you for signing up with <strong>Quatro Pasos</strong>! To complete your registration and activate your account, please verify your email address by clicking the link below:</p>
+            <p style='text-align: left;'>
+                <a href='http://localhost/quatropasos.online/public_html/AuthAndStatusPages/verify.php?code=$verification_code' 
+                style='display: inline-block; padding: 10px 20px; font-size: 16px; font-weight: bold; color: #ffffff; background-color: #007bff; text-decoration: none; border-radius: 5px;'>
+                Verify My Email
+                </a>
+            </p>
+            <p>If the button above does not work, you can also copy and paste the following link into your browser:</p>
+            <p><a href='http://localhost/quatropasos.online/public_html/AuthAndStatusPages/verify.php?code=$verification_code'>
+                http://localhost/quatropasos.online/public_html/AuthAndStatusPages/verify.php?code=$verification_code
+            </a></p>
+            <p>If you did not sign up for an account, please ignore this email.</p>
+            <p>Best regards,</p>
+            <p><strong>Quatro Pasos Team</strong></p>
+        ");
 
         if ($stmt->execute()) {
             $_SESSION['success_message'] = "Registration successful!";
@@ -111,13 +98,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="assets/css/login.css">
     <style>
-    .error-container {
-        background-color: red;
-        color: white;
-        padding: 10px 0px;
-        margin: 8px 0;
-        font-size: 12px;
-    }
+        .error-container {
+            background-color: red;
+            color: white;
+            padding: 10px 0px;
+            margin: 8px 0;
+            font-size: 12px;
+        }
     </style>
 </head>
 
@@ -142,13 +129,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <!-- Show errors if any -->
                                 <?php if (!empty($errors)): ?>
-                                <div class="error-container">
-                                    <ul>
-                                        <?php foreach ($errors as $error): ?>
-                                        <li><?= htmlspecialchars($error) ?></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
+                                    <div class="error-container">
+                                        <ul>
+                                            <?php foreach ($errors as $error): ?>
+                                                <li><?= htmlspecialchars($error) ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
                                 <?php endif; ?>
                                 <div class="input-control">
                                     <div class="row p-l-5 p-r-5">

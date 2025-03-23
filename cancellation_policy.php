@@ -1,19 +1,16 @@
 <?php
 
 session_start();
+require './Connection/Script.php';
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require __DIR__ . '/vendor/autoload.php';
 
 include('Connection/SQLcon.php');
 $booking_id = isset($_GET['bookingId']) ? intval($_GET['bookingId']) : 0;
 $email = $_SESSION['email'];
+
 if ($booking_id === 0) {
     die("Invalid booking ID.");
 }
-// Handle Cancellation Request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_cancel'])) {
     // Prepare the update query
     $stmt = $conn->prepare("UPDATE bookings SET status = 'cancelled' WHERE id = ?");
@@ -22,25 +19,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_cancel'])) {
     if ($stmt->execute()) {
 
         echo "<script>alert('Booking has been cancelled.'); window.location.href='bookings.php';</script>";
-
-        // Send email notification
         try {
 
-            $phpmailer = new PHPMailer();
-            $phpmailer->isSMTP();
-            $phpmailer->Host = 'sandbox.smtp.mailtrap.io';
-            $phpmailer->SMTPAuth = true;
-            $phpmailer->Port = 2525;
-            $phpmailer->Username = 'e6aa93a60f1fed';
-            $phpmailer->Password = 'd42fef387bfa29';
-
-            $phpmailer->setFrom('quatropasos.admin@qpb.com', 'Quatro Pasos');
-            $phpmailer->addAddress($email);
-            $phpmailer->Subject = "Booking Cancelled";
-            $phpmailer->isHTML(true);
-            $phpmailer->Body = "Your booking has been successfully cancelled.";
-
-            $phpmailer->send();
+            sendMail($email, "Your Booking Has Been Cancelled", "
+            <p>Dear Valued Customer,</p>
+                <p>We regret to inform you that your booking has been successfully cancelled as per your request.</p>
+                <p>If this cancellation was made in error or you would like to rebook, please don't hesitate to contact us.</p>
+                <p>We appreciate your time with Quatro Pasos, and we hope to welcome you again in the future.</p>
+                <br>
+                <p>Best regards,</p>
+                <p><strong>Quatro Pasos Team</strong></p>
+        ");
         } catch (Exception $e) {
             echo "Email could not be sent. Mailer Error: {$phpmailer->ErrorInfo}";
         }
@@ -102,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_cancel'])) {
     </div>
 
     <script>
-        document.getElementById("confirmPolicy").addEventListener("change", function () {
+        document.getElementById("confirmPolicy").addEventListener("change", function() {
             document.getElementById("confirmCancel").disabled = !this.checked;
         });
     </script>
