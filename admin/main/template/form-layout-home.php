@@ -13,8 +13,7 @@ if ($isLoggedIn) {
         $roleCheck = $row2["role_as"];
 
         if ($roleCheck == 1) {
-            // User has the correct role
-            // Continue with the logic for users with role 1
+
         } else {
             header("Location: ../../../AuthAndStatusPages/401.php");
             exit(); // Prevent further execution
@@ -116,8 +115,8 @@ mysqli_close($conn);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span
-                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt="">
+                    </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
                 <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>

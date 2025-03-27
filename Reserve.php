@@ -591,7 +591,7 @@ if (isset($conn)) {
                     const typeOfStay = bookings[formattedDate];
                     const color = stayColors[typeOfStay] || "gray"; // Default to gray if unknown type
 
-                    dayHTML = `<div class="booked-date" data-day="${i}" data-month="${month + 1}" data-year="${year}" style="background-color: ${color};">${i}</div>`;
+                    dayHTML = `<div class="booked-date" data-day="${i}" data-month="${month + 1}" data-year="${year}" style="background-color: ${color};   ">${i}</div>`;
                 } else {
                     // Mark available dates in green
                     dayHTML = `<div class="available-date" data-day="${i}" data-month="${month + 1}" data-year="${year}" style="background-color: lightgreen; color: white;">${i}</div>`;

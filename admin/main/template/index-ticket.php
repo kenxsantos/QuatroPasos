@@ -40,6 +40,7 @@ $stmtRooms = $pdo->query("SELECT * FROM `room`");
 // Query to select room types from the `room` table
 $sqlRoomTypes = "SELECT type FROM room";
 $stmtRoomTypes = $pdo->query($sqlRoomTypes);
+
 ?>
 
 <!DOCTYPE html>
@@ -62,13 +63,13 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
     <!--*******************
         Preloader start
     ********************-->
-    <div id="preloader">
+    <!-- <div id="preloader">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
                 <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
             </svg>
         </div>
-    </div>
+    </div> -->
     <!--*******************
         Preloader end
     ********************-->
@@ -229,7 +230,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                     //Gettng the table name `room` data
                                     $row2 = $stmtRooms->fetch(PDO::FETCH_ASSOC);
 
-                                    $RoomsAvailable =  $row2["AvRooms"] - $countRow['count'];
+                                    $RoomsAvailable = $row2["AvRooms"] - $countRow['count'];
 
                                     //converting into a percentage
                                     if ($row2["AvRooms"] > 0) {
@@ -238,7 +239,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                         echo "Total cannot be zero.";
                                     }
 
-                            ?>
+                                    ?>
 
                                     <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
                                         <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
@@ -251,7 +252,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                         </div>
                                     </div><br>
 
-                            <?php
+                                    <?php
                                 }
                             } else {
                                 echo "No RoomTypes found in table2.";
@@ -373,7 +374,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
         Scripts
     ***********************************-->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             // Select all progress bars
             const progressBars = document.querySelectorAll('.progress-bar');
 
@@ -387,7 +388,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
     <script src="../../assets/plugins/common/common.min.js"></script>
     <script src="../js/custom.min.js"></script>
     <script src="../js/settings.js"></script>
-    <script src="../js/gleek.js"></script>
+    <!-- <script src="../js/gleek.js"></script> -->
     <script src="../js/styleSwitcher.js"></script>
 
     <script src="../../assets/plugins/moment/moment.min.js"></script>
