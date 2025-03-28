@@ -1,5 +1,11 @@
 <?php
 
+session_start(); // Start session at the very beginning
+ 
+ include('Connection/SQLIcon.php');
+ 
+ $message = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $start_date = isset($_POST['start_date']) ? trim($_POST['start_date']) : '';
     $end_date = isset($_POST['end_date']) ? trim($_POST['end_date']) : '';
