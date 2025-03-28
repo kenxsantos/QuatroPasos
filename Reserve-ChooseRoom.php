@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room'])) {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("issssiis", $room_id,$email, $room_type, $type_of_stay, $startDate, $endDate, $num_adults, $num_children, $Price);
+            $stmt->bind_param("isssssiis", $room_id,$email, $room_type, $type_of_stay, $startDate, $endDate, $num_adults, $num_children, $Price);
 
             if ($stmt->execute()) {
                 $last_id = $conn->insert_id;
