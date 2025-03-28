@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Redirect based on role
             if ($row['role_as'] == 1) {
-                header("Location: ../admin/main/template/form-layout-form.php");
+                header("Location: ../admin/main/template/form-layout-home.php");
             } else {
                 header("Location: ../default.php");
             }
