@@ -7,6 +7,7 @@ $startDate = $_GET['start_date'];
 $endDate = $_GET['end_date'];
 $num_children = $_GET['num_children'];
 $type_of_stay = $_GET['type_of_stay'];
+$email = $_SESSION['email'];
 
 
 // Fetch only rooms that match the number of adults and are available
@@ -32,11 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room'])) {
         $Price = $room_data['Price'];
 
         // Insert booking details into the database
-        $sql = "INSERT INTO bookings (room_id, room_type, type_of_stay, start_date, end_date, num_adults, num_children, Price) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO bookings (room_id, email, room_type, type_of_stay, start_date, end_date, num_adults, num_children, Price) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("issssiis", $room_id, $room_type, $type_of_stay, $startDate, $endDate, $num_adults, $num_children, $Price);
+            $stmt->bind_param("issssiis", $room_id,$email, $room_type, $type_of_stay, $startDate, $endDate, $num_adults, $num_children, $Price);
 
             if ($stmt->execute()) {
                 $last_id = $conn->insert_id;
