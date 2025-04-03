@@ -1,13 +1,20 @@
 <?php
+session_start();
 // Database connection variables
-include('Connection/SQLIcon.php');
+include('Connection/SQLCon.php');
 
+if (!isset($_SESSION['email'])) {
+    header("Location: ./AuthandStatusPages/login.php"); // Redirect to login if not logged in
+    exit();
+}
+
+$email = $_SESSION['email'];
 $num_adults = $_GET['num_adults'];
 $startDate = $_GET['start_date'];
 $endDate = $_GET['end_date'];
 $num_children = $_GET['num_children'];
 $type_of_stay = $_GET['type_of_stay'];
-$email = $_SESSION['email'];
+
 
 
 // Fetch only rooms that match the number of adults and are available
@@ -17,7 +24,7 @@ $stmtRoomTypes->bind_param("i", $num_adults);
 $stmtRoomTypes->execute();
 $resultRoomTypes = $stmtRoomTypes->get_result();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $room_type = $_POST['room'];
 
     // Fetch the selected room price and ID
@@ -37,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room'])) {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("isssssiis", $room_id,$email, $room_type, $type_of_stay, $startDate, $endDate, $num_adults, $num_children, $Price);
+            $stmt->bind_param("isssssiis", $room_id, $email, $room_type, $type_of_stay, $startDate, $endDate, $num_adults, $num_children, $Price);
 
             if ($stmt->execute()) {
                 $last_id = $conn->insert_id;
@@ -91,127 +98,127 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room'])) {
     <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
 
     <style>
-    .booking-form {
-        width: 100%;
-        max-width: 1100px;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
+        .booking-form {
+            width: 100%;
+            max-width: 1100px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
 
-    .booking-form h2 {
-        margin-top: 0;
-    }
+        .booking-form h2 {
+            margin-top: 0;
+        }
 
-    .booking-form label {
-        font-weight: bold;
-    }
+        .booking-form label {
+            font-weight: bold;
+        }
 
-    .booking-form input,
-    .booking-form button {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-
-
-    .room-selection button {
-        padding: 15px;
-        font-size: 16px;
-        border: 2px solid #007bff;
-        background-color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .room-selection button.selected {
-        background-color: #f3a84a;
-        color: white;
-    }
+        .booking-form input,
+        .booking-form button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
 
-    .booking-form button.submit-btn {
-        background-color: #007bff;
-        color: white;
-        font-size: 1.2rem;
-        cursor: pointer;
-    }
+        .room-selection button {
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #007bff;
+            background-color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    .message {
-        margin-bottom: 20px;
-        color: green;
-    }
+        .room-selection button.selected {
+            background-color: #f3a84a;
+            color: white;
+        }
 
-    .error {
-        color: red;
-    }
 
-    /* room CSS */
-    .room-card {
-        display: flex;
-        max-width: 800px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        .booking-form button.submit-btn {
+            background-color: #007bff;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
 
-    .room-card img {
-        width: 50%;
-        height: auto;
-        border-right: 1px solid #ddd;
-    }
+        .message {
+            margin-bottom: 20px;
+            color: green;
+        }
 
-    .room-info {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
+        .error {
+            color: red;
+        }
 
-    .room-info h2 {
-        margin: 0;
-        font-size: 1.5em;
-    }
+        /* room CSS */
+        .room-card {
+            display: flex;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    .room-info p {
-        color: #666;
-        line-height: 1.5;
-        margin: 10px 0;
-    }
+        .room-card img {
+            width: 50%;
+            height: auto;
+            border-right: 1px solid #ddd;
+        }
 
-    .room-info button {
-        background-color: white;
-        color: Black;
-        border: none;
-        border: 2px solid #e69630;
-        border-radius: 5px;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1em;
-        align-self: flex-start;
-    }
+        .room-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    .room-info button:hover {
-        background-color: #e69630;
-    }
+        .room-info h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
 
-    .room-info button.select-tour:hover {
-        background-color: #007bff;
-    }
+        .room-info p {
+            color: #666;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
 
-    section.lines-deco:before {
-        content: none !important;
-    }
+        .room-info button {
+            background-color: white;
+            color: Black;
+            border: none;
+            border: 2px solid #e69630;
+            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            align-self: flex-start;
+        }
 
-    section.lines-deco:after {
-        content: none !important;
-    }
+        .room-info button:hover {
+            background-color: #e69630;
+        }
+
+        .room-info button.select-tour:hover {
+            background-color: #007bff;
+        }
+
+        section.lines-deco:before {
+            content: none !important;
+        }
+
+        section.lines-deco:after {
+            content: none !important;
+        }
     </style>
 
 </head>
@@ -338,7 +345,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room'])) {
                                                 echo '<div class="room-info">';
                                                 echo '<h2>' . htmlspecialchars($roomType) . '</h2>';
                                                 echo '<p>' . htmlspecialchars($row['Price']) . '</p>';
-                                                echo '<button type="button" id="book-btn" class="select-room-btn" data-room="' . htmlspecialchars($roomType) . '" style="width:100px">Book</button>';
+                                                echo '<button type="submit" id="book-btn" class="select-room-btn" data-room="' . htmlspecialchars($roomType) . '" style="width:100px">Book</button>';
                                                 echo '</div>';
                                                 echo '</div>';
                                                 echo '</div>';
@@ -352,7 +359,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room'])) {
                             </div>
                             <!-- Hidden input to store selected room -->
                             <input type="hidden" id="room" name="room" required>
-                            <button type="submit" class="submit-btn">Book Now</button>
+
                         </form>
 
                     </div>
@@ -411,19 +418,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room'])) {
     <script src="js/swiper.js"></script>
     <script src="js/custom-marquee.js"></script>
     <script src="js/custom-swiper-1.js"></script>
-
     <script>
-    // JavaScript to handle room selection
-    const roomButtons = document.querySelectorAll('.select-room-btn');
-    const roomInput = document.getElementById('room');
+        // JavaScript to handle room selection
+        const roomButtons = document.querySelectorAll('.room-selection button');
+        const roomInput = document.getElementById('room');
 
-    roomButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            roomButtons.forEach(btn => btn.classList.remove('selected'));
-            button.classList.add('selected');
-            roomInput.value = button.getAttribute('data-room');
+        roomButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove 'selected' class from all buttons
+                roomButtons.forEach(btn => btn.classList.remove('selected'));
+
+                // Add 'selected' class to the clicked button
+                button.classList.add('selected');
+
+                // Update the hidden room input with the selected room value
+                roomInput.value = button.getAttribute('data-room');
+            });
         });
-    });
     </script>
 
 </body>

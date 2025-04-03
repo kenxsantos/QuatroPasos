@@ -1,10 +1,10 @@
 <?php
 
 session_start(); // Start session at the very beginning
- 
- include('Connection/SQLIcon.php');
- 
- $message = "";
+
+include('Connection/SQLIcon.php');
+
+$message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $start_date = isset($_POST['start_date']) ? trim($_POST['start_date']) : '';
@@ -191,13 +191,13 @@ if (isset($conn)) {
 
         /* selected date */
         .selected-date {
-            background-color: #4caf50;
+            background-color: blue !important;
             color: white;
             border-radius: 50%;
         }
 
         .range-date {
-            background-color: #4caf50;
+            background-color: lightblue !important;
             border: 1px solid white;
             color: black;
         }
