@@ -40,7 +40,6 @@ $stmtRooms = $pdo->query("SELECT * FROM `room`");
 // Query to select room types from the `room` table
 $sqlRoomTypes = "SELECT type FROM room";
 $stmtRoomTypes = $pdo->query($sqlRoomTypes);
-
 ?>
 
 <!DOCTYPE html>
@@ -144,9 +143,43 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <?php
-        include('sidebar.php');
-        ?>
+        <div class="nk-sidebar">
+            <div class="nk-nav-scroll">
+                <ul class="metismenu" id="menu">
+                    <li class="mega-menu mega-menu-sm">
+                        <a href="index-ticket.php" aria-expanded="false">
+                            <i class="mdi mdi-view-dashboard"></i><span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="mdi mdi-page-layout-body"></i><span class="nav-text">Layouts</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="./form-layout-home.php">Home</a>
+                            </li>
+                            <li></li><a href="./Form-layout-Accommo.php">Accommodation</a>
+                    </li>
+                    <li><a href="./Form-layout-Facilites.php">Facilities</a>
+                    </li>
+                    <li><a>Promos</a>
+                    </li>
+                </ul>
+                </li>
+                <li class="mega-menu mega-menu-sm">
+                    <a class="" href="./table-datatable-basic.php" aria-expanded="false">
+                        <i class="mdi mdi-table"></i><span class="nav-text">Room Booking</span>
+                    </a>
+                </li>
+                <li class="mega-menu mega-menu-sm">
+                    <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
+                        <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
+                    </a>
+                </li>
+
+                </ul>
+            </div>
+        </div>
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -219,10 +252,10 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
 
                                     // Prepare and execute a query to count bookings within the specified date range
                                     $sqlCount = "SELECT COUNT(*) AS count FROM bookings 
-                                                WHERE RoomType = :roomType AND status = :status";
+                                                WHERE type = :roomType AND status = :status";
                                     $stmtCount = $pdo->prepare($sqlCount);
-                                    $stmtCount->bindParam(':roomType', $roomType);
-                                    $stmtCount->bindParam(':status', $status);
+                                    $stmtCount->bindParam(':type', $roomType);
+                                    $stmtCount->bindParam(':status', $BookingStats);
                                     $stmtCount->execute();
 
                                     // Fetch the result
@@ -230,7 +263,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                     //Gettng the table name `room` data
                                     $row2 = $stmtRooms->fetch(PDO::FETCH_ASSOC);
 
-                                    $RoomsAvailable = $row2["AvRooms"] - $countRow['count'];
+                                    $RoomsAvailable =  $row2["AvRooms"] - $countRow['count'];
 
                                     //converting into a percentage
                                     if ($row2["AvRooms"] > 0) {
@@ -239,20 +272,20 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                         echo "Total cannot be zero.";
                                     }
 
-                                    ?>
+                            ?>
 
-                                    <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
-                                        <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
-                                    </h5>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-lgreen wow animated progress-animated"
-                                            data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;"
-                                            role="progressbar">
-                                            <span class="sr-only">25% Complete</span>
-                                        </div>
-                                    </div><br>
+                            <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
+                                <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
+                            </h5>
+                            <div class="progress">
+                                <div class="progress-bar bg-lgreen wow animated progress-animated"
+                                    data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;"
+                                    role="progressbar">
+                                    <span class="sr-only">25% Complete</span>
+                                </div>
+                            </div><br>
 
-                                    <?php
+                            <?php
                                 }
                             } else {
                                 echo "No RoomTypes found in table2.";
@@ -331,23 +364,23 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
 
                                             <!-- Book Rooms -->
                                             <?php while ($row = $stmtBookings->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><?php echo $row["id"] ?></td>
-                                                        <td><?php echo $row["name"] ?></td>
-                                                        <td>
-                                                            <span class="text-muted"><?php echo $row["RoomType"] ?></span>
-                                                        </td>
-                                                        <td>
-                                                            <span class="text-muted"><?php echo $row["start_date"] ?></span>
-                                                        </td>
-                                                        <td><?php echo $row["end_date"] ?></td>
-                                                        <td><?php echo $sum = $row["num_adults"] + $row["num_children"] ?>
-                                                        </td>
-                                                        <td><?php echo $row["created_at"] ?></td>
-                                                    </tr>
+                                            <tbody>
+                                                <tr>
+                                                    <td><?php echo $row["id"] ?></td>
+                                                    <td><?php echo $row["email"] ?></td>
+                                                    <td>
+                                                        <span class="text-muted"><?php echo $row["room_type"] ?></span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted"><?php echo $row["start_date"] ?></span>
+                                                    </td>
+                                                    <td><?php echo $row["end_date"] ?></td>
+                                                    <td><?php echo $sum = $row["num_adults"] + $row["num_children"] ?>
+                                                    </td>
+                                                    <td><?php echo $row["created_at"] ?></td>
+                                                </tr>
 
-                                                </tbody>
+                                            </tbody>
                                             <?php } ?>
                                             <!-- Book Rooms End -->
                                         </table>
@@ -374,21 +407,21 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
         Scripts
     ***********************************-->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Select all progress bars
-            const progressBars = document.querySelectorAll('.progress-bar');
+    document.addEventListener("DOMContentLoaded", function() {
+        // Select all progress bars
+        const progressBars = document.querySelectorAll('.progress-bar');
 
-            // Update each progress bar width based on the data-progress attribute
-            progressBars.forEach(bar => {
-                const progress = bar.getAttribute('data-progress');
-                bar.style.width = `${progress}%`;
-            });
+        // Update each progress bar width based on the data-progress attribute
+        progressBars.forEach(bar => {
+            const progress = bar.getAttribute('data-progress');
+            bar.style.width = `${progress}%`;
         });
+    });
     </script>
     <script src="../../assets/plugins/common/common.min.js"></script>
     <script src="../js/custom.min.js"></script>
     <script src="../js/settings.js"></script>
-    <!-- <script src="../js/gleek.js"></script> -->
+    <script src="../js/gleek.js"></script>
     <script src="../js/styleSwitcher.js"></script>
 
     <script src="../../assets/plugins/moment/moment.min.js"></script>
