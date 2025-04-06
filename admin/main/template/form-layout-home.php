@@ -13,7 +13,6 @@ if ($isLoggedIn) {
         $roleCheck = $row2["role_as"];
 
         if ($roleCheck == 1) {
-
         } else {
             header("Location: ../../../AuthAndStatusPages/401.php");
             exit(); // Prevent further execution
@@ -81,9 +80,9 @@ mysqli_close($conn);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Gleek - Bootstrap Admin Dashboard HTML Template</title>
+    <title>Quatro Pasos Website</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
+    <link rel="icon" href="../../../images/icon.png" type="image/gif" sizes="16x16">
     <!-- Custom Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
 

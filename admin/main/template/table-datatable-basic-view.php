@@ -13,45 +13,37 @@ if ($isLoggedIn) {
         $roleCheck = $row2["role_as"];
 
         if ($roleCheck == 1) {
-            // User has the correct role
-            // Continue with the logic for users with role 1
         } else {
             header("Location: ../../../AuthAndStatusPages/401.php");
-            exit(); // Prevent further execution
+            exit();
         }
     } else {
-        // Handle the case where no user was found
         header("Location: ../../../AuthAndStatusPages/401.php");
         exit();
     }
 } else {
-    // User is not logged in
     header("Location: ../../../AuthAndStatusPages/401.php");
     exit();
 }
 
 include '../config.php';
 
-// Check connectionBooking ID is missing.
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Get Paymentid from URL and check if it's set and valid
 $Paymentid = isset($_GET['Paymentid']) ? intval($_GET['Paymentid']) : null;
 
 if ($Paymentid === null) {
     die("Booking ID is missing.");
 }
 
-// Query the database for the booking with the specified ID
 $bookingQuery = mysqli_query($conn, "SELECT * FROM bookings WHERE id = $Paymentid");
 
 if (!$bookingQuery) {
     die("Query failed: " . mysqli_error($conn));
 }
 
-// Fetch the result as an associative array
 $row = mysqli_fetch_assoc($bookingQuery);
 
 if (!$row) {
@@ -60,18 +52,17 @@ if (!$row) {
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
-    // Get the selected BookingStats value from the dropdown
-    $BookingStats = $_POST['BookingStats'];
 
-    // Prepare the SQL statement for updating the BookingStats column
-    $updateQuery = "UPDATE bookings SET BookingStats = ? WHERE id = ?";
+    $status = $_POST['status'];
+
+    $updateQuery = "UPDATE bookings SET status = ? WHERE id = ?";
     $stmt = $conn->prepare($updateQuery);
-    $stmt->bind_param("si", $BookingStats, $Paymentid);
+    $stmt->bind_param("si", $status, $Paymentid);
 
     // Execute the update query
     if ($stmt->execute()) {
         // Redirect back to the same page to refresh it
-        header("Location: " . $_SERVER['PHP_SELF'] . "?Paymentid=" . $Paymentid);
+        header("Location: ./table-datatable-basic.php");
         exit();
     } else {
         echo "<p>Error updating booking status: " . $stmt->error . "</p>";
@@ -94,7 +85,7 @@ mysqli_close($conn);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Gleek - Ultimate Bootstrap 4 Sidebar</title>
+    <title>Quatro Pasos Website</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="">
     <link href="../css/style.css" rel="stylesheet">
@@ -127,8 +118,8 @@ mysqli_close($conn);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span
-                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt="">
+                    </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
                 <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
@@ -284,27 +275,27 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Booking Status</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <select class="form-control" name="BookingStats" id="BookingStats">
+                                                    <select class="form-control" name="status" id="status">
                                                         <option value="Pending"
-                                                            <?php if ($row['BookingStats'] == 'Pending') echo 'selected'; ?>>
+                                                            <?php if ($row['status'] == 'Pending') echo 'selected'; ?>>
                                                             Pending</option>
                                                         <option value="Confirmed"
-                                                            <?php if ($row['BookingStats'] == 'Confirmed') echo 'selected'; ?>>
+                                                            <?php if ($row['status'] == 'Confirmed') echo 'selected'; ?>>
                                                             Confirmed</option>
                                                         <option value="Cancelled"
-                                                            <?php if ($row['BookingStats'] == 'Cancelled') echo 'selected'; ?>>
+                                                            <?php if ($row['status'] == 'Cancelled') echo 'selected'; ?>>
                                                             Cancelled</option>
                                                         <option value="Waitlisted"
-                                                            <?php if ($row['BookingStats'] == 'Waitlisted') echo 'selected'; ?>>
+                                                            <?php if ($row['status'] == 'Waitlisted') echo 'selected'; ?>>
                                                             Waitlisted</option>
                                                         <option value="Checked-in"
-                                                            <?php if ($row['BookingStats'] == 'Checked-in') echo 'selected'; ?>>
+                                                            <?php if ($row['status'] == 'Checked-in') echo 'selected'; ?>>
                                                             Checked-in</option>
                                                         <option value="Checked-out"
-                                                            <?php if ($row['BookingStats'] == 'Checked-out') echo 'selected'; ?>>
+                                                            <?php if ($row['status'] == 'Checked-out') echo 'selected'; ?>>
                                                             Checked-out</option>
                                                         <option value="No-show"
-                                                            <?php if ($row['BookingStats'] == 'No-show') echo 'selected'; ?>>
+                                                            <?php if ($row['status'] == 'No-show') echo 'selected'; ?>>
                                                             No Show</option>
                                                     </select>
                                                 </div>

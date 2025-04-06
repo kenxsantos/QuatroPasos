@@ -14,32 +14,26 @@ if ($isLoggedIn) {
         $roleCheck = $row2["role_as"];
 
         if ($roleCheck == 1) {
-            // User has the correct role
-            // Continue with the logic for users with role 1
         } else {
             header("Location: ../../../AuthAndStatusPages/401.php");
-            exit(); // Prevent further execution
+            exit();
         }
     } else {
-        // Handle the case where no user was found
         header("Location: ../../../AuthAndStatusPages/401.php");
         exit();
     }
 } else {
-    // User is not logged in
     header("Location: ../../../AuthAndStatusPages/401.php");
     exit();
 }
 
-// Fetch bookings data
+
 $stmtBookings = $pdo->query("SELECT * FROM `bookings`");
-
-// Fetch rooms data
 $stmtRooms = $pdo->query("SELECT * FROM `room`");
-
-// Query to select room types from the `room` table
 $sqlRoomTypes = "SELECT type FROM room";
 $stmtRoomTypes = $pdo->query($sqlRoomTypes);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -49,9 +43,9 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Gleek - Bootstrap Admin Dashboard HTML Template</title>
+    <title>Quatro Pasos Website</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
+    <link rel="icon" href="../../../images/icon.png" type="image/gif" sizes="16x16">
     <!-- Custom Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
 
@@ -62,13 +56,13 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
     <!--*******************
         Preloader start
     ********************-->
-    <!-- <div id="preloader">
+    <div id="preloader">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
                 <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
             </svg>
         </div>
-    </div> -->
+    </div>
     <!--*******************
         Preloader end
     ********************-->
@@ -83,8 +77,8 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span
-                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt="">
+                    </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
                 <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
@@ -143,43 +137,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">
-            <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu">
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="index-ticket.php" aria-expanded="false">
-                            <i class="mdi mdi-view-dashboard"></i><span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="mdi mdi-page-layout-body"></i><span class="nav-text">Layouts</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./form-layout-home.php">Home</a>
-                            </li>
-                            <li></li><a href="./Form-layout-Accommo.php">Accommodation</a>
-                    </li>
-                    <li><a href="./Form-layout-Facilites.php">Facilities</a>
-                    </li>
-                    <li><a>Promos</a>
-                    </li>
-                </ul>
-                </li>
-                <li class="mega-menu mega-menu-sm">
-                    <a class="" href="./table-datatable-basic.php" aria-expanded="false">
-                        <i class="mdi mdi-table"></i><span class="nav-text">Room Booking</span>
-                    </a>
-                </li>
-                <li class="mega-menu mega-menu-sm">
-                    <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
-                        <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
-                    </a>
-                </li>
-
-                </ul>
-            </div>
-        </div>
+        <?php include('sidebar.php'); ?>
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -246,16 +204,17 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                             // Check if room types exist
                             if ($stmtRoomTypes->rowCount() > 0) {
                                 // Loop through each room type
+
                                 while ($roomRow = $stmtRoomTypes->fetch(PDO::FETCH_ASSOC)) {
-                                    $roomType = $roomRow['type'];
-                                    $status = 'confirmed';
+                                    $room_type = $roomRow['type'];
+                                    $status = 'Confirmed';
 
                                     // Prepare and execute a query to count bookings within the specified date range
                                     $sqlCount = "SELECT COUNT(*) AS count FROM bookings 
-                                                WHERE type = :roomType AND status = :status";
+                                                WHERE room_type = :room_type AND status = :status";
                                     $stmtCount = $pdo->prepare($sqlCount);
-                                    $stmtCount->bindParam(':type', $roomType);
-                                    $stmtCount->bindParam(':status', $BookingStats);
+                                    $stmtCount->bindParam(':room_type', $room_type);
+                                    $stmtCount->bindParam(':status', $status);
                                     $stmtCount->execute();
 
                                     // Fetch the result

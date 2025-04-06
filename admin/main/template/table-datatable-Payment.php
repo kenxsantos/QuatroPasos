@@ -41,9 +41,9 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Gleek - Bootstrap Admin Dashboard HTML Template</title>
+    <title>Quatro Pasos Website</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
+    <link rel="icon" href="../../../images/icon.png" type="image/gif" sizes="16x16">
     <link href="../../assets/plugins/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
@@ -76,8 +76,8 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span
-                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt="">
+                    </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
                 <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
@@ -340,19 +340,19 @@ $stmt = $pdo->query("SELECT * FROM `bookings`");
 
                                         <tbody>
                                             <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                <tr>
-                                                    <td><?php echo $row["id"] ?></td>
-                                                    <td><?php echo $row["name"] ?></td>
-                                                    <td>
-                                                        <span class="text-muted"><?php echo $row["room_type"] ?></span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="text-muted"><?php echo $row["start_date"] ?></span>
-                                                    </td>
-                                                    <td><?php echo $row["end_date"] ?></td>
-                                                    <td><?php echo $row["booking_time"] ?></td>
-                                                    <td><?php echo $row["Price"] ?></td>
-                                                </tr>
+                                            <tr>
+                                                <td><?php echo $row["id"] ?></td>
+                                                <td><?php echo $row["name"] ?></td>
+                                                <td>
+                                                    <span class="text-muted"><?php echo $row["room_type"] ?></span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-muted"><?php echo $row["start_date"] ?></span>
+                                                </td>
+                                                <td><?php echo $row["end_date"] ?></td>
+                                                <td><?php echo $row["booking_time"] ?></td>
+                                                <td><?php echo $row["Price"] ?></td>
+                                            </tr>
                                             <?php } ?>
                                         </tbody>
 

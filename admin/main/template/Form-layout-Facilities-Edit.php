@@ -123,9 +123,9 @@ mysqli_close($conn);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Gleek - Ultimate Bootstrap 4 Sidebar</title>
+    <title>Quatro Pasos Website</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
+    <link rel="icon" href="../../../images/icon.png" type="image/gif" sizes="16x16">
     <link href="../css/style.css" rel="stylesheet">
 
 </head>
@@ -156,7 +156,7 @@ mysqli_close($conn);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span
+            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt=""> </b><span
                         class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">

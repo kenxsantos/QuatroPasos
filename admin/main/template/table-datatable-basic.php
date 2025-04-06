@@ -13,33 +13,29 @@ if ($isLoggedIn) {
         $roleCheck = $row2["role_as"];
 
         if ($roleCheck == 1) {
-            // User has the correct role
-            // Continue with the logic for users with role 1
         } else {
             header("Location: ../../../AuthAndStatusPages/401.php");
-            exit(); // Prevent further execution
+            exit();
         }
     } else {
-        // Handle the case where no user was found
+
         header("Location: ../../../AuthAndStatusPages/401.php");
         exit();
     }
 } else {
-    // User is not logged in
+
     header("Location: ../../../AuthAndStatusPages/401.php");
     exit();
 }
 
-// Fetch bookings data
+
 $stmtBookings = $pdo->query("SELECT * FROM `bookings`");
 
-// Fetch rooms data
+
 $stmtRooms = $pdo->query("SELECT * FROM `room`");
 
-// Query to select room types from the `room` table
 $sqlRoomTypes = "SELECT type FROM room";
 $stmtRoomTypes = $pdo->query($sqlRoomTypes);
-$pdo = null;
 ?>
 
 <!DOCTYPE html>
@@ -49,9 +45,9 @@ $pdo = null;
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Gleek - Bootstrap Admin Dashboard HTML Template</title>
+    <title>Quatro Pasos Website</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
+    <link rel="icon" href="../../../images/icon.png" type="image/gif" sizes="16x16">
     <link href="../../assets/plugins/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
@@ -63,7 +59,13 @@ $pdo = null;
     <!--*******************
         Preloader start
     ********************-->
-
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
     <!--*******************
         Preloader end
     ********************-->
@@ -78,8 +80,8 @@ $pdo = null;
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span
-                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt="">
+                    </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
                 <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
@@ -275,9 +277,7 @@ $pdo = null;
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <?php
-        include('sidebar.php');
-        ?>
+        <?php include('sidebar.php'); ?>
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -313,14 +313,14 @@ $pdo = null;
                         if ($stmtRoomTypes->rowCount() > 0) {
                             // Loop through each room type
                             while ($roomRow = $stmtRoomTypes->fetch(PDO::FETCH_ASSOC)) {
-                                $roomType = $roomRow['type'];
-                                $status = 'confirmed';
+                                $room_type = $roomRow['type'];
+                                $status = 'Confirmed';
 
                                 // Prepare and execute a query to count bookings within the specified date range
                                 $sqlCount = "SELECT COUNT(*) AS count FROM bookings 
-                                            WHERE room_type = :roomType AND status = :status";
+                                            WHERE room_type = :room_type AND status = :status";
                                 $stmtCount = $pdo->prepare($sqlCount);
-                                $stmtCount->bindParam(':roomType', $roomType);
+                                $stmtCount->bindParam(':room_type', $room_type);
                                 $stmtCount->bindParam(':status', $status);
                                 $stmtCount->execute();
 
@@ -329,7 +329,7 @@ $pdo = null;
                                 //Gettng the table name `room` data
                                 $row2 = $stmtRooms->fetch(PDO::FETCH_ASSOC);
 
-                                $RoomsAvailable = $row2["AvRooms"] - $countRow['count'];
+                                $RoomsAvailable =  $row2["AvRooms"] - $countRow['count'];
 
                                 //converting into a percentage
                                 if ($row2["AvRooms"] > 0) {
@@ -338,20 +338,20 @@ $pdo = null;
                                     echo "Total cannot be zero.";
                                 }
 
-                                ?>
+                        ?>
 
-                                <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
-                                    <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
-                                </h5>
-                                <div class="progress">
-                                    <div class="progress-bar bg-lgreen wow animated progress-animated"
-                                        data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;"
-                                        role="progressbar">
-                                        <span class="sr-only">25% Complete</span>
-                                    </div>
-                                </div><br>
+                        <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
+                            <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
+                        </h5>
+                        <div class="progress">
+                            <div class="progress-bar bg-lgreen wow animated progress-animated"
+                                data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;"
+                                role="progressbar">
+                                <span class="sr-only">25% Complete</span>
+                            </div>
+                        </div><br>
 
-                                <?php
+                        <?php
                             }
                         } else {
                             echo "No RoomTypes found in table2.";
@@ -387,25 +387,25 @@ $pdo = null;
 
                                         <tbody>
                                             <?php while ($row = $stmtBookings->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                <tr>
-                                                    <td><?php echo htmlspecialchars($row["id"]); ?></td>
-                                                    <td><?php echo htmlspecialchars($row["name"]); ?></td>
-                                                    <td>
-                                                        <span
-                                                            class="text-muted"><?php echo htmlspecialchars($row["room_type"]); ?></span>
-                                                    </td>
-                                                    <td>
-                                                        <span
-                                                            class="text-muted"><?php echo htmlspecialchars($row["start_date"]); ?></span>
-                                                    </td>
-                                                    <td><?php echo htmlspecialchars($row["end_date"]); ?></td>
-                                                    <td><?php echo htmlspecialchars($row["num_adults"]); ?></td>
-                                                    <td><?php echo htmlspecialchars($row["Price"]); ?></td>
-                                                    <td><?php echo htmlspecialchars($row["status"]); ?></td>
-                                                    <td><a
-                                                            href="table-datatable-basic-view.php?Paymentid=<?php echo urlencode($row["id"]); ?>">View</a>
-                                                    </td>
-                                                </tr>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($row["id"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["name"]); ?></td>
+                                                <td>
+                                                    <span
+                                                        class="text-muted"><?php echo htmlspecialchars($row["room_type"]); ?></span>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="text-muted"><?php echo htmlspecialchars($row["start_date"]); ?></span>
+                                                </td>
+                                                <td><?php echo htmlspecialchars($row["end_date"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["num_adults"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["Price"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["status"]); ?></td>
+                                                <td><a
+                                                        href="table-datatable-basic-view.php?Paymentid=<?php echo urlencode($row["id"]); ?>">View</a>
+                                                </td>
+                                            </tr>
                                             <?php } ?>
                                         </tbody>
 
@@ -446,16 +446,16 @@ $pdo = null;
         Scripts
     ***********************************-->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Select all progress bars
-            const progressBars = document.querySelectorAll('.progress-bar');
+    document.addEventListener("DOMContentLoaded", function() {
+        // Select all progress bars
+        const progressBars = document.querySelectorAll('.progress-bar');
 
-            // Update each progress bar width based on the data-progress attribute
-            progressBars.forEach(bar => {
-                const progress = bar.getAttribute('data-progress');
-                bar.style.width = `${progress}%`;
-            });
+        // Update each progress bar width based on the data-progress attribute
+        progressBars.forEach(bar => {
+            const progress = bar.getAttribute('data-progress');
+            bar.style.width = `${progress}%`;
         });
+    });
     </script>
 
 
