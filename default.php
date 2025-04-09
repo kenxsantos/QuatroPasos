@@ -98,6 +98,28 @@ session_start(); // Start the session
         background-color: #ab8965;
         padding-left: 20px;
     }
+
+    .floating-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 15px 18px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.3s;
+        z-index: 9999;
+    }
+
+    .floating-button:hover {
+        background-color: #0056b3;
+        transform: scale(1.1);
+    }
     </style>
 </head>
 
@@ -108,7 +130,12 @@ session_start(); // Start the session
         <!-- page preloader begin -->
         <div id="de-loader"></div>
         <!-- page preloader close -->
-
+        <div>
+            <a href="chat.php" class="floating-button" title="Help or Action">
+                &#x2709;
+                <!-- envelope icon (you can replace with anything like Font Awesome or SVG) -->
+            </a>
+        </div>
         <!-- header begin -->
         <header class="transparent has-topbar logo-center">
             <div id="topbar">

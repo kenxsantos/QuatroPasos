@@ -13,23 +13,30 @@ if ($booking_id === 0) {
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_cancel'])) {
     // Prepare the update query
-    $stmt = $conn->prepare("UPDATE bookings SET status = 'cancelled' WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE bookings SET status = 'Cancel Request' WHERE id = ?");
     $stmt->bind_param("i", $booking_id);
 
     if ($stmt->execute()) {
 
-        echo "<script>alert('Booking has been cancelled.'); window.location.href='bookings.php';</script>";
+        echo "<script>alert('Your Booking Cancellation is Under Review'); window.location.href='bookings.php';</script>";
         try {
+            sendMail($email, "Your Booking Cancellation is Under Review", "
+                <p>We have received your request to cancel your booking, and our team is currently reviewing it.</p>
 
-            sendMail($email, "Your Booking Has Been Cancelled", "
-            <p>Dear Valued Customer,</p>
-                <p>We regret to inform you that your booking has been successfully cancelled as per your request.</p>
-                <p>If this cancellation was made in error or you would like to rebook, please don't hesitate to contact us.</p>
-                <p>We appreciate your time with Quatro Pasos, and we hope to welcome you again in the future.</p>
+                <p><strong>What to Expect:</strong></p>
+                <ul>
+                    <li>Our staff will verify your booking details and cancellation eligibility.</li>
+                    <li>You will receive a confirmation email once the cancellation is approved or if further information is required.</li>
+                </ul>
+
+                <p>We appreciate your patience as we process your request. If you have any urgent questions or concerns, feel free to contact our support team at any time.</p>
+
+                <p>Thank you for choosing <strong>Quatro Pasos</strong>. We are here to assist you every step of the way.</p>
+
                 <br>
-                <p>Best regards,</p>
+                <p>Warm regards,</p>
                 <p><strong>Quatro Pasos Team</strong></p>
-        ");
+                ");
         } catch (Exception $e) {
             echo "Email could not be sent. Mailer Error: {$phpmailer->ErrorInfo}";
         }
@@ -82,8 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_cancel'])) {
                     <div class="d-flex justify-content-between mt-4">
                         <a href="bookings.php" class="btn btn-secondary">Go Back</a>
                         <button type="submit" class="btn btn-danger" id="confirmCancel" name="confirm_cancel"
-                            disabled>Confirm
-                            Cancellation</button>
+                            disabled>Confirm</button>
                     </div>
                 </form>
             </div>
@@ -91,9 +97,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_cancel'])) {
     </div>
 
     <script>
-        document.getElementById("confirmPolicy").addEventListener("change", function() {
-            document.getElementById("confirmCancel").disabled = !this.checked;
-        });
+    document.getElementById("confirmPolicy").addEventListener("change", function() {
+        document.getElementById("confirmCancel").disabled = !this.checked;
+    });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

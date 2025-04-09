@@ -20,26 +20,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reschedule'])) {
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
 
-    $stmt = $conn->prepare("UPDATE bookings SET start_date = ?, end_date = ? WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE bookings SET status = 'Reschedule Request', start_date = ?, end_date = ? WHERE id = ?");
     $stmt->bind_param("ssi", $start_date, $end_date, $booking_id);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Booking has been successfully rescheduled!'); window.location.href='bookings.php';</script>";
+        echo "<script>alert('Booking Rescheduled is Under Review'); window.location.href='bookings.php';</script>";
         try {
-            sendMail($email, "Your Booking Has Been Successfully Rescheduled", "
-            <p>We are pleased to inform you that your booking has been successfully rescheduled.</p>
-            <p><strong>New Booking Details:</strong></p>
+            sendMail($email, "Your Booking Reschedule Request is Under Review", "
+            <p>We have received your request to reschedule your booking, and our team is currently reviewing it.</p>
+
+            <p><strong>What Happens Next:</strong></p>
             <ul>
-                <li><strong>Start Date:</strong> $start_date</li>
-                <li><strong>End Date:</strong> $end_date</li>
+                <li>We are verifying the availability of your requested dates.</li>
+                <li>You will receive a follow-up email once the reschedule is confirmed or if any adjustments are needed.</li>
             </ul>
-            <p>If you have any questions or need further assistance, please feel free to contact us.</p>
-            <p>Thank you for choosing Quatro Pasos. We look forward to serving you!</p>
+
+            <p>We appreciate your patience during this process. If you have any immediate questions or need further assistance, please don’t hesitate to contact us.</p>
+
+            <p>Thank you for choosing <strong>Quatro Pasos</strong>. We’ll be in touch shortly!</p>
+
             <br>
-            <p>Best regards,</p>
+            <p>Warm regards,</p>
             <p><strong>Quatro Pasos Team</strong></p>
             ");
-
 
             echo "A verification email has been sent!";
         } catch (Exception $e) {
@@ -137,12 +140,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reschedule'])) {
             <td><?= htmlspecialchars($row['Price']) ?></td>
             <td>
                 <span
-                    class="badge <?= ($row['status'] == 'cancelled') ? 'bg-danger' : (($row['status'] == 'pending') ? 'bg-warning text-dark' : (($row['status'] == 'confirmed') ? 'bg-success' : 'bg-secondary')) ?>">
-                    <?= htmlspecialchars($row['status']) ?>
+                    class="badge <?= ($row['status'] === 'Cancelled') ? 'bg-danger' : (($row['status'] === 'Pending') ? 'bg-warning text-dark' : (($row['status'] === 'Confirmed') ? 'bg-success' : 'bg-secondary')) ?>">
+                    <?= htmlspecialchars(($row['status'])) ?>
                 </span>
             </td>
             <td>
-                <?php if ($row['status'] !== 'cancelled') { ?>
+                <?php if ($row['status'] == 'Pending') { ?>
                 <input type="hidden" name="id" value="<?= htmlspecialchars($row['id']) ?>">
                 <button type="button">
                     <a href="cancellation_policy.php?bookingId=<?= urlencode($row['id']); ?>">Cancel</a>
@@ -151,8 +154,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reschedule'])) {
                     data-bs-target="#rescheduleModal" data-id="<?= htmlspecialchars($row['id']) ?>">
                     Reschedule
                 </button>
-                <?php } else { ?>
-                <button class="btn btn-secondary btn-sm" disabled>Cancelled</button>
+                <?php } elseif ($row['status'] == 'Confirmed') { ?>
+                <button type="button">
+                    <a href="cancellation_policy.php?bookingId=<?= urlencode($row['id']); ?>">Cancel</a>
+                </button>
+                <?php } elseif ($row['status']) { ?>
+                <button class="btn btn-success btn-sm" disabled><?= htmlspecialchars(($row['status'])) ?></button>
                 <?php } ?>
             </td>
         </tr>
@@ -183,8 +190,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reschedule'])) {
                             <input type="text" id="end-date" class="form-control date-picker" name="end_date" required>
                         </div>
 
-                        <button type="submit" class="btn btn-success btn-sm" name="reschedule">Save Changes</button>
+                        <button type="submit-reschedule" class="btn btn-success btn-sm" name="reschedule">Save
+                            Changes</button>
                     </form>
+
                 </div>
             </div>
         </div>
