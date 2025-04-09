@@ -1,24 +1,17 @@
 <?php
-// Database connection variables
+session_start();
 include('Connection/SQLIcon.php');
-
 $booking_id = $_GET['booking_id'];
 
-// Prepare the SQL statement to fetch booking info
 $sql = "SELECT start_date, end_date, room_type, Price FROM bookings WHERE id = ?";
 
-// Use prepared statement to prevent SQL injection
 if ($stmt = $conn->prepare($sql)) {
-    $stmt->bind_param("i", $booking_id); // 'i' stands for integer
+    $stmt->bind_param("i", $booking_id);
 
-    // Execute the statement
     if ($stmt->execute()) {
-        // Bind result variables
         $stmt->bind_result($start_date, $end_date, $room_type, $Price);
 
-        // Fetch the data
         if ($stmt->fetch()) {
-            // Store data in an associative array
             $booking_data = [
                 'start_date' => $start_date,
                 'end_date' => $end_date,
@@ -36,7 +29,6 @@ if ($stmt = $conn->prepare($sql)) {
     echo "<p class='error'>Error: " . $conn->error . "</p>";
 }
 
-// Close the database connection
 $conn->close();
 ?>
 
@@ -230,8 +222,16 @@ $conn->close();
                             </div>
                             <div class="de-flex-col">
                                 <div class="menu_side_area">
-                                    <<a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
-                                        <span id="menu-btn"></span>
+                                    <div class="menu_side_area">
+                                        <?php if (isset($_SESSION['user_name'])): ?>
+                                        <a href="profile.php"
+                                            class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                        <!-- Show user name -->
+                                        <?php else: ?>
+                                        <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
+                                        <!-- Show login if not logged in -->
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -266,7 +266,7 @@ $conn->close();
                         <h2>Reservation Complete</h2>
                         <p>Thank you! Your reservation is still in process.</p>
 
-                        <form action="default.php" method="POST" enctype="multipart/form-data">
+                        <form action="Bookings.php" method="POST" enctype="multipart/form-data">
                             <label>Booking ID</label>
                             <label>Start Date</label>
                             <label>End Date</label>

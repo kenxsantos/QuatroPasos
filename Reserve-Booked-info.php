@@ -1,6 +1,5 @@
 <?php
 require 'vendor/autoload.php';
-// Ensure this line is at the very top
 include('Connection/SQLIcon.php');
 
 use GuzzleHttp\Client;
@@ -8,23 +7,13 @@ use Paymongo\SourceError;
 
 $client = new Client();
 $booking_id = isset($_GET['booking_id']) ? $_GET['booking_id'] : null;
-
-// Prepare the SQL statement to fetch booking info
 $sql = 'SELECT start_date, end_date, room_type, num_adults, num_children, Price FROM bookings WHERE id = ?';
 
-// Use prepared statement to prevent SQL injection
 if ($stmt = $conn->prepare($sql)) {
     $stmt->bind_param('i', $booking_id);
-    // 'i' stands for integer
-
-    // Execute the statement
     if ($stmt->execute()) {
-        // Bind result variables
         $stmt->bind_result($start_date, $end_date, $room_type, $num_adults, $num_children, $Price);
-
-        // Fetch the data
         if ($stmt->fetch()) {
-            // Store data in an associative array
             $booking_data = [
                 'start_date' => $start_date,
                 'end_date' => $end_date,
@@ -32,7 +21,6 @@ if ($stmt = $conn->prepare($sql)) {
                 'num_adults' => $num_adults,
                 'num_children' => $num_children,
                 'Price' => $Price
-
             ];
         } else {
             echo "<p class='error'>No booking found with the provided Booking ID.</p>";
@@ -41,73 +29,22 @@ if ($stmt = $conn->prepare($sql)) {
         echo "<p class='error'>Error: " . $stmt->error . '</p>';
     }
     $stmt->close();
-    // Close the SELECT statement to avoid 'commands out of sync' error
 } else {
     echo "<p class='error'>Error: " . $conn->error . '</p>';
 }
 
-// Handle form submission for image upload
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image']) && $booking_id) {
-    // Validate the uploaded file
-    $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-    $max_size = 2 * 1024 * 1024;
-    // 2 MB
-
-    if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $image_tmp_name = $_FILES['image']['tmp_name'];
-        $image_name = basename($_FILES['image']['name']);
-        $image_type = mime_content_type($image_tmp_name);
-        $image_size = $_FILES['image']['size'];
-
-        // Check file type and size
-        if (in_array($image_type, $allowed_types) && $image_size <= $max_size) {
-            // Unique filename to prevent overwriting
-            $unique_name = uniqid('img_') . '_' . $image_name;
-            $image_path = 'uploads/' . $unique_name;
-
-            // Move the uploaded file to the desired directory
-            if (move_uploaded_file($image_tmp_name, $image_path)) {
-                // Prepare SQL statement to update booking record with image path
-                $update_sql = 'UPDATE bookings SET payment_image = ? WHERE id = ?';
-                if ($update_stmt = $conn->prepare($update_sql)) {
-                    $update_stmt->bind_param('si', $image_path, $booking_id);
-                    if ($update_stmt->execute()) {
-                        // Redirect to another page with the booking ID
-                        $url = 'Reserve-Complete.php?booking_id=' . $booking_id;
-                        header('Location: ' . $url);
-                    } else {
-                        echo "<p class='error'>Error updating record: " . $update_stmt->error . '</p>';
-                    }
-                    $update_stmt->close();
-                    // Close the UPDATE statement
-                } else {
-                    echo "<p class='error'>Error preparing statement: " . $conn->error . '</p>';
-                }
-            } else {
-                echo "<p class='error'>Error moving uploaded file.</p>";
-            }
-        } else {
-            echo "<p class='error'>Invalid file type or file is too large. Only JPEG, PNG, and GIF files under 2MB are allowed.</p>";
-        }
-    } else {
-        echo "<p class='error'>Error uploading file.</p>";
-    }
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
-// Close the database connection
 $conn->close();
 
-// payment Code
 try {
     $Price = $booking_data['Price'];
     $cleanedNumber = str_replace(',', '', $Price);
 
-    // Step 2: Convert to integer
     $integerNumber = intval($cleanedNumber);
-    // or you can use ( int )$cleanedNumber;
     $FinalPrice = $integerNumber * 100;
 
-    // Create a payment link
     $response = $client->request('POST', 'https://api.paymongo.com/v1/links', [
         'body' => json_encode([
             'data' => [
@@ -125,10 +62,7 @@ try {
         ],
     ]);
 
-    // Get the response body
     $responseBody = json_decode($response->getBody(), true);
-
-    // Check if the response contains a checkout URL
     if (isset($responseBody['data']['attributes']['checkout_url'])) {
         $paymentLink = $responseBody['data']['attributes']['checkout_url'];
     } else {
@@ -170,139 +104,139 @@ try {
     <link id='colors' href='css/colors/scheme-01.css' rel='stylesheet' type='text/css'>
 
     <style>
-        button.book-btn {
-            padding: 15px;
-            font-size: 16px;
-            border: 2px solid #007bff;
-            background-color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+    button.book-btn {
+        padding: 15px;
+        font-size: 16px;
+        border: 2px solid #007bff;
+        background-color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-        .book-btn.selected {
-            background-color: #f3a84a;
-            color: white;
-        }
+    .book-btn.selected {
+        background-color: #f3a84a;
+        color: white;
+    }
 
-        .book-btn:hover {
-            background-color: #e69630;
-        }
+    .book-btn:hover {
+        background-color: #e69630;
+    }
 
 
-        .booking-form {
-            width: 100%;
-            max-width: 900px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
+    .booking-form {
+        width: 100%;
+        max-width: 900px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
 
-        .booking-form h2 {
-            margin-top: 0;
-        }
+    .booking-form h2 {
+        margin-top: 0;
+    }
 
-        .booking-form label {
-            font-weight: bold;
-        }
+    .booking-form label {
+        font-weight: bold;
+    }
 
-        .booking-form input,
-        .booking-form button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
+    .booking-form input,
+    .booking-form button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
 
-        .room-selection {
-            display: flex;
-            gap: 10px;
-            margin: 10px 0;
-        }
+    .room-selection {
+        display: flex;
+        gap: 10px;
+        margin: 10px 0;
+    }
 
-        .room-selection button {
-            padding: 15px;
-            font-size: 16px;
-            border: 2px solid #007bff;
-            background-color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+    .room-selection button {
+        padding: 15px;
+        font-size: 16px;
+        border: 2px solid #007bff;
+        background-color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-        .room-selection button.selected {
-            background-color: #007bff;
-            color: white;
-        }
+    .room-selection button.selected {
+        background-color: #007bff;
+        color: white;
+    }
 
-        .booking-form button.submit-btn {
-            background-color: #007bff;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
+    .booking-form button.submit-btn {
+        background-color: #007bff;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
 
-        .message {
-            margin-bottom: 20px;
-            color: green;
-        }
+    .message {
+        margin-bottom: 20px;
+        color: green;
+    }
 
-        .error {
-            color: red;
-        }
+    .error {
+        color: red;
+    }
 
-        /* Forms */
+    /* Forms */
 
-        h1 {
-            font-size: 1.5em;
-        }
+    h1 {
+        font-size: 1.5em;
+    }
 
-        form {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            max-width: 800px;
-        }
+    form {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        max-width: 800px;
+    }
 
-        label {
-            display: block;
-            font-size: 1em;
-            margin-bottom: 5px;
-        }
+    label {
+        display: block;
+        font-size: 1em;
+        margin-bottom: 5px;
+    }
 
-        input,
-        select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
+    input,
+    select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
 
-        .full-width {
-            grid-column: span 3;
-        }
+    .full-width {
+        grid-column: span 3;
+    }
 
-        .half-width {
-            grid-column: span 1;
-        }
+    .half-width {
+        grid-column: span 1;
+    }
 
-        .message {
-            margin-bottom: 20px;
-            color: green;
-        }
+    .message {
+        margin-bottom: 20px;
+        color: green;
+    }
 
-        .error {
-            color: red;
-        }
+    .error {
+        color: red;
+    }
 
-        section.lines-deco:after {
-            content: none;
-        }
+    section.lines-deco:after {
+        content: none;
+    }
 
-        section.lines-deco:before {
-            content: none;
-        }
+    section.lines-deco:before {
+        content: none;
+    }
     </style>
 
 </head>
@@ -496,31 +430,30 @@ try {
     <script src='js/custom-swiper-1.js'></script>
     <!-- Javascript for form validation and confirmation -->
     <script>
+    const roomInput = document.getElementById('room');
 
-        const roomInput = document.getElementById('room');
+
+    function openPaymentLink() {
+        var paymentLink = '<?php echo htmlspecialchars($paymentLink); ?>';
+
+        window.open(paymentLink, '_blank');
+        var bookingId = '<?php echo trim($booking_id); ?>'; // Trim to remove spaces
+        window.location.href = 'Reserve-Complete.php?booking_id=' + encodeURIComponent(bookingId);
+    }
 
 
-        function openPaymentLink() {
-            var paymentLink = '<?php echo htmlspecialchars($paymentLink); ?>';
-
-            window.open(paymentLink, '_blank');
-            var bookingId = '<?php echo trim($booking_id); ?>'; // Trim to remove spaces
-            window.location.href = 'Reserve-Complete.php?booking_id=' + encodeURIComponent(bookingId);
+    function validateForm() {
+        const imageInput = document.getElementById('image');
+        if (!imageInput.files.length) {
+            alert('Please upload a payment screenshot.');
+            return false;
         }
 
-
-        function validateForm() {
-            const imageInput = document.getElementById('image');
-            if (!imageInput.files.length) {
-                alert('Please upload a payment screenshot.');
-                return false;
-            }
-
-            // Confirmation popup
-            const confirmUpload = confirm('You have uploaded an image. Do you want to proceed with the submission?');
-            return confirmUpload;
-            // Proceed if user confirms
-        }
+        // Confirmation popup
+        const confirmUpload = confirm('You have uploaded an image. Do you want to proceed with the submission?');
+        return confirmUpload;
+        // Proceed if user confirms
+    }
     </script>
 
 </body>
