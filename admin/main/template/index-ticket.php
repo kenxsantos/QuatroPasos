@@ -1,6 +1,29 @@
 <?php
 session_start(); // Start the session
 include('../../../Connection/PDOcon.php');
+include '../config.php';
+
+// Get total number of room types
+$result = mysqli_query($conn, "SELECT SUM(AvRooms) AS totalAvailable, COUNT(*) AS totalTypes FROM room");
+
+$totalAvailable = 0;
+$totalTypes = 0;
+$totalRooms = 0;
+$totalBooked = 0;
+$availablePercentage = 0;
+$bookedPercentage = 0;
+
+if ($result && mysqli_num_rows($result) > 0) {
+    $data = mysqli_fetch_assoc($result);
+    $totalAvailable = (int)$data['totalAvailable'];
+    $totalTypes = (int)$data['totalTypes'];
+    $totalRooms = $totalTypes * 10;
+    $totalBooked = $totalRooms - $totalAvailable;
+
+    $availablePercentage = round(($totalAvailable / $totalRooms) * 100);
+    $bookedPercentage = 100 - $availablePercentage;
+}
+
 
 
 // Check if the user is logged in and their role is equal to 1
@@ -149,7 +172,8 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
             <div class="container-fluid">
 
 
-                <!-- <div class="row">
+                <div class="row">
+                    <!-- Available Rooms -->
                     <div class="col-md-6 col-sm-12">
                         <div class="card widget-circle-progress">
                             <div class="card-body">
@@ -157,12 +181,13 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                     <div class="col-lg-5 col-7">
                                         <div class="circle text-center">
                                             <div id="ticket-circle-progress-1"></div>
-                                            <span class="abs-text text-dpink">%65</span>
+                                            <span
+                                                class="abs-text text-dpink"><?php echo $availablePercentage; ?>%</span>
                                         </div>
                                     </div>
                                     <div class="col-lg-7 col-5 pl-2">
                                         <div>
-                                            <h2 class="text-dpink"><span>23</span></h2>
+                                            <h2 class="text-dpink"><span><?php echo $totalAvailable; ?></span></h2>
                                             <p class="text-pale-sky">Rooms available</p>
                                         </div>
                                     </div>
@@ -170,6 +195,8 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                             </div>
                         </div>
                     </div>
+
+                    <!-- Booked Rooms -->
                     <div class="col-md-6 col-sm-12">
                         <div class="card widget-circle-progress">
                             <div class="card-body">
@@ -177,12 +204,12 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                     <div class="col-lg-5 col-7">
                                         <div class="circle text-center">
                                             <div id="ticket-circle-progress-2"></div>
-                                            <span class="abs-text text-warning">%75</span>
+                                            <span class="abs-text text-warning"><?php echo $bookedPercentage; ?>%</span>
                                         </div>
                                     </div>
                                     <div class="col-lg-7 col-5 pl-2">
                                         <div>
-                                            <h2 class="text-warning"><span>20</span></h2>
+                                            <h2 class="text-warning"><span><?php echo $totalBooked; ?></span></h2>
                                             <p class="text-pale-sky">Booked Rooms</p>
                                         </div>
                                     </div>
@@ -190,7 +217,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
 
                 <!-- Rooms Available -->
                 <a href="table-datatable-basic.php">
@@ -226,7 +253,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
 
                                     //converting into a percentage
                                     if ($row2["AvRooms"] > 0) {
-                                        $percentage = ($RoomsAvailable / $row2["AvRooms"]) * 100;
+                                        $percentage = $row2["AvRooms"] * 10;
                                     } else {
                                         echo "Total cannot be zero.";
                                     }
@@ -234,7 +261,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                             ?>
 
                             <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
-                                <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
+                                <span class="pull-right"><?php echo $row2["AvRooms"] ?></span>
                             </h5>
                             <div class="progress">
                                 <div class="progress-bar bg-lgreen wow animated progress-animated"
@@ -313,9 +340,9 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                                 <tr>
                                                     <th>Reservation ID</th>
                                                     <th>Guest Name</th>
+                                                    <th>Room Type</th>
                                                     <th>Check-in</th>
                                                     <th>Check-out</th>
-                                                    <th>Room Type</th>
                                                     <th>Number of Guests</th>
                                                     <th>Total Booking Amount</th>
                                                 </tr>
@@ -326,7 +353,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                             <tbody>
                                                 <tr>
                                                     <td><?php echo $row["id"] ?></td>
-                                                    <td><?php echo $row["email"] ?></td>
+                                                    <td><?php echo $row["name"] ?></td>
                                                     <td>
                                                         <span class="text-muted"><?php echo $row["room_type"] ?></span>
                                                     </td>

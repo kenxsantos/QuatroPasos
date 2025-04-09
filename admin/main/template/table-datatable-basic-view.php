@@ -1,23 +1,14 @@
 <?php
-session_start(); // Start the session
+session_start();
 include('../../../Connection/PDOcon.php');
 
-// Check if the user is logged in and their role is equal to 1
-$isLoggedIn = isset($_SESSION['user_id']);
-if ($isLoggedIn) {
+// Check login and role
+if (isset($_SESSION['user_id'])) {
     $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
     $stmt2->execute([$_SESSION['user_id']]);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-    if ($row2) {
-        $roleCheck = $row2["role_as"];
-
-        if ($roleCheck == 1) {
-        } else {
-            header("Location: ../../../AuthAndStatusPages/401.php");
-            exit();
-        }
-    } else {
+    if (!$row2 || $row2["role_as"] != 1) {
         header("Location: ../../../AuthAndStatusPages/401.php");
         exit();
     }
@@ -27,56 +18,67 @@ if ($isLoggedIn) {
 }
 
 include '../config.php';
-
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
 $Paymentid = isset($_GET['Paymentid']) ? intval($_GET['Paymentid']) : null;
-
 if ($Paymentid === null) {
     die("Booking ID is missing.");
 }
 
 $bookingQuery = mysqli_query($conn, "SELECT * FROM bookings WHERE id = $Paymentid");
-
 if (!$bookingQuery) {
     die("Query failed: " . mysqli_error($conn));
 }
 
 $row = mysqli_fetch_assoc($bookingQuery);
-
 if (!$row) {
     die("Booking not found.");
 }
 
-// Check if the form is submitted
+// Form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
-
     $status = $_POST['status'];
 
+    // Update booking status
     $updateQuery = "UPDATE bookings SET status = ? WHERE id = ?";
     $stmt = $conn->prepare($updateQuery);
     $stmt->bind_param("si", $status, $Paymentid);
 
-    // Execute the update query
     if ($stmt->execute()) {
-        // Redirect back to the same page to refresh it
+        // Get room ID once
+        $sqlRoom = "SELECT id FROM room WHERE type = ?";
+        $stmtRoom = $conn->prepare($sqlRoom);
+        $stmtRoom->bind_param("s", $row['room_type']);
+        $stmtRoom->execute();
+        $stmtRoom->bind_result($room_id);
+        $stmtRoom->fetch();
+        $stmtRoom->close();
+
+        // Update room availability
+        if ($status === 'Confirmed') {
+            $sqlUpdateStatus = "UPDATE room SET AvRooms = AvRooms - 1 WHERE id = ?";
+        } else {
+            $sqlUpdateStatus = "UPDATE room SET AvRooms = AvRooms + 1 WHERE id = ?";
+        }
+
+        $stmtUpdateStatus = $conn->prepare($sqlUpdateStatus);
+        $stmtUpdateStatus->bind_param("i", $room_id);
+        $stmtUpdateStatus->execute();
+        $stmtUpdateStatus->close();
+
+        $stmt->close();
+        mysqli_close($conn);
+
         header("Location: ./table-datatable-basic.php");
         exit();
     } else {
         echo "<p>Error updating booking status: " . $stmt->error . "</p>";
+        $stmt->close();
     }
-
-    // Close the prepared statement
-    $stmt->close();
 }
-
-// Close the database connection
-mysqli_close($conn);
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -272,64 +274,110 @@ mysqli_close($conn);
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
+                                            <?php
+                                            if ($row['status'] == 'Cancel Request' || $row['status'] == 'Reschedule Request') {
+                                                // Display the status if it matches 'Cancel Request' or 'Reschedule Request'
+                                            ?>
+                                            <label
+                                                class="col-sm-3 col-form-label text-label"><?php echo htmlspecialchars($row['status']); ?></label>
+                                            <?php
+                                            } else {
+                                                // Display the "Booking Status" label if status is not 'Cancel Request' or 'Reschedule Request'
+                                            ?>
                                             <label class="col-sm-3 col-form-label text-label">Booking Status</label>
+                                            <?php
+                                            }
+                                            ?>
+
                                             <div class="col-sm-9">
+                                                <?php
+                                                if ($row['status'] == 'Cancel Request' || $row['status'] == 'Reschedule Request') {
+                                                ?>
+                                                <div class="input-group">
+                                                    <select class="form-control" name="status" id="status">
+                                                        <option value="Confirmed"
+                                                            <?php if ($row['status'] == 'Confirmed') echo 'selected'; ?>>
+                                                            Accept
+                                                        </option>
+                                                        <option value="Rejected"
+                                                            <?php if ($row['status'] == 'Rejected') echo 'selected'; ?>>
+                                                            Reject
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <?php
+                                                } else {
+                                                ?>
                                                 <div class="input-group">
                                                     <select class="form-control" name="status" id="status">
                                                         <option value="Pending"
                                                             <?php if ($row['status'] == 'Pending') echo 'selected'; ?>>
-                                                            Pending</option>
+                                                            Pending
+                                                        </option>
                                                         <option value="Confirmed"
                                                             <?php if ($row['status'] == 'Confirmed') echo 'selected'; ?>>
-                                                            Confirmed</option>
+                                                            Confirmed
+                                                        </option>
                                                         <option value="Cancelled"
                                                             <?php if ($row['status'] == 'Cancelled') echo 'selected'; ?>>
-                                                            Cancelled</option>
+                                                            Cancelled
+                                                        </option>
                                                         <option value="Waitlisted"
                                                             <?php if ($row['status'] == 'Waitlisted') echo 'selected'; ?>>
-                                                            Waitlisted</option>
+                                                            Waitlisted
+                                                        </option>
                                                         <option value="Checked-in"
                                                             <?php if ($row['status'] == 'Checked-in') echo 'selected'; ?>>
-                                                            Checked-in</option>
+                                                            Checked-in
+                                                        </option>
                                                         <option value="Checked-out"
                                                             <?php if ($row['status'] == 'Checked-out') echo 'selected'; ?>>
-                                                            Checked-out</option>
+                                                            Checked-out
+                                                        </option>
                                                         <option value="No-show"
                                                             <?php if ($row['status'] == 'No-show') echo 'selected'; ?>>
-                                                            No Show</option>
+                                                            No Show
+                                                        </option>
                                                     </select>
                                                 </div>
+                                                <?php
+                                                }
+                                                ?>
                                             </div>
                                         </div>
-
-
-
-                                        <button type="submit" name="update"
-                                            class="btn btn-primary btn-form mr-2">Confirm</button>
-                                    </form>
                                 </div>
+                                <button type="submit" name="update"
+                                    class="btn btn-primary btn-form mr-2">Confirm</button>
+                                <button type="button" name="update" class="btn btn-danger btn-form mr-2">
+                                    <a href="table-datatable-basic.php">
+                                        Cancel
+                                    </a>
+                                </button>
+
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <!-- #/ container -->
+
         </div>
-        <!--**********************************
+        <!-- #/ container -->
+    </div>
+    <!--**********************************
             Content body end
         ***********************************-->
 
 
-        <!--**********************************
+    <!--**********************************
             Footer start
         ***********************************-->
-        <div class="footer">
-            <div class="copyright">
-                <!-- <p>Copyright &copy; Developed by Allen</a> 2018</p> -->
-            </div>
+    <div class="footer">
+        <div class="copyright">
+            <!-- <p>Copyright &copy; Developed by Allen</a> 2018</p> -->
         </div>
-        <!--**********************************
+    </div>
+    <!--**********************************
             Footer end
         ***********************************-->
 

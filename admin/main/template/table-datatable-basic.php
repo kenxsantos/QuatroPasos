@@ -329,11 +329,9 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                 //Gettng the table name `room` data
                                 $row2 = $stmtRooms->fetch(PDO::FETCH_ASSOC);
 
-                                $RoomsAvailable =  $row2["AvRooms"] - $countRow['count'];
-
                                 //converting into a percentage
                                 if ($row2["AvRooms"] > 0) {
-                                    $percentage = ($RoomsAvailable / $row2["AvRooms"]) * 100;
+                                    $percentage = $row2["AvRooms"] * 10;
                                 } else {
                                     echo "Total cannot be zero.";
                                 }
@@ -341,13 +339,12 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                         ?>
 
                         <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
-                            <span class="pull-right"><?php echo ($RoomsAvailable); ?></span>
+                            <span class="pull-right"><?php echo $row2["AvRooms"] ?></span>
                         </h5>
                         <div class="progress">
                             <div class="progress-bar bg-lgreen wow animated progress-animated"
                                 data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;"
                                 role="progressbar">
-                                <span class="sr-only">25% Complete</span>
                             </div>
                         </div><br>
 
