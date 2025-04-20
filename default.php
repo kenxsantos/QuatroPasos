@@ -43,6 +43,11 @@ session_start(); // Start the session
     <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
     <!-- custom css -->
     <link id="colors" href="css/custom-bold.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
+    </script>
     <style>
     /* Modal Background */
 
@@ -92,21 +97,26 @@ session_start(); // Start the session
         margin-top: 15px;
         text-decoration: none;
         border-radius: 5px;
+        background-color: #FEB46B;
     }
 
     .navpromo {
-        background-color: #ab8965;
+        background-color: #FEB46B;
         padding-left: 20px;
     }
 
     .floating-button {
         position: fixed;
-        bottom: 20px;
+        bottom: 80px;
         right: 20px;
-        background-color: #007bff;
+        background-color: #FEB46B;
         color: white;
         border: none;
-        padding: 15px 18px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-radius: 50%;
         font-size: 20px;
         cursor: pointer;
@@ -132,10 +142,10 @@ session_start(); // Start the session
         <!-- page preloader close -->
         <div>
             <a href="chat.php" class="floating-button" title="Help or Action">
-                &#x2709;
-                <!-- envelope icon (you can replace with anything like Font Awesome or SVG) -->
+                <i class="fa-solid fa-comment-dots"></i>
             </a>
         </div>
+
         <!-- header begin -->
         <header class="transparent has-topbar logo-center">
             <div id="topbar">
@@ -169,9 +179,9 @@ session_start(); // Start the session
                         <div class="de-flex">
                             <div class="col-start">
                                 <ul id="mainmenu">
-                                    <li><a class="menu-item" href="#section-intro">Home</a></li>
-                                    <li><a class="menu-item" href="rooms.php">Accomodation</a></li>
-                                    <li><a class="menu-item" href="facilities.php">Facilities</a></li>
+                                    <li><a class="menu-item" href="#section-intro">HOME</a></li>
+                                    <li><a class="menu-item" href="rooms.php">ACCOMODATION</a></li>
+                                    <li><a class="menu-item" href="facilities.php">FACILITIES</a></li>
                                 </ul>
                             </div>
                             <div class="col-center">
@@ -185,7 +195,13 @@ session_start(); // Start the session
                                             class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
                                         <!-- Show user name -->
                                         <?php else: ?>
-                                        <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
+                                        <a href="AuthAndStatusPages/login.php">
+                                            <button type="button"
+                                                style="border: 2px solid #FEB46B; color: #FEB46B; background-color: transparent; border-radius: 5px; padding: 10px 20px; font-size: 14px; cursor: pointer; font-weight: bold;">
+                                                BOOK NOW
+                                            </button>
+                                        </a>
+
                                         <!-- Show login if not logged in -->
                                         <?php endif; ?>
                                     </div>
