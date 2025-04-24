@@ -1,6 +1,11 @@
 <?php
 include 'db.php';
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start(); // Start the session
+
 
 // Initialize error and success messages
 $error_message = "";
@@ -41,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($row['role_as'] == 1) {
                 header("Location: ../admin/main/template/form-layout-home.php");
             } else {
-                header("Location: ../default.php");
+                header("Location: ../index.php");
             }
             exit();
         } else {
@@ -241,7 +246,7 @@ $conn->close();
     <!-- Theme js-->
     <script src="assets/js/script.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             let modal = document.getElementById("successModal");
 
             if (modal) {

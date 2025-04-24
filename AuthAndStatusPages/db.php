@@ -1,9 +1,8 @@
 <?php
-$servername = "localhost"; // your server name
-$username = "root"; // your database username
-$password = ""; // your database password
-$dbname = "u979976746_QuatroPasos"; // your database name
-
+$servername = "localhost";
+$dbname = 'u213582793_quatropasos';
+$username = 'u213582793_quatropasos';
+$password = 'Quatropasos@12345';
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 

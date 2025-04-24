@@ -97,7 +97,7 @@ $conn = null;
                             <div class="de-flex-col">
                                 <!-- logo begin -->
                                 <div id="logo">
-                                    <a href="default.php">
+                                    <a href="index.php">
                                         <img class="logo-main" src="images/logo-white.png" alt="">
                                         <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
@@ -115,12 +115,12 @@ $conn = null;
                                 <div class="menu_side_area">
                                     <div class="menu_side_area">
                                         <?php if (isset($_SESSION['user_name'])): ?>
-                                        <a href="profile.php"
-                                            class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
-                                        <!-- Show user name -->
+                                            <a href="profile.php"
+                                                class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                            <!-- Show user name -->
                                         <?php else: ?>
-                                        <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
-                                        <!-- Show login if not logged in -->
+                                            <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
+                                            <!-- Show login if not logged in -->
                                         <?php endif; ?>
                                     </div>
                                 </div>

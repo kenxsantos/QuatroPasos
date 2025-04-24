@@ -72,7 +72,7 @@ session_start();
                             <div class='de-flex-col'>
                                 <!-- logo begin -->
                                 <div id='logo'>
-                                    <a href='default.php'>
+                                    <a href='index.php'>
                                         <img class='logo-main' src='images/logo-white.png' alt=''>
                                         <img class='logo-mobile' src='images/logo-white.png' alt=''>
                                     </a>
@@ -81,7 +81,7 @@ session_start();
                             </div>
                             <div class='de-flex-col header-col-mid'>
                                 <ul id='mainmenu'>
-                                    <li><a class='menu-item' href='default.php'>Home</a></li>
+                                    <li><a class='menu-item' href='index.php'>Home</a></li>
                                     <li><a class='menu-item' href='rooms.php'>Accomodation</a></li>
                                     <li><a class='menu-item' href='facilities.php'>Facilities</a></li>
                                 </ul>
@@ -130,14 +130,14 @@ session_start();
                     <div class='row g-4'>
                         <!-- room begin -->
                         <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            ?>
+                        ?>
                             <div class='col-lg-4 col-sm-6'>
                                 <div class='hover relative text-light text-center wow fadeInUp' data-wow-delay='.3s'>
                                     <img src="admin/main/template/<?php echo $row['img']; ?>" class='img-fluid' alt=''>
                                     <div class='abs hover-op-1 z-4 hover-mt-40 abs-centered'>
                                         <div class='fs-14'>Starts at</div>
                                         <h3 class='fs-40 lh-1 mb-4'><?php echo $row['Price'];
-                                        ?></h3>
+                                                                    ?></h3>
                                         <a class='btn-line'
                                             href='RoomDetails.php?type=<?php echo urlencode($row['type']); ?>&price=<?php echo urlencode($row['Price']); ?>&pax=<?php echo urlencode($row['Pax']); ?>&img=<?php echo urlencode($row['img']); ?>'>View
                                             Details</a>
@@ -146,7 +146,7 @@ session_start();
                                     <div class='abs bg-color z-2 top-0 w-100 h-100 hover-op-1'></div>
                                     <div class='abs z-2 bottom-0 mb-3 w-100 text-center hover-op-0'>
                                         <h3 class='mb-0'><?php echo $row['type'];
-                                        ?></h3>
+                                                            ?></h3>
                                         <div class='text-center fs-14'>
                                             <span class='mx-2'>
                                                 <?php echo $row['Pax'];

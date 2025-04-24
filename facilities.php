@@ -1,6 +1,6 @@
 <?php
+session_start(); // Start the session
 include('Connection/PDOcon.php');
-// getting DB of Basic Homepage Info
 $stmt = $pdo->query("SELECT * FROM `facilitiespage`");
 $stmt->execute();
 
@@ -78,7 +78,7 @@ $counter = 1;
                             <div class="de-flex-col">
                                 <!-- logo begin -->
                                 <div id="logo">
-                                    <a href="default.php">
+                                    <a href="index.php">
                                         <img class="logo-main" src="images/logo-white.png" alt="">
                                         <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
@@ -87,7 +87,7 @@ $counter = 1;
                             </div>
                             <div class="de-flex-col header-col-mid">
                                 <ul id="mainmenu">
-                                    <li><a class="menu-item" href="default.php">Home</a></li>
+                                    <li><a class="menu-item" href="index.php">Home</a></li>
                                     <li><a class="menu-item" href="rooms.php">Accomodation</a></li>
                                     <li><a class="menu-item" href="facilities.php">Facilities</a></li>
                                 </ul>
@@ -96,12 +96,12 @@ $counter = 1;
                                 <div class="menu_side_area">
                                     <div class="menu_side_area">
                                         <?php if (isset($_SESSION['user_name'])): ?>
-                                        <a href="profile.php"
-                                            class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
-                                        <!-- Show user name -->
+                                            <a href="profile.php"
+                                                class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                            <!-- Show user name -->
                                         <?php else: ?>
-                                        <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
-                                        <!-- Show login if not logged in -->
+                                            <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
+                                            <!-- Show login if not logged in -->
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -139,46 +139,46 @@ $counter = 1;
                         if ($counter % 2 == 0) {
                             // Even Counter
                     ?>
-                    <div class="row g-0 align-items-center justify-content-center">
-                        <div class="col-lg-5">
-                            <div class="me-lg-5 wow scaleIn">
-                                <h2 class="wow fadeInUp"><?php echo $row['Event']; ?> </h2>
-                                <p>><?php echo $row['Info']; ?></p>
-                            </div>
-                        </div>
+                            <div class="row g-0 align-items-center justify-content-center">
+                                <div class="col-lg-5">
+                                    <div class="me-lg-5 wow scaleIn">
+                                        <h2 class="wow fadeInUp"><?php echo $row['Event']; ?> </h2>
+                                        <p>><?php echo $row['Info']; ?></p>
+                                    </div>
+                                </div>
 
-                        <div class="col-lg-5">
-                            <div class="relative wow fadeInUp" data-wow-delay=".3s">
-                                <div class="shape-mask-2 jarallax">
-                                    <img src="admin/main/template/<?php echo $row['ImagePath']; ?>" class="jarallax-img"
-                                        alt="">
+                                <div class="col-lg-5">
+                                    <div class="relative wow fadeInUp" data-wow-delay=".3s">
+                                        <div class="shape-mask-2 jarallax">
+                                            <img src="admin/main/template/<?php echo $row['ImagePath']; ?>" class="jarallax-img"
+                                                alt="">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
 
-                    <?php
+                        <?php
                         } else {
                             // Odd Counter
                         ?>
-                    <div class="row g-0 align-items-center justify-content-center">
-                        <div class="col-lg-5">
-                            <div class="relative wow fadeInUp" data-wow-delay=".3s">
-                                <div class="shape-mask-1 jarallax">
-                                    <img src="admin/main/template/<?php echo $row['ImagePath']; ?>" class="jarallax-img"
-                                        alt="">
+                            <div class="row g-0 align-items-center justify-content-center">
+                                <div class="col-lg-5">
+                                    <div class="relative wow fadeInUp" data-wow-delay=".3s">
+                                        <div class="shape-mask-1 jarallax">
+                                            <img src="admin/main/template/<?php echo $row['ImagePath']; ?>" class="jarallax-img"
+                                                alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-5">
+                                    <div class="ms-lg-5 wow scaleIn">
+                                        <h2 class="wow fadeInUp"><?php echo $row['Event']; ?></h2>
+                                        <p><?php echo $row['Info']; ?></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-lg-5">
-                            <div class="ms-lg-5 wow scaleIn">
-                                <h2 class="wow fadeInUp"><?php echo $row['Event']; ?></h2>
-                                <p><?php echo $row['Info']; ?></p>
-                            </div>
-                        </div>
-                    </div>
 
                     <?php
                         }

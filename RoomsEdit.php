@@ -106,7 +106,7 @@ $pdo = null;
                             <div class="de-flex-col">
                                 <!-- logo begin -->
                                 <div id="logo">
-                                    <a href="default.php">
+                                    <a href="index.php">
                                         <img class="logo-main" src="images/logo-white.png" alt="">
                                         <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
@@ -124,12 +124,12 @@ $pdo = null;
                                 <div class="menu_side_area">
                                     <div class="menu_side_area">
                                         <?php if (isset($_SESSION['user_name'])): ?>
-                                        <a href="profile.php"
-                                            class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
-                                        <!-- Show user name -->
+                                            <a href="profile.php"
+                                                class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                            <!-- Show user name -->
                                         <?php else: ?>
-                                        <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
-                                        <!-- Show login if not logged in -->
+                                            <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
+                                            <!-- Show login if not logged in -->
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -176,11 +176,11 @@ $pdo = null;
                             <div id="booking_form">
                                 <div id="step-2" class="row">
                                     <?php while ($row = $roomdb->fetch(PDO::FETCH_ASSOC)) { ?>
-                                    <a href="RoomsEdit2.php?roomid=<?php echo $row["id"] ?>">
-                                        <div class="col-md-12" style="text-align:center">
-                                            <?php echo $row["type"] ?>
-                                        </div>
-                                    </a>
+                                        <a href="RoomsEdit2.php?roomid=<?php echo $row["id"] ?>">
+                                            <div class="col-md-12" style="text-align:center">
+                                                <?php echo $row["type"] ?>
+                                            </div>
+                                        </a>
                                     <?php } ?>
                                 </div>
                                 <a href="RoomsAdd.php">

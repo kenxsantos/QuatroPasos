@@ -55,112 +55,112 @@ $conn->close();
     <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
 
     <style>
-    .booking-form {
-        width: 100%;
-        max-width: 900px;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
+        .booking-form {
+            width: 100%;
+            max-width: 900px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    .booking-form h2 {
-        margin-top: 0;
-    }
+        .booking-form h2 {
+            margin-top: 0;
+        }
 
-    .booking-form label {
-        font-weight: bold;
-    }
+        .booking-form label {
+            font-weight: bold;
+        }
 
-    .booking-form input,
-    .booking-form button {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
+        .booking-form input,
+        .booking-form button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
-    .room-selection {
-        display: flex;
-        gap: 10px;
-        margin: 10px 0;
-    }
+        .room-selection {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
 
-    .room-selection button {
-        padding: 15px;
-        font-size: 16px;
-        border: 2px solid #007bff;
-        background-color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
+        .room-selection button {
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #007bff;
+            background-color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    .room-selection button.selected {
-        background-color: #007bff;
-        color: white;
-    }
+        .room-selection button.selected {
+            background-color: #007bff;
+            color: white;
+        }
 
-    .booking-form button.submit-btn {
-        background-color: #007bff;
-        color: white;
-        font-size: 1.2rem;
-        cursor: pointer;
-    }
+        .booking-form button.submit-btn {
+            background-color: #007bff;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
 
-    .message {
-        margin-bottom: 20px;
-        color: green;
-    }
+        .message {
+            margin-bottom: 20px;
+            color: green;
+        }
 
-    .error {
-        color: red;
-    }
+        .error {
+            color: red;
+        }
 
-    /* Forms */
+        /* Forms */
 
-    h1 {
-        font-size: 1.5em;
-    }
+        h1 {
+            font-size: 1.5em;
+        }
 
-    form {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        max-width: 800px;
-    }
+        form {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 800px;
+        }
 
-    label {
-        display: block;
-        font-size: 1em;
-        margin-bottom: 5px;
-    }
+        label {
+            display: block;
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
 
-    input,
-    select {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-    }
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
 
-    .full-width {
-        grid-column: span 3;
-    }
+        .full-width {
+            grid-column: span 3;
+        }
 
-    .half-width {
-        grid-column: span 1;
-    }
+        .half-width {
+            grid-column: span 1;
+        }
 
-    .message {
-        margin-bottom: 20px;
-        color: green;
-    }
+        .message {
+            margin-bottom: 20px;
+            color: green;
+        }
 
-    .error {
-        color: red;
-    }
+        .error {
+            color: red;
+        }
     </style>
 
 </head>
@@ -206,7 +206,7 @@ $conn->close();
                             <div class="de-flex-col">
                                 <!-- logo begin -->
                                 <div id="logo">
-                                    <a href="default.php">
+                                    <a href="index.php">
                                         <img class="logo-main" src="images/logo-white.png" alt="">
                                         <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
@@ -215,7 +215,7 @@ $conn->close();
                             </div>
                             <div class="de-flex-col header-col-mid">
                                 <ul id="mainmenu">
-                                    <li><a class="menu-item" href="default.php">Home</a></li>
+                                    <li><a class="menu-item" href="index.php">Home</a></li>
                                     <li><a class="menu-item" href="rooms.php">Accomodation</a></li>
                                     <li><a class="menu-item" href="facilities.php">Facilities</a></li>
                                 </ul>
@@ -224,12 +224,12 @@ $conn->close();
                                 <div class="menu_side_area">
                                     <div class="menu_side_area">
                                         <?php if (isset($_SESSION['user_name'])): ?>
-                                        <a href="profile.php"
-                                            class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
-                                        <!-- Show user name -->
+                                            <a href="profile.php"
+                                                class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                            <!-- Show user name -->
                                         <?php else: ?>
-                                        <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
-                                        <!-- Show login if not logged in -->
+                                            <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
+                                            <!-- Show login if not logged in -->
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -266,7 +266,7 @@ $conn->close();
                         <h2>Reservation Complete</h2>
                         <p>Thank you! Your reservation is still in process.</p>
 
-                        <form action="Bookings.php" method="POST" enctype="multipart/form-data">
+                        <form action="bookings.php" method="POST" enctype="multipart/form-data">
                             <label>Booking ID</label>
                             <label>Start Date</label>
                             <label>End Date</label>
@@ -346,17 +346,17 @@ $conn->close();
     <script src="js/custom-swiper-1.js"></script>
     <!-- Javascript for form validation and confirmation -->
     <script>
-    function validateForm() {
-        const imageInput = document.getElementById('image');
-        if (!imageInput.files.length) {
-            alert('Please upload a payment screenshot.');
-            return false;
-        }
+        function validateForm() {
+            const imageInput = document.getElementById('image');
+            if (!imageInput.files.length) {
+                alert('Please upload a payment screenshot.');
+                return false;
+            }
 
-        // Confirmation popup
-        const confirmUpload = confirm('You have uploaded an image. Do you want to proceed with the submission?');
-        return confirmUpload; // Proceed if user confirms
-    }
+            // Confirmation popup
+            const confirmUpload = confirm('You have uploaded an image. Do you want to proceed with the submission?');
+            return confirmUpload; // Proceed if user confirms
+        }
     </script>
 
 

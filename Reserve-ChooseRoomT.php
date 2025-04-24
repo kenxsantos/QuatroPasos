@@ -236,7 +236,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                             <div class="de-flex-col">
                                 <!-- logo begin -->
                                 <div id="logo">
-                                    <a href="default.php">
+                                    <a href="index.php">
                                         <img class="logo-main" src="images/logo-white.png" alt="">
                                         <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
@@ -245,7 +245,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                             </div>
                             <div class="de-flex-col header-col-mid">
                                 <ul id="mainmenu">
-                                    <li><a class="menu-item" href="default.php">Home</a></li>
+                                    <li><a class="menu-item" href="index.php">Home</a></li>
                                     <li><a class="menu-item" href="rooms.php">Accomodation</a></li>
                                     <li><a class="menu-item" href="facilities.php">Facilities</a></li>
                                 </ul>

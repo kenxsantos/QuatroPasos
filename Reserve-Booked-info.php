@@ -104,139 +104,139 @@ try {
     <link id='colors' href='css/colors/scheme-01.css' rel='stylesheet' type='text/css'>
 
     <style>
-    button.book-btn {
-        padding: 15px;
-        font-size: 16px;
-        border: 2px solid #007bff;
-        background-color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
+        button.book-btn {
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #007bff;
+            background-color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    .book-btn.selected {
-        background-color: #f3a84a;
-        color: white;
-    }
+        .book-btn.selected {
+            background-color: #f3a84a;
+            color: white;
+        }
 
-    .book-btn:hover {
-        background-color: #e69630;
-    }
+        .book-btn:hover {
+            background-color: #e69630;
+        }
 
 
-    .booking-form {
-        width: 100%;
-        max-width: 900px;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
+        .booking-form {
+            width: 100%;
+            max-width: 900px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    .booking-form h2 {
-        margin-top: 0;
-    }
+        .booking-form h2 {
+            margin-top: 0;
+        }
 
-    .booking-form label {
-        font-weight: bold;
-    }
+        .booking-form label {
+            font-weight: bold;
+        }
 
-    .booking-form input,
-    .booking-form button {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
+        .booking-form input,
+        .booking-form button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
-    .room-selection {
-        display: flex;
-        gap: 10px;
-        margin: 10px 0;
-    }
+        .room-selection {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
 
-    .room-selection button {
-        padding: 15px;
-        font-size: 16px;
-        border: 2px solid #007bff;
-        background-color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
+        .room-selection button {
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #007bff;
+            background-color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    .room-selection button.selected {
-        background-color: #007bff;
-        color: white;
-    }
+        .room-selection button.selected {
+            background-color: #007bff;
+            color: white;
+        }
 
-    .booking-form button.submit-btn {
-        background-color: #007bff;
-        color: white;
-        font-size: 1.2rem;
-        cursor: pointer;
-    }
+        .booking-form button.submit-btn {
+            background-color: #007bff;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
 
-    .message {
-        margin-bottom: 20px;
-        color: green;
-    }
+        .message {
+            margin-bottom: 20px;
+            color: green;
+        }
 
-    .error {
-        color: red;
-    }
+        .error {
+            color: red;
+        }
 
-    /* Forms */
+        /* Forms */
 
-    h1 {
-        font-size: 1.5em;
-    }
+        h1 {
+            font-size: 1.5em;
+        }
 
-    form {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        max-width: 800px;
-    }
+        form {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 800px;
+        }
 
-    label {
-        display: block;
-        font-size: 1em;
-        margin-bottom: 5px;
-    }
+        label {
+            display: block;
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
 
-    input,
-    select {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-    }
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
 
-    .full-width {
-        grid-column: span 3;
-    }
+        .full-width {
+            grid-column: span 3;
+        }
 
-    .half-width {
-        grid-column: span 1;
-    }
+        .half-width {
+            grid-column: span 1;
+        }
 
-    .message {
-        margin-bottom: 20px;
-        color: green;
-    }
+        .message {
+            margin-bottom: 20px;
+            color: green;
+        }
 
-    .error {
-        color: red;
-    }
+        .error {
+            color: red;
+        }
 
-    section.lines-deco:after {
-        content: none;
-    }
+        section.lines-deco:after {
+            content: none;
+        }
 
-    section.lines-deco:before {
-        content: none;
-    }
+        section.lines-deco:before {
+            content: none;
+        }
     </style>
 
 </head>
@@ -282,7 +282,7 @@ try {
                             <div class='de-flex-col'>
                                 <!-- logo begin -->
                                 <div id='logo'>
-                                    <a href='default.php'>
+                                    <a href='index.php'>
                                         <img class='logo-main' src='images/logo-white.png' alt=''>
                                         <img class='logo-mobile' src='images/logo-white.png' alt=''>
                                     </a>
@@ -430,30 +430,30 @@ try {
     <script src='js/custom-swiper-1.js'></script>
     <!-- Javascript for form validation and confirmation -->
     <script>
-    const roomInput = document.getElementById('room');
+        const roomInput = document.getElementById('room');
 
 
-    function openPaymentLink() {
-        var paymentLink = '<?php echo htmlspecialchars($paymentLink); ?>';
+        function openPaymentLink() {
+            var paymentLink = '<?php echo htmlspecialchars($paymentLink); ?>';
 
-        window.open(paymentLink, '_blank');
-        var bookingId = '<?php echo trim($booking_id); ?>'; // Trim to remove spaces
-        window.location.href = 'Reserve-Complete.php?booking_id=' + encodeURIComponent(bookingId);
-    }
-
-
-    function validateForm() {
-        const imageInput = document.getElementById('image');
-        if (!imageInput.files.length) {
-            alert('Please upload a payment screenshot.');
-            return false;
+            window.open(paymentLink, '_blank');
+            var bookingId = '<?php echo trim($booking_id); ?>'; // Trim to remove spaces
+            window.location.href = 'Reserve-Complete.php?booking_id=' + encodeURIComponent(bookingId);
         }
 
-        // Confirmation popup
-        const confirmUpload = confirm('You have uploaded an image. Do you want to proceed with the submission?');
-        return confirmUpload;
-        // Proceed if user confirms
-    }
+
+        function validateForm() {
+            const imageInput = document.getElementById('image');
+            if (!imageInput.files.length) {
+                alert('Please upload a payment screenshot.');
+                return false;
+            }
+
+            // Confirmation popup
+            const confirmUpload = confirm('You have uploaded an image. Do you want to proceed with the submission?');
+            return confirmUpload;
+            // Proceed if user confirms
+        }
     </script>
 
 </body>

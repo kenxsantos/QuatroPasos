@@ -110,116 +110,116 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <style>
-    body {
-        color: #333;
-        background-color: #f8f9fa;
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
-
-    .container {
-        width: 50%;
-        background: #ffffff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
-    .avatar img {
-        width: 120px;
-        border-radius: 50%;
-        margin-bottom: 15px;
-    }
-
-    .user-info h3 {
-        color: #007bff;
-        margin-bottom: 5px;
-    }
-
-    .user-info p {
-        color: #6c757d;
-        font-size: 14px;
-    }
-
-    .button-container {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 20px;
-    }
-
-    button,
-    .styled-button {
-        padding: 12px 18px;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: 0.3s;
-        font-weight: bold;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        color: white;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
-
-    .btn-secondary {
-        background-color: #28a745;
-        color: white;
-    }
-
-    .btn-secondary:hover {
-        background-color: #218838;
-    }
-
-    .styled-button a {
-        text-decoration: none;
-        color: white;
-        display: block;
-    }
-
-    form {
-        margin-top: 20px;
-        text-align: left;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        font-size: 14px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    .btn-cancel {
-        background-color: #dc3545;
-        color: white;
-    }
-
-    .btn-cancel:hover {
-        background-color: #c82333;
-    }
-
-    @media (max-width: 768px) {
-        .container {
-            width: 90%;
+        body {
+            color: #333;
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-    }
+
+        .container {
+            width: 50%;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .avatar img {
+            width: 120px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .user-info h3 {
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+
+        .user-info p {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button,
+        .styled-button {
+            padding: 12px 18px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #218838;
+        }
+
+        .styled-button a {
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+
+        form {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn-cancel {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #c82333;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 
@@ -245,9 +245,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <a href="chat.php">Chat with Admin</a>
             </button>
             <?php if (isset($_SESSION['user_name'])): ?>
-            <button class="btn-cancel styled-button">
-                <a href="logout.php">Logout</a>
-            </button>
+                <button class="btn-cancel styled-button">
+                    <a href="logout.php">Logout</a>
+                </button>
+
             <?php endif; ?>
         </div>
 
@@ -297,25 +298,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
-    document.getElementById('editProfileBtn').addEventListener('click', function() {
-        document.getElementById('editProfileForm').style.display = 'block';
-        document.querySelector('.button-container').style.display = 'none';
-    });
+        document.getElementById('editProfileBtn').addEventListener('click', function() {
+            document.getElementById('editProfileForm').style.display = 'block';
+            document.querySelector('.button-container').style.display = 'none';
+        });
 
-    document.getElementById('cancelEditProfile').addEventListener('click', function() {
-        document.getElementById('editProfileForm').style.display = 'none';
-        document.querySelector('.button-container').style.display = 'flex';
-    });
+        document.getElementById('cancelEditProfile').addEventListener('click', function() {
+            document.getElementById('editProfileForm').style.display = 'none';
+            document.querySelector('.button-container').style.display = 'flex';
+        });
 
-    document.getElementById("resetPasswordBtn").addEventListener("click", function() {
-        document.getElementById("resetPasswordForm").style.display = "block";
-        document.querySelector('.button-container').style.display = 'none';
-    });
+        document.getElementById("resetPasswordBtn").addEventListener("click", function() {
+            document.getElementById("resetPasswordForm").style.display = "block";
+            document.querySelector('.button-container').style.display = 'none';
+        });
 
-    document.getElementById("cancelResetPassword").addEventListener("click", function() {
-        document.getElementById("resetPasswordForm").style.display = "none";
-        document.querySelector('.button-container').style.display = 'flex';
-    });
+        document.getElementById("cancelResetPassword").addEventListener("click", function() {
+            document.getElementById("resetPasswordForm").style.display = "none";
+            document.querySelector('.button-container').style.display = 'flex';
+        });
     </script>
 </body>
 

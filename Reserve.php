@@ -219,6 +219,59 @@ if (isset($conn)) {
         select:focus {
             outline: none;
         }
+
+        .legend-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            flex-direction: row;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .legend-title {
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 0.75rem;
+            color: #111827;
+        }
+
+        .legend-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #374151;
+            font-size: 12px;
+        }
+
+        .legend-color {
+            width: 25px;
+            height: 25px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .available {
+            background-color: #22c55e;
+            /* green-500 */
+        }
+
+        .day-only {
+            background-color: #a855f7;
+            /* purple-500 */
+        }
+
+        .night-only {
+            background-color: #ffa500;
+            /* purple-500 */
+        }
+
+        .booked {
+            background-color: #ef4444;
+            /* red-500 */
+        }
     </style>
 
 </head>
@@ -264,7 +317,7 @@ if (isset($conn)) {
                             <div class="de-flex-col">
                                 <!-- logo begin -->
                                 <div id="logo">
-                                    <a href="default.php">
+                                    <a href="index.php">
                                         <img class="logo-main" src="images/logo-white.png" alt="">
                                         <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
@@ -273,7 +326,7 @@ if (isset($conn)) {
                             </div>
                             <div class="de-flex-col header-col-mid">
                                 <ul id="mainmenu">
-                                    <li><a class="menu-item" href="default.php">Home</a></li>
+                                    <li><a class="menu-item" href="index.php">Home</a></li>
                                     <li><a class="menu-item" href="rooms.php">Accomodation</a></li>
                                     <li><a class="menu-item" href="facilities.php">Facilities</a></li>
                                 </ul>
@@ -357,6 +410,26 @@ if (isset($conn)) {
                                     <div>Sat</div>
                                 </div>
                                 <div class="calendar-dates" id="dates2"></div>
+                            </div>
+                        </div>
+                        <h4 class="legend-title">Legend</h4>
+                        <div class="legend-container">
+
+                            <div class="legend-item">
+                                <span class="legend-color available"></span>
+                                <span>Available</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color day-only"></span>
+                                <span>Day Only</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color night-only"></span>
+                                <span>Night Only</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color booked"></span>
+                                <span>Fully Booked</span>
                             </div>
                         </div>
                         <h2 style="text-align: center;">Book an Appointment</h2>
@@ -568,7 +641,7 @@ if (isset($conn)) {
             const stayColors = {
                 "day": "#ffa500",
                 "long": "#E84B3D",
-                "night": "#FF1DCE"
+                "night": "#a855f7"
             };
 
             // Fill in blank days before the 1st of the month
@@ -582,25 +655,31 @@ if (isset($conn)) {
             // Render days in the month
             for (let i = 1; i <= daysInMonth; i++) {
                 const currentDay = new Date(year, month, i);
-                const formattedDate = `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+                const formattedDate =
+                    `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
 
                 let dayHTML = `<div data-day="${i}" data-month="${month + 1}" data-year="${year}">${i}</div>`;
 
                 if (currentDay < today) {
                     // Past dates (gray and non-clickable)
-                    dayHTML = `<div class="past-date" data-day="${i}" data-month="${month + 1}" data-year="${year}">${i}</div>`;
-                } else if (i === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
+                    dayHTML =
+                        `<div class="past-date" data-day="${i}" data-month="${month + 1}" data-year="${year}">${i}</div>`;
+                } else if (i === new Date().getDate() && month === new Date().getMonth() && year === new Date()
+                    .getFullYear()) {
                     // Highlight today's date
-                    dayHTML = `<div class="today" data-day="${i}" data-month="${month + 1}" data-year="${year}">${i}</div>`;
+                    dayHTML =
+                        `<div class="today" data-day="${i}" data-month="${month + 1}" data-year="${year}">${i}</div>`;
                 } else if (bookings[formattedDate]) {
                     // Apply booking colors if the date is booked
                     const typeOfStay = bookings[formattedDate];
                     const color = stayColors[typeOfStay] || "gray"; // Default to gray if unknown type
 
-                    dayHTML = `<div class="booked-date" data-day="${i}" data-month="${month + 1}" data-year="${year}" style="background-color: ${color};   ">${i}</div>`;
+                    dayHTML =
+                        `<div class="booked-date" data-day="${i}" data-month="${month + 1}" data-year="${year}" style="background-color: ${color};   ">${i}</div>`;
                 } else {
                     // Mark available dates in green
-                    dayHTML = `<div class="available-date" data-day="${i}" data-month="${month + 1}" data-year="${year}" style="background-color: lightgreen; color: white;">${i}</div>`;
+                    dayHTML =
+                        `<div class="available-date" data-day="${i}" data-month="${month + 1}" data-year="${year}" style="background-color: lightgreen; color: white;">${i}</div>`;
                 }
 
                 daysContainer.innerHTML += dayHTML;
@@ -611,7 +690,7 @@ if (isset($conn)) {
 
             allDays.forEach(day => {
                 if (!day.classList.contains('past-date') && !day.classList.contains('booked-date')) {
-                    day.addEventListener("click", function () {
+                    day.addEventListener("click", function() {
                         const selectedDay = this.getAttribute("data-day").padStart(2, '0');
                         const selectedMonth = this.getAttribute("data-month").padStart(2, '0');
                         const selectedYear = this.getAttribute("data-year");
@@ -651,14 +730,14 @@ if (isset($conn)) {
 
             // Ensure event listeners are only added once
             if (!document.getElementById("nightButton").dataset.listenerAdded) {
-                document.getElementById("nightButton").addEventListener("click", function () {
+                document.getElementById("nightButton").addEventListener("click", function() {
                     alert("Night selected!");
                 });
                 document.getElementById("nightButton").dataset.listenerAdded = "true";
             }
 
             if (!document.getElementById("dayButton").dataset.listenerAdded) {
-                document.getElementById("dayButton").addEventListener("click", function () {
+                document.getElementById("dayButton").addEventListener("click", function() {
                     alert("Day selected!");
                 });
                 document.getElementById("dayButton").dataset.listenerAdded = "true";
@@ -670,7 +749,7 @@ if (isset($conn)) {
         }
 
         // Listen for input changes to show/hide buttons dynamically
-        document.getElementById("start_date").addEventListener("input", function () {
+        document.getElementById("start_date").addEventListener("input", function() {
             if (startDate === endDate) {
                 showNightDayButtons();
             } else {
@@ -678,7 +757,7 @@ if (isset($conn)) {
             }
         });
 
-        document.getElementById("end_date").addEventListener("input", function () {
+        document.getElementById("end_date").addEventListener("input", function() {
             if (startDate === endDate) {
                 showNightDayButtons();
             } else {
@@ -705,7 +784,7 @@ if (isset($conn)) {
         }
 
         // Handle the next button
-        document.getElementById("nextBtn").addEventListener("click", function () {
+        document.getElementById("nextBtn").addEventListener("click", function() {
             currentMonthIndex += 2;
             if (currentMonthIndex >= 12) {
                 currentMonthIndex -= 12;
@@ -715,7 +794,7 @@ if (isset($conn)) {
         });
 
         // Handle the previous button
-        document.getElementById("prevBtn").addEventListener("click", function () {
+        document.getElementById("prevBtn").addEventListener("click", function() {
             currentMonthIndex -= 2;
             if (currentMonthIndex < 0) {
                 currentMonthIndex += 12;

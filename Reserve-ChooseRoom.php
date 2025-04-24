@@ -1,7 +1,12 @@
 <?php
 session_start();
 // Database connection variables
-include('Connection/SQLCon.php');
+include('Connection/SQLcon.php');
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // Check if user is logged in
 if (!isset($_SESSION['email'])) {
@@ -106,127 +111,127 @@ $stmtRoomTypes->close();
     <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
 
     <style>
-    .booking-form {
-        width: 100%;
-        max-width: 1100px;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
+        .booking-form {
+            width: 100%;
+            max-width: 1100px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
 
-    .booking-form h2 {
-        margin-top: 0;
-    }
+        .booking-form h2 {
+            margin-top: 0;
+        }
 
-    .booking-form label {
-        font-weight: bold;
-    }
+        .booking-form label {
+            font-weight: bold;
+        }
 
-    .booking-form input,
-    .booking-form button {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-
-
-    .room-selection button {
-        padding: 15px;
-        font-size: 16px;
-        border: 2px solid #007bff;
-        background-color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .room-selection button.selected {
-        background-color: #f3a84a;
-        color: white;
-    }
+        .booking-form input,
+        .booking-form button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
 
-    .booking-form button.submit-btn {
-        background-color: #007bff;
-        color: white;
-        font-size: 1.2rem;
-        cursor: pointer;
-    }
+        .room-selection button {
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #007bff;
+            background-color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    .message {
-        margin-bottom: 20px;
-        color: green;
-    }
+        .room-selection button.selected {
+            background-color: #f3a84a;
+            color: white;
+        }
 
-    .error {
-        color: red;
-    }
 
-    /* room CSS */
-    .room-card {
-        display: flex;
-        max-width: 800px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        .booking-form button.submit-btn {
+            background-color: #007bff;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
 
-    .room-card img {
-        width: 50%;
-        height: auto;
-        border-right: 1px solid #ddd;
-    }
+        .message {
+            margin-bottom: 20px;
+            color: green;
+        }
 
-    .room-info {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
+        .error {
+            color: red;
+        }
 
-    .room-info h2 {
-        margin: 0;
-        font-size: 1.5em;
-    }
+        /* room CSS */
+        .room-card {
+            display: flex;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    .room-info p {
-        color: #666;
-        line-height: 1.5;
-        margin: 10px 0;
-    }
+        .room-card img {
+            width: 50%;
+            height: auto;
+            border-right: 1px solid #ddd;
+        }
 
-    .room-info button {
-        background-color: white;
-        color: Black;
-        border: none;
-        border: 2px solid #e69630;
-        border-radius: 5px;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1em;
-        align-self: flex-start;
-    }
+        .room-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    .room-info button:hover {
-        background-color: #e69630;
-    }
+        .room-info h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
 
-    .room-info button.select-tour:hover {
-        background-color: #007bff;
-    }
+        .room-info p {
+            color: #666;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
 
-    section.lines-deco:before {
-        content: none !important;
-    }
+        .room-info button {
+            background-color: white;
+            color: Black;
+            border: none;
+            border: 2px solid #e69630;
+            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            align-self: flex-start;
+        }
 
-    section.lines-deco:after {
-        content: none !important;
-    }
+        .room-info button:hover {
+            background-color: #e69630;
+        }
+
+        .room-info button.select-tour:hover {
+            background-color: #007bff;
+        }
+
+        section.lines-deco:before {
+            content: none !important;
+        }
+
+        section.lines-deco:after {
+            content: none !important;
+        }
     </style>
 
 </head>
@@ -272,7 +277,7 @@ $stmtRoomTypes->close();
                             <div class="de-flex-col">
                                 <!-- logo begin -->
                                 <div id="logo">
-                                    <a href="default.php">
+                                    <a href="index.php">
                                         <img class="logo-main" src="images/logo-white.png" alt="">
                                         <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
@@ -281,7 +286,7 @@ $stmtRoomTypes->close();
                             </div>
                             <div class="de-flex-col header-col-mid">
                                 <ul id="mainmenu">
-                                    <li><a class="menu-item" href="default.php">Home</a></li>
+                                    <li><a class="menu-item" href="index.php">Home</a></li>
                                     <li><a class="menu-item" href="rooms.php">Accomodation</a></li>
                                     <li><a class="menu-item" href="facilities.php">Facilities</a></li>
                                 </ul>
@@ -428,22 +433,22 @@ $stmtRoomTypes->close();
     <script src="js/custom-marquee.js"></script>
     <script src="js/custom-swiper-1.js"></script>
     <script>
-    // JavaScript to handle room selection
-    const roomButtons = document.querySelectorAll('.room-selection button');
-    const roomInput = document.getElementById('room');
+        // JavaScript to handle room selection
+        const roomButtons = document.querySelectorAll('.room-selection button');
+        const roomInput = document.getElementById('room');
 
-    roomButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove 'selected' class from all buttons
-            roomButtons.forEach(btn => btn.classList.remove('selected'));
+        roomButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove 'selected' class from all buttons
+                roomButtons.forEach(btn => btn.classList.remove('selected'));
 
-            // Add 'selected' class to the clicked button
-            button.classList.add('selected');
+                // Add 'selected' class to the clicked button
+                button.classList.add('selected');
 
-            // Update the hidden room input with the selected room value
-            roomInput.value = button.getAttribute('data-room');
+                // Update the hidden room input with the selected room value
+                roomInput.value = button.getAttribute('data-room');
+            });
         });
-    });
     </script>
 
 </body>
