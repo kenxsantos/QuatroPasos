@@ -1,48 +1,28 @@
 <?php
-session_start(); // Start the session
+session_start();
+include('../authorize.php');
 
-// Check if the user is logged in and their role is equal to 1
-$isLoggedIn = isset($_SESSION['user_id']);
-$userRole = $isLoggedIn ? $_SESSION['role_as'] : null; // Get user role if logged in
-
-if ($isLoggedIn && $userRole == 1) {
-} else {
-    header("Location: ../../../AuthAndStatusPages/401.php");
-}
-
-include('../config.php');
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-// Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the form inputs
     $type = $_POST['type'];
     $price = $_POST['Price'];
     $pax = $_POST['Pax'];
     $bedding = $_POST['bedding'];
     $AvRooms = $_POST['AvRooms'];
     $imageFile = $_FILES['image'];
-    $imagePath = ''; // Default image path
+    $imagePath = '';
 
-    // Check if an image file was uploaded
+
     if ($imageFile['error'] === UPLOAD_ERR_OK) {
         $imageTmpPath = $imageFile['tmp_name'];
         $imageName = basename($imageFile['name']);
         $imageSize = $imageFile['size'];
         $imageType = $imageFile['type'];
-        $uploadDir = 'uploads/'; // Make sure this directory exists and is writable
+        $uploadDir = 'uploads/';
         $targetFilePath = $uploadDir . $imageName;
 
-        // Allowed file types
         $allowedFileTypes = ['image/jpeg', 'image/png', 'image/gif'];
         if (in_array($imageType, $allowedFileTypes) && $imageSize > 0) {
-            // Move the uploaded file to the target directory
             if (move_uploaded_file($imageTmpPath, $targetFilePath)) {
-                // Set the image path for the database insertion
                 $imagePath = $targetFilePath;
             } else {
                 echo "Error uploading the image.";
@@ -52,27 +32,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Prepare the SQL Insert Statement including the image path (VARCHAR)
     $sql = "INSERT INTO room (type, Price, Pax, bedding, AvRooms, img) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ssssss", $type, $price, $pax, $bedding, $AvRooms, $imagePath);
 
-    // Execute the Statement
     if (isset($stmt) && mysqli_stmt_execute($stmt)) {
-        // Redirect to a success page or reload the form page
         header("Location: form-layout-Accommo.php");
         exit();
     } else {
         echo "Error inserting record: " . mysqli_error($conn);
     }
 
-    // Close the prepared statement
     if (isset($stmt)) {
         mysqli_stmt_close($stmt);
     }
 }
-
-// Close the database connection
 mysqli_close($conn);
 ?>
 

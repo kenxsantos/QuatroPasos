@@ -1,53 +1,20 @@
 <?php
-session_start(); // Start the session
-include('../../../Connection/PDOcon.php');
-
-// Check if the user is logged in and their role is equal to 1
-$isLoggedIn = isset($_SESSION['user_id']);
-if ($isLoggedIn) {
-    $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
-    $stmt2->execute([$_SESSION['user_id']]);
-    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-
-    if ($row2) {
-        $roleCheck = $row2["role_as"];
-
-        if ($roleCheck == 1) {
-            // User has the correct role
-            // Continue with the logic for users with role 1
-        } else {
-            header("Location: ../../../AuthAndStatusPages/401.php");
-            exit(); // Prevent further execution
-        }
-    } else {
-        // Handle the case where no user was found
-        header("Location: ../../../AuthAndStatusPages/401.php");
-        exit();
-    }
-} else {
-    // User is not logged in
-    header("Location: ../../../AuthAndStatusPages/401.php");
-    exit();
-}
-
+session_start();
+include('../authorize.php');
 include '../config.php';
 
-// Check connection
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Toggle the promo status
 if (isset($_POST['toggle'])) {
     $query = "UPDATE `homepage` SET `showPromo` = NOT `showPromo` WHERE `ID` = 1";
     mysqli_query($conn, $query);
 }
 
-// Fetch current promo status
 $result = mysqli_query($conn, "SELECT `showPromo` FROM `homepage` WHERE `ID` = 1");
 $row = mysqli_fetch_assoc($result);
 
-// Close the connection
 mysqli_close($conn);
 ?>
 
@@ -92,8 +59,8 @@ mysqli_close($conn);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt=""> </b><span
-                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt="">
+                    </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
                 <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>

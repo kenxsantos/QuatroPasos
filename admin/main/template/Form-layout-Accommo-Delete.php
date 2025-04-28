@@ -1,45 +1,13 @@
 <?php
-session_start(); // Start the session
-
-include('../../../Connection/PDOcon.php');
-
-
-// Check if the user is logged in and their role is equal to 1
-$isLoggedIn = isset($_SESSION['user_id']);
-if ($isLoggedIn) {
-    $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
-    $stmt2->execute([$_SESSION['user_id']]);
-    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-
-    if ($row2) {
-        $roleCheck = $row2["role_as"];
-
-        if ($roleCheck == 1) {
-            // User has the correct role
-            // Continue with the logic for users with role 1
-        } else {
-            header("Location: ../../../AuthAndStatusPages/401.php");
-            exit(); // Prevent further execution
-        }
-    } else {
-        // Handle the case where no user was found
-        header("Location: ../../../AuthAndStatusPages/401.php");
-        exit();
-    }
-} else {
-    // User is not logged in
-    header("Location: ../../../AuthAndStatusPages/401.php");
-    exit();
-}
-
+session_start();
+include('../authorize.php');
 include '../config.php';
 
-// Check connection
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Check if the form is submitted
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get the form inputs
     $type = $_POST['type'];
@@ -49,21 +17,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $imageFile = $_FILES['image'];
     $imagePath = ''; // Default image path
 
-    // Check if an image file was uploaded
     if ($imageFile['error'] === UPLOAD_ERR_OK) {
         $imageTmpPath = $imageFile['tmp_name'];
         $imageName = basename($imageFile['name']);
         $imageSize = $imageFile['size'];
         $imageType = $imageFile['type'];
-        $uploadDir = 'uploads/'; // Make sure this directory exists and is writable
+        $uploadDir = 'uploads/';
         $targetFilePath = $uploadDir . $imageName;
 
-        // Allowed file types
         $allowedFileTypes = ['image/jpeg', 'image/png', 'image/gif'];
         if (in_array($imageType, $allowedFileTypes) && $imageSize > 0) {
             // Move the uploaded file to the target directory
             if (move_uploaded_file($imageTmpPath, $targetFilePath)) {
-                // Set the image path for the database insertion
                 $imagePath = $targetFilePath;
             } else {
                 echo "Error uploading the image.";
@@ -73,27 +38,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Prepare the SQL Insert Statement including the image path (VARCHAR)
     $sql = "INSERT INTO room (type, Price, Pax, bedding, img) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "sssss", $type, $price, $pax, $bedding, $imagePath);
 
-    // Execute the Statement
     if (isset($stmt) && mysqli_stmt_execute($stmt)) {
-        // Redirect to a success page or reload the form page
         header("Location: form-layout-Accommo.php");
         exit();
     } else {
         echo "Error inserting record: " . mysqli_error($conn);
     }
 
-    // Close the prepared statement
     if (isset($stmt)) {
         mysqli_stmt_close($stmt);
     }
 }
 
-// Close the database connection
 mysqli_close($conn);
 ?>
 
@@ -138,8 +98,8 @@ mysqli_close($conn);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt=""> </b><span
-                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt="">
+                    </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
                 <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>

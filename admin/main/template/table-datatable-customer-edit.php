@@ -1,5 +1,6 @@
 <?php
 session_start();
+include('../../../Connection/PDOcon.php');
 include('../authorize.php');
 include '../config.php';
 
@@ -7,89 +8,71 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$roomid = isset($_GET['roomid']) ? intval($_GET['roomid']) : null;
 
-if ($roomid === null) {
-    die("Room ID is missing.");
+$isCustomer = null;
+$role_as = 0;
+
+if (isset($_GET['customerId'])) {
+    $isCustomer = true;
+    $userId = intval($_GET['customerId']);
+} elseif (isset($_GET['accountId'])) {
+    $isCustomer = false;
+    $userId = intval($_GET['accountId']);
+} else {
+    echo "<script>alert('Invalid request!'); window.location.href='table-datatable-user-account.php';</script>";
+    exit();
 }
 
-$roomdb = mysqli_query($conn, "SELECT * FROM room WHERE id = $roomid");
-
-if (!$roomdb) {
+$userQuery = mysqli_query($conn, "SELECT * FROM users WHERE id = $userId");
+if (!$userQuery) {
     die("Query failed: " . mysqli_error($conn));
 }
-$row = mysqli_fetch_assoc($roomdb);
+
+$row = mysqli_fetch_assoc($userQuery);
 if (!$row) {
-    die("Room not found.");
+    die("User not found.");
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
-    // Get the form inputs, using current values from DB as fallback
-    $type = !empty($_POST['type']) ? $_POST['type'] : $row['type'];
-    $price = !empty($_POST['Price']) ? $_POST['Price'] : $row['Price'];
-    $pax = !empty($_POST['Pax']) ? $_POST['Pax'] : $row['Pax'];
-    $bedding = !empty($_POST['bedding']) ? $_POST['bedding'] : $row['bedding'];
-    $AvRooms = !empty($_POST['AvRooms']) ? $_POST['AvRooms'] : $row['AvRooms'];
-    $imageFile = $_FILES['image'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $imagePath = $row['img'];
+    $firstname = mysqli_real_escape_string($conn, $_POST['firstname']);
+    $lastname  = mysqli_real_escape_string($conn, $_POST['lastname']);
+    $email     = mysqli_real_escape_string($conn, $_POST['email']);
+    $phone     = mysqli_real_escape_string($conn, $_POST['phone']);
+    $address   = mysqli_real_escape_string($conn, $_POST['address']);
+    if ($_POST['role_as'] == 'Admin') {
+        $role_as = 1;
+    } elseif ($_POST['role_as'] == 'Receptionist') {
+        $role_as = 2;
+    }
+    $checkEmailQuery = "SELECT id FROM users WHERE email = '$email' AND id != $userId LIMIT 1";
+    $checkEmailResult = mysqli_query($conn, $checkEmailQuery);
 
-    if ($imageFile['error'] === UPLOAD_ERR_OK) {
-        $imageTmpPath = $imageFile['tmp_name'];
-        $imageName = basename($imageFile['name']);
-        $imageSize = $imageFile['size'];
-        $imageType = $imageFile['type'];
-        $uploadDir = 'uploads/';
-        $targetFilePath = $uploadDir . $imageName;
+    if (mysqli_num_rows($checkEmailResult) > 0) {
+        echo "<script>alert('Email already exists! Please use another email.'); window.history.back();</script>";
+        exit();
+    } else {
 
-        $allowedFileTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        if (in_array($imageType, $allowedFileTypes) && $imageSize > 0) {
-            if (move_uploaded_file($imageTmpPath, $targetFilePath)) {
-                $imagePath = $targetFilePath;
-            } else {
-                echo "Error uploading the image.";
-            }
+        $updateQuery = "UPDATE users
+                        SET firstname = '$firstname',
+                            lastname = '$lastname',
+                            email = '$email',
+                            phone = '$phone',
+                            address = '$address',
+                            role_as = '$role_as'
+                        WHERE id = $userId";
+
+        if (mysqli_query($conn, $updateQuery)) {
+            echo "<script>alert('User updated successfully.'); window.location.href='";
+            echo $isCustomer ? "table-datatable-customer.php" : "table-datatable-user-account.php";
+            echo "';</script>";
         } else {
-            echo "Invalid file type. Only JPG, PNG, and GIF files are allowed.";
+            echo "Error updating record: " . mysqli_error($conn);
         }
     }
-
-    $sql = "UPDATE room SET type = ?, Price = ?, Pax = ?, bedding = ?, AvRooms = ?, img = ? WHERE id = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssssi", $type, $price, $pax, $bedding, $AvRooms, $imagePath, $roomid);
-
-    if (isset($stmt) && mysqli_stmt_execute($stmt)) {
-        header("Location: " . $_SERVER['PHP_SELF'] . "?roomid=" . $roomid);
-        exit();
-    } else {
-        echo "Error updating record: " . mysqli_error($conn);
-    }
-
-    if (isset($stmt)) {
-        mysqli_stmt_close($stmt);
-    }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
-    $deleteSql = "DELETE FROM room WHERE id = ?";
-    $deleteStmt = mysqli_prepare($conn, $deleteSql);
-    mysqli_stmt_bind_param($deleteStmt, "i", $roomid);
-
-    if (mysqli_stmt_execute($deleteStmt)) {
-        header("Location: Form-layout-Accommo.php");
-        exit();
-    } else {
-        echo "Error deleting record: " . mysqli_error($conn);
-    }
-
-    mysqli_stmt_close($deleteStmt);
-}
-
-mysqli_close($conn);
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -218,103 +201,111 @@ mysqli_close($conn);
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="card forms-card">
-                            <div class="photo-content">
-                                <div class="cover-photo"
-                                    style="background-image: url(<?php echo $row['img']; ?>)!important"></div>
-                            </div>
                             <div class="card-body">
-                                <h4 class="card-title mb-4">Accommodation - <?php echo $row['type']; ?></h4>
+                                <h4 class="card-title mb-4">Customer ID - <?php echo $row['id']; ?></h4>
                                 <div class="basic-form">
                                     <form method="POST" enctype="multipart/form-data">
                                         <div class="form-group row align-items-center">
-                                            <label class="col-sm-3 col-form-label text-label">Upload File</label>
+                                            <label class="col-sm-3 col-form-label text-label">First Name</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="file" class="form-control" name="image" id="image"
-                                                        aria-describedby="inputGroupPrepend2">
+                                                    <input type="text" class="form-control" name="firstname"
+                                                        id="firstname"
+                                                        value="<?php echo htmlspecialchars($row['firstname']); ?>"
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-center">
+                                            <label class="col-sm-3 col-form-label text-label">Last Name</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="lastname"
+                                                        id="lastname"
+                                                        value="<?php echo htmlspecialchars($row['lastname']); ?>"
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-center">
+                                            <label class="col-sm-3 col-form-label text-label">Email</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <input type="email" class="form-control" name="email" id="email"
+                                                        value="<?php echo htmlspecialchars($row['email']); ?>" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-center">
+                                            <label class="col-sm-3 col-form-label text-label">Phone</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="phone" id="phone"
+                                                        value="<?php echo htmlspecialchars($row['phone']); ?>" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-center">
+                                            <label class="col-sm-3 col-form-label text-label">Address</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="address" id="address"
+                                                        value="<?php echo htmlspecialchars($row['address']); ?>"
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-center"
+                                            <?php echo $isCustomer ? 'style="display:none;"' : ''; ?>>
+                                            <label class="col-sm-3 col-form-label text-label">Role</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <select class="form-control" name="role_as" id="role_as" required>
+                                                        <option value="Admin"
+                                                            <?php echo ($row['role_as'] == 1) ? 'selected' : ''; ?>>
+                                                            Admin</option>
+                                                        <option value="Receptionist"
+                                                            <?php echo ($row['role_as'] == 2) ? 'selected' : ''; ?>>
+                                                            Receptionist</option>
+                                                        <option value="User"
+                                                            <?php echo ($row['role_as'] == 0) ? 'selected' : ''; ?>>
+                                                            Normal User</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="form-group row align-items-center">
-                                            <label class="col-sm-3 col-form-label text-label">Room Type</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" name="type" id="type"
-                                                        placeholder="<?php echo htmlspecialchars($row['type']); ?>"
-                                                        aria-describedby="validationDefaultUsername2">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row align-items-center">
-                                            <label class="col-sm-3 col-form-label text-label">Price</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" name="Price" id="Price"
-                                                        placeholder="<?php echo htmlspecialchars($row['Price']); ?>"
-                                                        aria-describedby="validationDefaultUsername2">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row align-items-center">
-                                            <label class="col-sm-3 col-form-label text-label">Pax</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" name="Pax" id="Pax"
-                                                        placeholder="<?php echo htmlspecialchars($row['Pax']); ?>"
-                                                        aria-describedby="validationDefaultUsername2">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row align-items-center">
-                                            <label class="col-sm-3 col-form-label text-label">Beddings</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" name="bedding" id="bedding"
-                                                        placeholder="<?php echo htmlspecialchars($row['bedding']); ?>"
-                                                        aria-describedby="validationDefaultUsername2">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row align-items-center">
-                                            <label class="col-sm-3 col-form-label text-label">Room Provided</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" name="AvRooms" id="AvRooms"
-                                                        placeholder="<?php echo htmlspecialchars($row['AvRooms']); ?>"
-                                                        aria-describedby="validationDefaultUsername2">
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <button type="submit" name="update"
-                                            class="btn btn-primary btn-form mr-2">Submit</button>
-                                        <button type="submit" name="delete" class="btn btn-danger">Delete</button>
-                                    </form>
                                 </div>
+                                <button type="submit" class="btn btn-primary btn-form mr-2">Save</button>
+                                <button type="button" class="btn btn-danger btn-form mr-2" value="Cancel"
+                                    onclick="window.location.href='table-datatable-customer.php'">Cancel</button>
+
+                                </button>
+
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <!-- #/ container -->
+
         </div>
-        <!--**********************************
+        <!-- #/ container -->
+    </div>
+    <!--**********************************
             Content body end
         ***********************************-->
 
 
-        <!--**********************************
+    <!--**********************************
             Footer start
         ***********************************-->
-        <div class="footer">
-            <div class="copyright">
-                <!-- <p>Copyright &copy; Developed by Allen</a> 2018</p> -->
-            </div>
+    <div class="footer">
+        <div class="copyright">
+            <!-- <p>Copyright &copy; Developed by Allen</a> 2018</p> -->
         </div>
-        <!--**********************************
+    </div>
+    <!--**********************************
             Footer end
         ***********************************-->
 

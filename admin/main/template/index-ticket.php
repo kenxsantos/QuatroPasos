@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start the session
+session_start();
 include('../../../Connection/PDOcon.php');
 include '../config.php';
 

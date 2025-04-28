@@ -1,36 +1,7 @@
 <?php
 session_start(); // Start the session
 include('../../../Connection/PDOcon.php');
-
-// Check if the user is logged in and their role is equal to 1
-$isLoggedIn = isset($_SESSION['user_id']);
-if ($isLoggedIn) {
-    $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
-    $stmt2->execute([$_SESSION['user_id']]);
-    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-
-    if ($row2) {
-        $roleCheck = $row2["role_as"];
-
-        if ($roleCheck == 1) {
-            // User has the correct role
-            // Continue with the logic for users with role 1
-        } else {
-            header("Location: ../../../AuthAndStatusPages/401.php");
-            exit(); // Prevent further execution
-        }
-    } else {
-        // Handle the case where no user was found
-        header("Location: ../../../AuthAndStatusPages/401.php");
-        exit();
-    }
-} else {
-    // User is not logged in
-    header("Location: ../../../AuthAndStatusPages/401.php");
-    exit();
-}
-
-// getting DB of Basic Homepage Info
+include('../authorize.php');
 $stmt = $pdo->query("SELECT * FROM `bookings`");
 ?>
 

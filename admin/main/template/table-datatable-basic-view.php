@@ -1,23 +1,9 @@
 <?php
 session_start();
 include('../../../Connection/PDOcon.php');
-
-// Check login and role
-if (isset($_SESSION['user_id'])) {
-    $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
-    $stmt2->execute([$_SESSION['user_id']]);
-    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-
-    if (!$row2 || $row2["role_as"] != 1) {
-        header("Location: ../../../AuthAndStatusPages/401.php");
-        exit();
-    }
-} else {
-    header("Location: ../../../AuthAndStatusPages/401.php");
-    exit();
-}
-
+include('../authorize.php');
 include '../config.php';
+
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -295,8 +281,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                                                 ?>
                                                 <div class="input-group">
                                                     <select class="form-control" name="status" id="status">
-                                                        <option value="Confirmed"
-                                                            <?php if ($row['status'] == 'Confirmed') echo 'selected'; ?>>
+                                                        <option value="<?php
+                                                                            if ($row['status'] == 'Cancel Request') {
+                                                                                echo 'Cancel Confirmed';
+                                                                            } else {
+                                                                                echo 'Reschedule Confirmed';
+                                                                            }
+                                                                            ?>" <?php
+                                                                                echo 'selected';
+                                                                                ?>>
                                                             Accept
                                                         </option>
                                                         <option value="Rejected"
@@ -305,6 +298,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                                                         </option>
                                                     </select>
                                                 </div>
+
                                                 <?php
                                                 } else {
                                                 ?>
@@ -346,12 +340,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                                             </div>
                                         </div>
                                 </div>
-                                <button type="submit" name="update"
+                                <button id="confirmButton" type="submit" name="update"
                                     class="btn btn-primary btn-form mr-2">Confirm</button>
                                 <button type="button" name="update" class="btn btn-danger btn-form mr-2">
-                                    <a href="table-datatable-basic.php">
-                                        Cancel
-                                    </a>
+                                    <a href="table-datatable-basic.php">Cancel</a>
                                 </button>
 
                                 </form>

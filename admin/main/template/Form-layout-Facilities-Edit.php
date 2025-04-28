@@ -1,71 +1,32 @@
 <?php
-session_start(); // Start the session
-include('../../../Connection/PDOcon.php');
-
-// Check if the user is logged in and their role is equal to 1
-$isLoggedIn = isset($_SESSION['user_id']);
-if ($isLoggedIn) {
-    $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
-    $stmt2->execute([$_SESSION['user_id']]);
-    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-
-    if ($row2) {
-        $roleCheck = $row2["role_as"];
-
-        if ($roleCheck == 1) {
-            // User has the correct role
-            // Continue with the logic for users with role 1
-        } else {
-            header("Location: ../../../AuthAndStatusPages/401.php");
-            exit(); // Prevent further execution
-        }
-    } else {
-        // Handle the case where no user was found
-        header("Location: ../../../AuthAndStatusPages/401.php");
-        exit();
-    }
-} else {
-    // User is not logged in
-    header("Location: ../../../AuthAndStatusPages/401.php");
-    exit();
-}
-
+session_start();
+include('../authorize.php');
+include('../authorize.php');
 include '../config.php';
 
-// Check connection
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Get roomid from URL and check if it's set and valid
 $roomid = isset($_GET['roomid']) ? intval($_GET['roomid']) : null;
 
 if ($roomid === null) {
     die("Room ID is missing.");
 }
-
-// Query the database
 $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage WHERE ID = $roomid");
-
 if (!$roomdb) {
     die("Query failed: " . mysqli_error($conn));
 }
-
-// Fetch the result as an associative array
 $row = mysqli_fetch_assoc($roomdb);
-
 if (!$row) {
     die("Room not found.");
 }
 
-// Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the form inputs, using current values from DB as fallback
     $Event = !empty($_POST['Event']) ? $_POST['Event'] : $row['Event'];
     $Info = !empty($_POST['Info']) ? $_POST['Info'] : $row['Info'];
     $imageFile = $_FILES['image'];
 
-    // Check if an image file was uploaded
     if ($imageFile['error'] === UPLOAD_ERR_OK) {
         $imageTmpPath = $imageFile['tmp_name'];
         $imageName = basename($imageFile['name']);
@@ -74,12 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $uploadDir = 'uploads/';
         $targetFilePath = $uploadDir . $imageName;
 
-        // Allowed file types
         $allowedFileTypes = ['image/jpeg', 'image/png', 'image/gif'];
         if (in_array($imageType, $allowedFileTypes) && $imageSize > 0) {
-            // Move the uploaded file to the target directory
             if (move_uploaded_file($imageTmpPath, $targetFilePath)) {
-                // Prepare the SQL Update Statement including the image path
                 $sql = "UPDATE facilitiespage SET Event = ?, Info = ?, ImagePath = ? WHERE ID = ?";
                 $stmt = mysqli_prepare($conn, $sql);
                 mysqli_stmt_bind_param($stmt, "sssi", $Event, $Info, $targetFilePath, $roomid);
@@ -90,28 +48,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Invalid file type. Only JPG, PNG, and GIF files are allowed.";
         }
     } else {
-        // If no image is uploaded, keep the existing image path
         $sql = "UPDATE facilitiespage SET Event = ?, Info = ? WHERE ID = ?";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "ssi", $Event, $Info, $roomid);
     }
 
-    // Execute the Statement
     if (isset($stmt) && mysqli_stmt_execute($stmt)) {
-        // Redirect to the same page to avoid form resubmission
         header("Location: " . $_SERVER['PHP_SELF'] . "?roomid=" . $roomid);
         exit();
     } else {
         echo "Error updating record: " . mysqli_error($conn);
     }
 
-    // Close the prepared statement
     if (isset($stmt)) {
         mysqli_stmt_close($stmt);
     }
 }
 
-// Close the database connection
 mysqli_close($conn);
 ?>
 
@@ -156,8 +109,8 @@ mysqli_close($conn);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt=""> </b><span
-                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt="">
+                    </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
                 <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>

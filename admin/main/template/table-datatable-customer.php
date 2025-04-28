@@ -1,41 +1,14 @@
 <?php
 session_start();
-include('../authorize.php');
 include '../config.php';
+include '../authorize.php';
 
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 
-$id = 1;
-$query = mysqli_query($conn, "SELECT * FROM homepage WHERE ID = $id");
-$row = mysqli_fetch_assoc($query);
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $subTitle = !empty($_POST['subTitle']) ? $_POST['subTitle'] : $row['subTitle'];
-    $MainTitle = !empty($_POST['MainTitle']) ? $_POST['MainTitle'] : $row['MainTitle'];
-    $FooterTxt = !empty($_POST['FooterTxt']) ? $_POST['FooterTxt'] : $row['FooterTxt'];
-    $LocationAddress = !empty($_POST['LocationAddress']) ? $_POST['LocationAddress'] : $row['LocationAddress'];
-    $ContactNumber = !empty($_POST['ContactNumber']) ? $_POST['ContactNumber'] : $row['ContactNumber'];
-
-    $sql = "UPDATE homepage SET subTitle = ?, MainTitle = ?, FooterTxt = ?, LocationAddress = ?, ContactNumber = ? WHERE ID = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "sssssi", $subTitle, $MainTitle, $FooterTxt, $LocationAddress, $ContactNumber, $id);
-
-    if (isset($stmt) && mysqli_stmt_execute($stmt)) {
-        header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $id);
-        exit();
-    } else {
-        echo "Error updating record: " . mysqli_error($conn);
-    }
-
-    if (isset($stmt)) {
-        mysqli_stmt_close($stmt);
-    }
-}
+$stmtUsers = $pdo->query("SELECT * FROM `users` WHERE role_as = 0");
 
 mysqli_close($conn);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,6 +22,74 @@ mysqli_close($conn);
     <link rel="icon" href="../../../images/icon.png" type="image/gif" sizes="16x16">
     <!-- Custom Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
+    <style>
+    a.btn-add {
+        display: inline-block;
+        padding: 6px 14px;
+        margin: 2px;
+        font-size: 14px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    a.btn-add {
+        background-color: green;
+        color: white;
+    }
+
+    .btn-add:hover {
+        background-color: rgb(33, 151, 59);
+    }
+
+    .btn-add:active {
+        background-color: #1e7e34;
+        transform: translateY(0);
+    }
+
+    td a.btn-edit,
+    td a.btn-delete {
+        display: inline-block;
+        padding: 6px 14px;
+        margin: 2px;
+        font-size: 14px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Specific for Edit button */
+    td a.btn-edit {
+        background-color: #007bff;
+        /* blue */
+        color: white;
+        border: 1px solid #007bff;
+    }
+
+    td a.btn-edit:hover {
+        background-color: #0056b3;
+        color: white;
+    }
+
+    /* Specific for Delete button */
+    td a.btn-delete {
+        background-color: #dc3545;
+        /* red */
+        color: white;
+        border: 1px solid #dc3545;
+    }
+
+    td a.btn-delete:hover {
+        background-color: #a71d2a;
+        color: white;
+    }
+
+    .card-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    </style>
 
 </head>
 
@@ -152,51 +193,62 @@ mysqli_close($conn);
             <div class="container-fluid">
 
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card forms-card">
+                    <div class="col-12">
+                        <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title mb-4">Home Page</h4>
-                                <div class="basic-form">
-                                    <form name="contactForm" id="contact_form" method="post">
-                                        <div class="form-group">
-                                            <label class="text-label">Sub Title</label>
-                                            <input type="text" name="subTitle" id="subTitle" class="form-control"
-                                                placeholder="<?php echo htmlspecialchars($row['subTitle']); ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="text-label">Facebook Page</label>
-                                            <input type="text" name="" class="form-control"
-                                                placeholder="<?php echo htmlspecialchars($row['FBname']); ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="text-label">Address</label>
-                                            <input type="text" name="LocationAddress" id="LocationAddress"
-                                                class="form-control"
-                                                placeholder="<?php echo htmlspecialchars($row['LocationAddress']); ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="text-label">Contact No.</label>
-                                            <input type="number" name="ContactNumber" id="ContactNumber"
-                                                class="form-control"
-                                                placeholder="<?php echo htmlspecialchars($row['ContactNumber']); ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="text-label">Email</label>
-                                            <input type="email" name="" class="form-control"
-                                                placeholder="<?php echo htmlspecialchars($row['Email']); ?>">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-form mr-2">Submit</button>
-                                        <button type="button" class="btn btn-light text-dark btn-form">Cancel</button>
-                                    </form>
+                                <div class="card-title">
+                                    <h1>Customer Information Management</h1>
+                                    <a href="table-datatable-customer-add.php" class="btn-add">
+                                        Add
+                                    </a>
+
+                                    </button>
+                                </div>
+                                <div class=" table-responsive">
+                                    <table id="" class="table" style="min-width: 845px">
+                                        <thead>
+                                            <tr>
+                                                <th>Customer ID</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Address</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <?php while ($row = $stmtUsers->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($row["id"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["firstname"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["lastname"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["email"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["phone"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["address"]); ?></td>
+                                                <td>
+                                                    <a href="table-datatable-customer-edit.php?customerId=<?php echo urlencode($row["id"]); ?>"
+                                                        class="btn-edit">
+                                                        Edit
+                                                    </a>
+                                                    <a href="table-datatable-customer-delete.php?customerId=<?php echo urlencode($row["id"]); ?>"
+                                                        class="btn-delete">
+                                                        Delete
+                                                    </a>
+                                                </td>
+
+                                            </tr>
+                                            <?php } ?>
+                                        </tbody>
+
+
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-
-
-
                 </div>
 
             </div>

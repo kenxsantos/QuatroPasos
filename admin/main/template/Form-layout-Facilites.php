@@ -1,37 +1,8 @@
 <?php
 session_start(); // Start the session
-include('../../../Connection/PDOcon.php');
-
-
-// Check if the user is logged in and their role is equal to 1
-$isLoggedIn = isset($_SESSION['user_id']);
-if ($isLoggedIn) {
-    $stmt2 = $pdo->prepare("SELECT * FROM `users` WHERE id = ?");
-    $stmt2->execute([$_SESSION['user_id']]);
-    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-
-    if ($row2) {
-        $roleCheck = $row2["role_as"];
-
-        if ($roleCheck == 1) {
-            // User has the correct role
-            // Continue with the logic for users with role 1
-        } else {
-            header("Location: ../../../AuthAndStatusPages/401.php");
-            exit(); // Prevent further execution
-        }
-    } else {
-        // Handle the case where no user was found
-        header("Location: ../../../AuthAndStatusPages/401.php");
-        exit();
-    }
-} else {
-    // User is not logged in
-    header("Location: ../../../AuthAndStatusPages/401.php");
-    exit();
-}
-
+include('../authorize.php');
 include '../config.php';
+
 $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
 ?>
 
@@ -75,8 +46,8 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt=""> </b><span
-                        class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt="">
+                    </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
                 <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
@@ -161,19 +132,19 @@ $roomdb = mysqli_query($conn, "SELECT * FROM facilitiespage");
                 </div>
                 <div class="row">
                     <?php while ($row = mysqli_fetch_assoc($roomdb)) { ?>
-                        <div class="col-lg-4" style="cursor: pointer">
-                            <div class="card">
-                                <a href="Form-layout-Facilities-Edit.php?roomid=<?php echo $row['ID']; ?>">
-                                    <div class="card-body">
-                                        <h4 class="card-title"><?php echo $row['Event']; ?></h4>
-                                        <div class="card-content">
-                                            <p>This is card content paragraph text.</p>
-                                        </div>
+                    <div class="col-lg-4" style="cursor: pointer">
+                        <div class="card">
+                            <a href="Form-layout-Facilities-Edit.php?roomid=<?php echo $row['ID']; ?>">
+                                <div class="card-body">
+                                    <h4 class="card-title"><?php echo $row['Event']; ?></h4>
+                                    <div class="card-content">
+                                        <p>This is card content paragraph text.</p>
                                     </div>
-                                </a>
+                                </div>
+                            </a>
 
-                            </div>
                         </div>
+                    </div>
                     <?php } ?>
 
                     <!-- <div class="col-lg-4" style="cursor: pointer">

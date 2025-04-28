@@ -27,6 +27,16 @@
                 </a>
             </li>
             <li class="mega-menu mega-menu-sm">
+                <a class="" href="./table-datatable-customer.php" aria-expanded="false">
+                    <i class="mdi mdi-table"></i><span class="nav-text">Customer Management</span>
+                </a>
+            </li>
+            <li class="mega-menu mega-menu-sm">
+                <a class="" href="./table-datatable-user-account.php" aria-expanded="false">
+                    <i class="mdi mdi-table"></i><span class="nav-text">User Account Management</span>
+                </a>
+            </li>
+            <li class="mega-menu mega-menu-sm">
                 <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
                     <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
                 </a>
