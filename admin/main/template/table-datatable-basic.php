@@ -309,15 +309,15 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
 
                         ?>
 
-                        <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
-                            <span class="pull-right"><?php echo $row2["AvRooms"] ?></span>
-                        </h5>
-                        <div class="progress">
-                            <div class="progress-bar bg-lgreen wow animated progress-animated"
-                                data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;"
-                                role="progressbar">
-                            </div>
-                        </div><br>
+                                <h5 class="text-muted"><?php echo htmlspecialchars($row2["type"]); ?>
+                                    <span class="pull-right"><?php echo $row2["AvRooms"] ?></span>
+                                </h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-lgreen wow animated progress-animated"
+                                        data-progress="<?php echo round($percentage, 2) ?>" style="height:8px;"
+                                        role="progressbar">
+                                    </div>
+                                </div><br>
 
                         <?php
                             }
@@ -355,25 +355,25 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
 
                                         <tbody>
                                             <?php while ($row = $stmtBookings->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($row["id"]); ?></td>
-                                                <td><?php echo htmlspecialchars($row["name"]); ?></td>
-                                                <td>
-                                                    <span
-                                                        class="text-muted"><?php echo htmlspecialchars($row["room_type"]); ?></span>
-                                                </td>
-                                                <td>
-                                                    <span
-                                                        class="text-muted"><?php echo htmlspecialchars($row["start_date"]); ?></span>
-                                                </td>
-                                                <td><?php echo htmlspecialchars($row["end_date"]); ?></td>
-                                                <td><?php echo htmlspecialchars($row["num_adults"]); ?></td>
-                                                <td><?php echo htmlspecialchars($row["Price"]); ?></td>
-                                                <td><?php echo htmlspecialchars($row["status"]); ?></td>
-                                                <td><a
-                                                        href="table-datatable-basic-view.php?Paymentid=<?php echo urlencode($row["id"]); ?>">View</a>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td><?php echo htmlspecialchars($row["id"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["name"]); ?></td>
+                                                    <td>
+                                                        <span
+                                                            class="text-muted"><?php echo htmlspecialchars($row["room_type"]); ?></span>
+                                                    </td>
+                                                    <td>
+                                                        <span
+                                                            class="text-muted"><?php echo htmlspecialchars($row["start_date"]); ?></span>
+                                                    </td>
+                                                    <td><?php echo htmlspecialchars($row["end_date"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["num_adults"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["Price"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["status"]); ?></td>
+                                                    <td><a
+                                                            href="table-datatable-basic-view.php?bookingId=<?php echo urlencode($row["id"]); ?>">View</a>
+                                                    </td>
+                                                </tr>
                                             <?php } ?>
                                         </tbody>
 
@@ -412,16 +412,16 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
         Scripts
     ***********************************-->
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Select all progress bars
-        const progressBars = document.querySelectorAll('.progress-bar');
+        document.addEventListener("DOMContentLoaded", function() {
+            // Select all progress bars
+            const progressBars = document.querySelectorAll('.progress-bar');
 
-        // Update each progress bar width based on the data-progress attribute
-        progressBars.forEach(bar => {
-            const progress = bar.getAttribute('data-progress');
-            bar.style.width = `${progress}%`;
+            // Update each progress bar width based on the data-progress attribute
+            progressBars.forEach(bar => {
+                const progress = bar.getAttribute('data-progress');
+                bar.style.width = `${progress}%`;
+            });
         });
-    });
     </script>
 
 

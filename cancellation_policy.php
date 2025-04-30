@@ -16,7 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_cancel'])) {
     $stmt = $conn->prepare("UPDATE bookings SET status = 'Cancel Request' WHERE id = ?");
     $stmt->bind_param("i", $booking_id);
 
-    if ($stmt->execute()) {
+    $reason = isset($_POST['reason']) ? $_POST['reason'] : null;
+    $stmtCancel = $conn->prepare("INSERT INTO cancellations (id, email, reason) VALUES (?, ?, ?)");
+    $stmtCancel->bind_param("iss", $booking_id, $email, $reason);
+
+
+
+    if ($stmt->execute() && $stmtCancel->execute()) {
 
         echo "<script>alert('Your Booking Cancellation is Under Review'); window.location.href='bookings.php';</script>";
         try {
@@ -81,9 +87,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_cancel'])) {
 
                 <form action="cancellation_policy.php?bookingId=<?php echo $booking_id; ?>" method="POST">
                     <input type="hidden" id="cancellation_id" name="id">
+
+                    <p class="lead">What are your reasons? (optional)</p>
+                    <div class="form-group">
+                        <label for="reason">Reason for Cancellation:</label>
+                        <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
+                    </div>
                     <div class="form-check mt-3">
                         <input type="checkbox" class="form-check-input" id="confirmPolicy">
-                        <label for="confirmPolicy" class="form-check-label">I agree to the cancellation policy</label>
+                        <label for="confirmPolicy" class="form-check-label">I agree to the cancellation
+                            policy</label>
                     </div>
 
                     <div class="d-flex justify-content-between mt-4">
@@ -97,9 +110,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_cancel'])) {
     </div>
 
     <script>
-    document.getElementById("confirmPolicy").addEventListener("change", function() {
-        document.getElementById("confirmCancel").disabled = !this.checked;
-    });
+        document.getElementById("confirmPolicy").addEventListener("change", function() {
+            document.getElementById("confirmCancel").disabled = !this.checked;
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
