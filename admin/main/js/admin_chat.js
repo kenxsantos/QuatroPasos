@@ -7,10 +7,11 @@ import {
   orderBy,
   onSnapshot,
   addDoc,
+  getDocs,
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-// Replace this with your own config
+// Replace with your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyB0jgzZ3qUtFOmh3AdJrwvPK3K6Clbw9Cg",
   authDomain: "quatropasoschat.firebaseapp.com",
@@ -24,16 +25,42 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Set customer ID (could be pulled from login/session/etc)
-const customerId = "customer1"; // Example static ID
-const adminId = "admin";
-const conversationId = [customerId, adminId].sort().join("_");
-
+const userList = document.getElementById("user-list");
 const chatBox = document.getElementById("chat-box");
 const messageInput = document.getElementById("message");
 const sendBtn = document.getElementById("send");
 
+let selectedUser = null;
+
+// Load unique users who sent messages
+async function loadUsers() {
+  const q = query(collection(db, "messages"));
+  const snapshot = await getDocs(q);
+  const users = new Set();
+
+  snapshot.forEach((doc) => {
+    const data = doc.data();
+    if (data.sender !== "admin") {
+      users.add(data.sender);
+    }
+  });
+
+  userList.innerHTML = "<h4>Users</h4>";
+  users.forEach((user) => {
+    const btn = document.createElement("button");
+    btn.textContent = user;
+    btn.onclick = () => {
+      selectedUser = user;
+      loadMessages();
+    };
+    userList.appendChild(btn);
+  });
+}
+
+// Load messages for selected user
 function loadMessages() {
+  const conversationId = [selectedUser, "admin"].sort().join("_");
+
   const q = query(
     collection(db, "messages"),
     where("conversationId", "==", conversationId),
@@ -47,7 +74,7 @@ function loadMessages() {
       const msgDiv = document.createElement("div");
       msgDiv.classList.add(
         "message",
-        data.sender === customerId ? "outgoing" : "incoming"
+        data.sender === "admin" ? "outgoing" : "incoming"
       );
       msgDiv.textContent = data.text;
       chatBox.appendChild(msgDiv);
@@ -57,13 +84,16 @@ function loadMessages() {
   });
 }
 
+// Send message
 sendBtn.addEventListener("click", async () => {
   const text = messageInput.value.trim();
-  if (!text) return;
+  if (!text || !selectedUser) return;
+
+  const conversationId = [selectedUser, "admin"].sort().join("_");
 
   await addDoc(collection(db, "messages"), {
-    sender: customerId,
-    receiver: adminId,
+    sender: "admin",
+    receiver: selectedUser,
     text,
     timestamp: serverTimestamp(),
     conversationId,
@@ -72,4 +102,4 @@ sendBtn.addEventListener("click", async () => {
   messageInput.value = "";
 });
 
-loadMessages();
+loadUsers();

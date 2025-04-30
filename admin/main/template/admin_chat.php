@@ -2,54 +2,77 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Chat</title>
     <style>
-    /* General Styles */
+    * {
+        box-sizing: border-box;
+    }
+
     body {
+        margin: 0;
         font-family: Arial, sans-serif;
         background-color: #f4f4f9;
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        margin: 0;
     }
 
-    .chat-container {
+    .admin-chat-container {
+        display: flex;
         width: 90%;
-        max-width: 450px;
-        background: #fff;
-        padding: 15px;
+        max-width: 900px;
+        height: 600px;
+        background: white;
         border-radius: 12px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+        overflow: hidden;
     }
 
-    /* Chat Box */
+    .user-list {
+        width: 30%;
+        background-color: #e9f0fa;
+        border-right: 1px solid #ccc;
+        padding: 10px;
+        overflow-y: auto;
+    }
+
+    .user-list button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 5px;
+        border: none;
+        background: #007bff;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .chat-box-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
     #chat-box {
-        min-height: 350px;
-        max-height: 400px;
+        flex: 1;
         overflow-y: auto;
         padding: 10px;
         background: #f9f9f9;
-        border-radius: 8px;
         display: flex;
         flex-direction: column;
         gap: 8px;
-        scrollbar-width: thin;
     }
 
-    /* Messages */
     .message {
         padding: 12px 15px;
         border-radius: 20px;
         max-width: 75%;
-        word-wrap: break-word;
         font-size: 14px;
+        word-wrap: break-word;
     }
 
     .incoming {
@@ -64,11 +87,11 @@
         border-radius: 15px 15px 5px 15px;
     }
 
-    /* Input & Button */
     .input-container {
         display: flex;
+        padding: 10px;
         gap: 10px;
-        align-items: center;
+        border-top: 1px solid #ccc;
     }
 
     textarea {
@@ -81,7 +104,7 @@
         outline: none;
     }
 
-    button {
+    button#send {
         background: #007bff;
         color: white;
         border: none;
@@ -92,41 +115,28 @@
         transition: background 0.3s ease;
     }
 
-    button:hover {
+    button#send:hover {
         background: #0056b3;
-    }
-
-    /* Responsive */
-    @media (max-width: 480px) {
-        .chat-container {
-            width: 95%;
-        }
-
-        .message {
-            font-size: 13px;
-        }
-
-        button {
-            padding: 8px 12px;
-        }
     }
     </style>
 </head>
 
 <body>
-    <div class="chat-container">
-        <h2 style="text-align: center; color: #333;">Admin Chat</h2>
-        <div id="chat-box"></div>
-        <div class="input-container">
-            <textarea id="message" placeholder="Type your message..."></textarea>
-            <button id="send">Send</button>
+    <div class="admin-chat-container">
+        <div class="user-list" id="user-list">
+            <h4>Users</h4>
+        </div>
+
+        <div class="chat-box-container">
+            <div id="chat-box"></div>
+            <div class="input-container">
+                <textarea id="message" placeholder="Type a message..."></textarea>
+                <button id="send">Send</button>
+            </div>
         </div>
     </div>
-    <script src="./js/chat.js"></script>
-    <script>
-    const role = 'admin';
-    initializeChat(role);
-    </script>
+
+    <script type="module" src="../../../admin/main/js/admin_chat.js"></script>
 </body>
 
 </html>
