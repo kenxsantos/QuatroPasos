@@ -52,87 +52,87 @@ session_start(); // Start the session
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
     </script>
     <style>
-        /* Modal Background */
+    /* Modal Background */
 
-        .popup {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            /* Stay in place */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            /* Semi-transparent background */
-            z-index: 1000;
-            /* Ensure it appears above other elements */
-        }
+    .popup {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        /* Semi-transparent background */
+        z-index: 1000;
+        /* Ensure it appears above other elements */
+    }
 
-        /* Modal Content */
-        .popup-content {
-            position: relative;
-            margin: 15% auto;
-            /* Centered vertically */
-            padding: 20px;
-            width: 80%;
-            max-width: 400px;
-            /* Limit maximum width */
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
+    /* Modal Content */
+    .popup-content {
+        position: relative;
+        margin: 15% auto;
+        /* Centered vertically */
+        padding: 20px;
+        width: 80%;
+        max-width: 400px;
+        /* Limit maximum width */
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
 
-        /* Close Button */
-        #close-popup {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 20px;
-            cursor: pointer;
-        }
+    /* Close Button */
+    #close-popup {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        cursor: pointer;
+    }
 
-        /* Button Style */
-        .btn-main {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            background-color: #FEB46B;
-        }
+    /* Button Style */
+    .btn-main {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        background-color: #FEB46B;
+    }
 
-        .navpromo {
-            background-color: #FEB46B;
-            padding-left: 20px;
-        }
+    .navpromo {
+        background-color: #FEB46B;
+        padding-left: 20px;
+    }
 
-        .floating-button {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            background-color: #FEB46B;
-            color: white;
-            border: none;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            text-decoration: none;
-            transition: background-color 0.3s, transform 0.3s;
-            z-index: 9999;
-        }
+    .floating-button {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        background-color: #FEB46B;
+        color: white;
+        border: none;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.3s;
+        z-index: 9999;
+    }
 
-        .floating-button:hover {
-            background-color: #0056b3;
-            transform: scale(1.1);
-        }
+    .floating-button:hover {
+        background-color: #0056b3;
+        transform: scale(1.1);
+    }
     </style>
 </head>
 
@@ -194,18 +194,18 @@ session_start(); // Start the session
                                 <div class="menu_side_area">
                                     <div class="menu_side_area">
                                         <?php if (isset($_SESSION['user_name'])): ?>
-                                            <a href="profile.php"
-                                                class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
-                                            <!-- Show user name -->
+                                        <a href="profile.php"
+                                            class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                        <!-- Show user name -->
                                         <?php else: ?>
-                                            <a href="AuthAndStatusPages/login.php">
-                                                <button type="button"
-                                                    style="border: 2px solid #FEB46B; color: #FEB46B; background-color: transparent; border-radius: 5px; padding: 10px 20px; font-size: 14px; cursor: pointer; font-weight: bold;">
-                                                    BOOK NOW
-                                                </button>
-                                            </a>
+                                        <a href="AuthAndStatusPages/login.php">
+                                            <button type="button"
+                                                style="border: 2px solid #FEB46B; color: #FEB46B; background-color: transparent; border-radius: 5px; padding: 10px 20px; font-size: 14px; cursor: pointer; font-weight: bold;">
+                                                BOOK NOW
+                                            </button>
+                                        </a>
 
-                                            <!-- Show login if not logged in -->
+                                        <!-- Show login if not logged in -->
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -219,19 +219,19 @@ session_start(); // Start the session
 
         <!-- Promo Popup -->
         <?php if ($promo['showPromo'] == 1): ?>
-            <div id="promo-popup" class="popup">
-                <div class="popup-content">
-                    <span id="close-popup">&times;</span>
-                    <h2>Special Offer!</h2>
-                    <p>Don't miss our limited-time promotion. Book now and enjoy exclusive discounts!</p>
-                    <a href="Reserve.php" class="btn-main">Book Now</a>
-                </div>
+        <div id="promo-popup" class="popup">
+            <div class="popup-content">
+                <span id="close-popup">&times;</span>
+                <h2>Special Offer!</h2>
+                <p>Don't miss our limited-time promotion. Book now and enjoy exclusive discounts!</p>
+                <a href="Reserve.php" class="btn-main">Book Now</a>
             </div>
-            <script>
-                document.getElementById("close-popup").onclick = function() {
-                    document.getElementById("promo-popup").style.display = "none";
-                };
-            </script>
+        </div>
+        <script>
+        document.getElementById("close-popup").onclick = function() {
+            document.getElementById("promo-popup").style.display = "none";
+        };
+        </script>
         <?php endif; ?>
         <!-- Promo Popup close-->
 
@@ -264,10 +264,10 @@ session_start(); // Start the session
                                         <div class="row g-4 align-items-center justify-content-center">
                                             <div class="col-lg-3">
                                                 <?php if (isset($_SESSION['user_name'])): ?>
-                                                    <a class="btn-main" href="Reserve.php">Check Availability</a>
+                                                <a class="btn-main" href="Reserve.php">Check Availability</a>
                                                 <?php else: ?>
-                                                    <a class="btn-main" href="AuthAndStatusPages/login.php">Check
-                                                        Availability</a>
+                                                <a class="btn-main" href="AuthAndStatusPages/login.php">Check
+                                                    Availability</a>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -332,28 +332,28 @@ session_start(); // Start the session
                         while ($count < 3 && ($row4 = $stmt4->fetch(PDO::FETCH_ASSOC))) { // Check if counter is less than 3
                             $count++; ?>
 
-                            <div class="col-lg-4"><a href="rooms.php">
-                                    <div class="hover relative text-light text-center wow fadeInUp" data-wow-delay=".3s">
-                                        <img src="admin/main/template/<?php echo htmlspecialchars($row4["img"]); ?>"
-                                            class="w-100" alt="">
-                                        <div class="abs hover-op-1 z-4 hover-mt-40 abs-centered text-dark">
-                                            <div class="fs-14">Starts at</div>
-                                            <h3 class="fs-40 lh-1 mb-4 text-dark">
-                                                <?php echo htmlspecialchars($row4["Price"]); ?></h3>
-                                        </div>
-                                        <div class="abs bg-light z-2 top-0 w-100 h-100 hover-op-1"></div>
-                                        <div class="abs py-3 z-2 bottom-0 w-100 text-center hover-op-0">
-                                            <h3 class="mb-0"><?php echo htmlspecialchars($row4["type"]); ?></h3>
-                                            <div class="text-center fs-14">
-                                                <span class="mx-2">
-                                                    <?php echo htmlspecialchars($row4["Pax"]);  ?> Guests
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="gradient-trans-color-bottom abs w-100 h-40 bottom-0"></div>
+                        <div class="col-lg-4"><a href="rooms.php">
+                                <div class="hover relative text-light text-center wow fadeInUp" data-wow-delay=".3s">
+                                    <img src="admin/main/template/<?php echo htmlspecialchars($row4["img"]); ?>"
+                                        class="w-100" alt="">
+                                    <div class="abs hover-op-1 z-4 hover-mt-40 abs-centered text-dark">
+                                        <div class="fs-14">Starts at</div>
+                                        <h3 class="fs-40 lh-1 mb-4 text-dark">
+                                            <?php echo htmlspecialchars($row4["Price"]); ?></h3>
                                     </div>
-                                </a>
-                            </div>
+                                    <div class="abs bg-light z-2 top-0 w-100 h-100 hover-op-1"></div>
+                                    <div class="abs py-3 z-2 bottom-0 w-100 text-center hover-op-0">
+                                        <h3 class="mb-0"><?php echo htmlspecialchars($row4["type"]); ?></h3>
+                                        <div class="text-center fs-14">
+                                            <span class="mx-2">
+                                                <?php echo htmlspecialchars($row4["Pax"]);  ?> Guests
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="gradient-trans-color-bottom abs w-100 h-40 bottom-0"></div>
+                                </div>
+                            </a>
+                        </div>
 
                         <?php } ?>
                         <!-- room end -->
@@ -503,27 +503,27 @@ session_start(); // Start the session
     <script src='https://www.google.com/recaptcha/api.js' async defer></script>
     <script src="contact.js"></script>
     <script>
-        // Display the popup
-        function showPopup() {
-            document.getElementById("promo-popup").style.display = "block";
-        }
+    // Display the popup
+    function showPopup() {
+        document.getElementById("promo-popup").style.display = "block";
+    }
 
-        // Close the popup when the "X" button is clicked
-        document.getElementById("close-popup").onclick = function() {
+    // Close the popup when the "X" button is clicked
+    document.getElementById("close-popup").onclick = function() {
+        document.getElementById("promo-popup").style.display = "none";
+    }
+
+    // Optionally, close the modal if the user clicks outside of it
+    window.onclick = function(event) {
+        if (event.target == document.getElementById("promo-popup")) {
             document.getElementById("promo-popup").style.display = "none";
         }
+    }
 
-        // Optionally, close the modal if the user clicks outside of it
-        window.onclick = function(event) {
-            if (event.target == document.getElementById("promo-popup")) {
-                document.getElementById("promo-popup").style.display = "none";
-            }
-        }
-
-        // To show the popup automatically after a delay, you can use:
-        window.onload = function() {
-            setTimeout(showPopup, 2000); // Show after 2 seconds
-        };
+    // To show the popup automatically after a delay, you can use:
+    window.onload = function() {
+        setTimeout(showPopup, 2000); // Show after 2 seconds
+    };
     </script>
 
 </body>

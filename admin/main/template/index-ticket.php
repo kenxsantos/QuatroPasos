@@ -170,8 +170,6 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
         ***********************************-->
         <div class="content-body">
             <div class="container-fluid">
-
-
                 <div class="row">
                     <!-- Available Rooms -->
                     <div class="col-md-6 col-sm-12">
@@ -296,9 +294,9 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                             <div class="form-group m-b-0">
                                                 <select class="selectpicker show-tick" data-width="auto">
                                                     <option selected="selected">Last 30 Days</option>
-                                                    <option>Last 1 MOnth</option>
-                                                    <option>Last 6 MOnth</option>
-                                                    <option>Last Year</option>
+                                                    <option>Last Week</option>
+                                                    <option>Last MOnth</option>
+                                                    <option>Last 3 months</option>
                                                 </select>
                                             </div>
                                         </div>

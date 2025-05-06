@@ -42,6 +42,11 @@
                 </a>
             </li>
             <li class="mega-menu mega-menu-sm">
+                <a class="" href="./analytics.php" target="_blank" aria-expanded="false">
+                    <i class="mdi mdi-table"></i><span class="nav-text">Analytics</span>
+                </a>
+            </li>
+            <li class="mega-menu mega-menu-sm">
                 <a class="" href="admin_chat.php" target="_blank" aria-expanded="false">
                     <i class="mdi mdi-table"></i><span class="nav-text">Chat</span>
                 </a>
