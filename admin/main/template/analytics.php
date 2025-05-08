@@ -215,92 +215,92 @@ while ($row = $rooms->fetch_assoc()) {
 
     </div>
     <script>
-        // Bookings per month
-        const monthlyCtx = document.getElementById('monthlyBookings').getContext('2d');
-        new Chart(monthlyCtx, {
-            type: 'line',
-            data: {
-                labels: <?= json_encode($months) ?>,
-                datasets: [{
-                    label: 'Bookings per Month',
-                    data: <?= json_encode($monthlyCounts) ?>,
-                    borderColor: 'blue',
-                    fill: false,
-                    tension: 0.3
-                }]
+    // Bookings per month
+    const monthlyCtx = document.getElementById('monthlyBookings').getContext('2d');
+    new Chart(monthlyCtx, {
+        type: 'line',
+        data: {
+            labels: <?= json_encode($months) ?>,
+            datasets: [{
+                label: 'Bookings per Month',
+                data: <?= json_encode($monthlyCounts) ?>,
+                borderColor: 'blue',
+                fill: false,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 1,
-                            callback: function(value) {
-                                if (Number.isInteger(value)) {
-                                    return value;
-                                }
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        callback: function(value) {
+                            if (Number.isInteger(value)) {
+                                return value;
                             }
                         }
                     }
                 }
             }
+        }
 
-        });
+    });
 
-        // Bookings by status
-        const statusCtx = document.getElementById('statusBookings').getContext('2d');
-        new Chart(statusCtx, {
-            type: 'pie',
-            data: {
-                labels: <?= json_encode($statuses) ?>,
-                datasets: [{
-                    data: <?= json_encode($statusCounts) ?>,
-                    backgroundColor: ['red', 'green', 'blue', 'orange', 'purple', 'gray']
-                }]
-            }
-        });
+    // Bookings by status
+    const statusCtx = document.getElementById('statusBookings').getContext('2d');
+    new Chart(statusCtx, {
+        type: 'pie',
+        data: {
+            labels: <?= json_encode($statuses) ?>,
+            datasets: [{
+                data: <?= json_encode($statusCounts) ?>,
+                backgroundColor: ['red', 'green', 'blue', 'orange', 'purple', 'gray']
+            }]
+        }
+    });
 
-        // Bookings by room type
-        const roomCtx = document.getElementById('roomTypeBookings').getContext('2d');
-        new Chart(roomCtx, {
-            type: 'bar',
-            data: {
-                labels: <?= json_encode($roomTypes) ?>,
-                datasets: [{
-                    label: 'Bookings by Room Type',
-                    data: <?= json_encode($roomCounts) ?>,
-                    backgroundColor: 'teal'
-                }]
+    // Bookings by room type
+    const roomCtx = document.getElementById('roomTypeBookings').getContext('2d');
+    new Chart(roomCtx, {
+        type: 'bar',
+        data: {
+            labels: <?= json_encode($roomTypes) ?>,
+            datasets: [{
+                label: 'Bookings by Room Type',
+                data: <?= json_encode($roomCounts) ?>,
+                backgroundColor: 'teal'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 1,
-                            callback: function(value) {
-                                if (Number.isInteger(value)) {
-                                    return value;
-                                }
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        callback: function(value) {
+                            if (Number.isInteger(value)) {
+                                return value;
                             }
                         }
                     }
                 }
             }
+        }
 
-        });
+    });
     </script>
     <script src="../../assets/plugins/common/common.min.js"></script>
     <script src="../js/custom.min.js"></script>

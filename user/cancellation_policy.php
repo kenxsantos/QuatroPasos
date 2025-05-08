@@ -1,10 +1,10 @@
 <?php
 
 session_start();
-require './Connection/Script.php';
+require '../Connection/Script.php';
 
 
-include('Connection/SQLcon.php');
+include('../Connection/SQLcon.php');
 $booking_id = isset($_GET['bookingId']) ? intval($_GET['bookingId']) : 0;
 $email = $_SESSION['email'];
 
@@ -110,9 +110,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_cancel'])) {
     </div>
 
     <script>
-        document.getElementById("confirmPolicy").addEventListener("change", function() {
-            document.getElementById("confirmCancel").disabled = !this.checked;
-        });
+    document.getElementById("confirmPolicy").addEventListener("change", function() {
+        document.getElementById("confirmCancel").disabled = !this.checked;
+    });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

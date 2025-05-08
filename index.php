@@ -144,7 +144,7 @@ session_start(); // Start the session
         <div id="de-loader"></div>
         <!-- page preloader close -->
         <div>
-            <a href="chat.php" class="floating-button" title="Help or Action">
+            <a href="./user/user_chat.php" class="floating-button" title="Help or Action">
                 <i class="fa-solid fa-comment-dots"></i>
             </a>
         </div>
@@ -194,7 +194,7 @@ session_start(); // Start the session
                                 <div class="menu_side_area">
                                     <div class="menu_side_area">
                                         <?php if (isset($_SESSION['user_name'])): ?>
-                                        <a href="profile.php"
+                                        <a href="./user/profile.php"
                                             class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
                                         <!-- Show user name -->
                                         <?php else: ?>
