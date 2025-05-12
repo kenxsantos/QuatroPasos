@@ -24,13 +24,9 @@ if (!$row) {
 }
 
 $cancellationQuery = mysqli_query($conn, "SELECT * FROM cancellations WHERE id = $bookingId");
-if (!$cancellationQuery) {
-    die("Query failed: " . mysqli_error($conn));
-}
+
 $row2 = mysqli_fetch_assoc($cancellationQuery);
-if (!$row2) {
-    die("Cancellation not found.");
-}
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
     $status = $_POST['status'];
@@ -264,6 +260,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php
+                                        if ($row['status'] == 'Cancel Request' || $row['status'] == 'Reschedule Request'): ?>
                                         <div class="form-group row align-items-center">
                                             <label class="col-sm-3 col-form-label text-label">Reason</label>
                                             <div class="col-sm-9">
@@ -274,18 +272,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php endif; ?>
+
                                         <div class="form-group row align-items-center">
                                             <?php
                                             if ($row['status'] == 'Cancel Request' || $row['status'] == 'Reschedule Request') {
                                                 // Display the status if it matches 'Cancel Request' or 'Reschedule Request'
                                             ?>
-                                                <label
-                                                    class="col-sm-3 col-form-label text-label"><?php echo htmlspecialchars($row['status']); ?></label>
+                                            <label
+                                                class="col-sm-3 col-form-label text-label"><?php echo htmlspecialchars($row['status']); ?></label>
                                             <?php
                                             } else {
                                                 // Display the "Booking Status" label if status is not 'Cancel Request' or 'Reschedule Request'
                                             ?>
-                                                <label class="col-sm-3 col-form-label text-label">Booking Status</label>
+                                            <label class="col-sm-3 col-form-label text-label">Booking Status</label>
                                             <?php
                                             }
                                             ?>
@@ -294,9 +294,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                                                 <?php
                                                 if ($row['status'] == 'Cancel Request' || $row['status'] == 'Reschedule Request') {
                                                 ?>
-                                                    <div class="input-group">
-                                                        <select class="form-control" name="status" id="status">
-                                                            <option value="<?php
+                                                <div class="input-group">
+                                                    <select class="form-control" name="status" id="status">
+                                                        <option value="<?php
                                                                             if ($row['status'] == 'Cancel Request') {
                                                                                 echo 'Cancel Confirmed';
                                                                             } else {
@@ -305,50 +305,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                                                                             ?>" <?php
                                                                                 echo 'selected';
                                                                                 ?>>
-                                                                Accept
-                                                            </option>
-                                                            <option value="Rejected"
-                                                                <?php if ($row['status'] == 'Rejected') echo 'selected'; ?>>
-                                                                Reject
-                                                            </option>
-                                                        </select>
-                                                    </div>
+                                                            Accept
+                                                        </option>
+                                                        <option value="Rejected"
+                                                            <?php if ($row['status'] == 'Rejected') echo 'selected'; ?>>
+                                                            Reject
+                                                        </option>
+                                                    </select>
+                                                </div>
 
                                                 <?php
                                                 } else {
                                                 ?>
-                                                    <div class="input-group">
-                                                        <select class="form-control" name="status" id="status">
-                                                            <option value="Pending"
-                                                                <?php if ($row['status'] == 'Pending') echo 'selected'; ?>>
-                                                                Pending
-                                                            </option>
-                                                            <option value="Confirmed"
-                                                                <?php if ($row['status'] == 'Confirmed') echo 'selected'; ?>>
-                                                                Confirmed
-                                                            </option>
-                                                            <option value="Cancelled"
-                                                                <?php if ($row['status'] == 'Cancelled') echo 'selected'; ?>>
-                                                                Cancelled
-                                                            </option>
-                                                            <option value="Waitlisted"
-                                                                <?php if ($row['status'] == 'Waitlisted') echo 'selected'; ?>>
-                                                                Waitlisted
-                                                            </option>
-                                                            <option value="Checked-in"
-                                                                <?php if ($row['status'] == 'Checked-in') echo 'selected'; ?>>
-                                                                Checked-in
-                                                            </option>
-                                                            <option value="Checked-out"
-                                                                <?php if ($row['status'] == 'Checked-out') echo 'selected'; ?>>
-                                                                Checked-out
-                                                            </option>
-                                                            <option value="No-show"
-                                                                <?php if ($row['status'] == 'No-show') echo 'selected'; ?>>
-                                                                No Show
-                                                            </option>
-                                                        </select>
-                                                    </div>
+                                                <div class="input-group">
+                                                    <select class="form-control" name="status" id="status">
+                                                        <option value="Pending"
+                                                            <?php if ($row['status'] == 'Pending') echo 'selected'; ?>>
+                                                            Pending
+                                                        </option>
+                                                        <option value="Confirmed"
+                                                            <?php if ($row['status'] == 'Confirmed') echo 'selected'; ?>>
+                                                            Confirmed
+                                                        </option>
+                                                        <option value="Cancelled"
+                                                            <?php if ($row['status'] == 'Cancelled') echo 'selected'; ?>>
+                                                            Cancelled
+                                                        </option>
+                                                        <option value="Waitlisted"
+                                                            <?php if ($row['status'] == 'Waitlisted') echo 'selected'; ?>>
+                                                            Waitlisted
+                                                        </option>
+                                                        <option value="Checked-in"
+                                                            <?php if ($row['status'] == 'Checked-in') echo 'selected'; ?>>
+                                                            Checked-in
+                                                        </option>
+                                                        <option value="Checked-out"
+                                                            <?php if ($row['status'] == 'Checked-out') echo 'selected'; ?>>
+                                                            Checked-out
+                                                        </option>
+                                                        <option value="No-show"
+                                                            <?php if ($row['status'] == 'No-show') echo 'selected'; ?>>
+                                                            No Show
+                                                        </option>
+                                                    </select>
+                                                </div>
                                                 <?php
                                                 }
                                                 ?>

@@ -127,22 +127,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                             <div class="drop-down dropdown-profile animated bounceInDown">
                                 <div class="dropdown-content-body">
                                     <ul>
-                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My
-                                                    Profile</span></a>
-                                        </li>
-                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My
-                                                    Wallet</span></a>
-                                        </li>
-                                        <li><a href="javascript:void()"><i class="icon-envelope"></i>
-                                                <span>Inbox</span></a>
-                                        </li>
-                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i>
-                                                <span>Setting</span></a>
-                                        </li>
-                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock
-                                                    Screen</span></a>
-                                        </li>
-                                        <li><a href="javascript:void()"><i class="icon-power"></i>
+                                        <li><a href="../../../logout.php"><i class="icon-power"></i>
                                                 <span>Logout</span></a>
                                         </li>
                                     </ul>
@@ -281,46 +266,6 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                     </div>
                 </a>
 
-
-                <!-- row -->
-                <div class="row">
-                    <div class="col-xl-8 col-xxl-7 col-lg-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title m-t-10">Booked Graph</h4>
-                                <div class="table-action float-right">
-                                    <form action="#">
-                                        <div class="form-row">
-                                            <div class="form-group m-b-0">
-                                                <select class="selectpicker show-tick" data-width="auto">
-                                                    <option selected="selected">Last 30 Days</option>
-                                                    <option>Last Week</option>
-                                                    <option>Last MOnth</option>
-                                                    <option>Last 3 months</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <canvas id="monthly-orders-chart" style="display: none;"></canvas>
-                                <canvas id="sales-graph"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-xxl-5 col-lg-4">
-                        <div class="card" style="padding-bottom: 200px;">
-                            <div class="card-header">
-                                <h4 class="card-title">Most Selling Items</h4>
-                            </div>
-                            <div class="card-body">
-                                <canvas id="most-selling-items"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <a style="cursor: pointer">
                     <div class="row">
