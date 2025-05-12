@@ -28,11 +28,11 @@ session_start(); // Start the session
 <!DOCTYPE html>
 
 <head>
-    <title>Almaris — Hotel Website Template</title>
+    <title>Quatro Pasos Website</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="Quatro Pasos Website" name="description">
     <meta content="" name="keywords">
     <meta content="" name="author">
     <!-- CSS Files
@@ -185,6 +185,7 @@ session_start(); // Start the session
                                     <li><a class="menu-item" href="#section-intro">HOME</a></li>
                                     <li><a class="menu-item" href="rooms.php">ACCOMODATION</a></li>
                                     <li><a class="menu-item" href="facilities.php">FACILITIES</a></li>
+                                    <li><a class="menu-item" href="promo.php">PROMO</a></li>
                                 </ul>
                             </div>
                             <div class="col-center">
@@ -361,89 +362,7 @@ session_start(); // Start the session
                 </div>
             </section>
 
-            <section class="px-2 pb-2 pt30">
-                <div class="container-fluid">
-                    <div class="row g-2">
-                        <div class="col-lg-8 offset-lg-2 text-center"><br><br><br><br><br>
-                            <div class="subtitle id-color wow fadeInUp">Our Facebook</div>
-                            <h2 class="wow fadeInUp mb-4"><?php echo $row["FBname"]; ?></h2>
-                        </div>
 
-                        <div class="col-md-6">
-                            <div class="row g-2">
-                                <div class="col-3">
-                                    <a href="#" class="d-block hover relative overflow-hidden text-light">
-                                        <img src="images/gallery-square/1.webp" class="w-100 hover-scale-1-1" alt="">
-                                        <div class="abs abs-centered fs-24 text-white hover-op-0">
-                                            <i class="fa-brands fa-instagram"></i>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-3">
-                                    <a href="#" class="d-block hover relative overflow-hidden text-light">
-                                        <img src="images/gallery-square/2.webp" class="w-100 hover-scale-1-1" alt="">
-                                        <div class="abs abs-centered fs-24 text-white hover-op-0">
-                                            <i class="fa-brands fa-instagram"></i>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-3">
-                                    <a href="#" class="d-block hover relative overflow-hidden text-light">
-                                        <img src="images/gallery-square/3.webp" class="w-100 hover-scale-1-1" alt="">
-                                        <div class="abs abs-centered fs-24 text-white hover-op-0">
-                                            <i class="fa-brands fa-instagram"></i>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-3">
-                                    <a href="#" class="d-block hover relative overflow-hidden text-light">
-                                        <img src="images/gallery-square/4.webp" class="w-100 hover-scale-1-1" alt="">
-                                        <div class="abs abs-centered fs-24 text-white hover-op-0">
-                                            <i class="fa-brands fa-instagram"></i>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row g-2">
-                                <div class="col-3">
-                                    <a href="#" class="d-block hover relative overflow-hidden text-light">
-                                        <img src="images/gallery-square/5.webp" class="w-100 hover-scale-1-1" alt="">
-                                        <div class="abs abs-centered fs-24 text-white hover-op-0">
-                                            <i class="fa-brands fa-instagram"></i>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-3">
-                                    <a href="#" class="d-block hover relative overflow-hidden text-light">
-                                        <img src="images/gallery-square/6.webp" class="w-100 hover-scale-1-1" alt="">
-                                        <div class="abs abs-centered fs-24 text-white hover-op-0">
-                                            <i class="fa-brands fa-instagram"></i>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-3">
-                                    <a href="#" class="d-block hover relative overflow-hidden text-light">
-                                        <img src="images/gallery-square/7.webp" class="w-100 hover-scale-1-1" alt="">
-                                        <div class="abs abs-centered fs-24 text-white hover-op-0">
-                                            <i class="fa-brands fa-instagram"></i>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-3">
-                                    <a href="#" class="d-block hover relative overflow-hidden text-light">
-                                        <img src="images/gallery-square/8.webp" class="w-100 hover-scale-1-1" alt="">
-                                        <div class="abs abs-centered fs-24 text-white hover-op-0">
-                                            <i class="fa-brands fa-instagram"></i>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
         </div>
         <!-- content close -->

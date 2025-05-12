@@ -37,11 +37,11 @@ $conn->close();
 <html lang="en">
 
 <head>
-    <title>Almaris — Hotel Website Template</title>
+    <title>Quatro Pasos Website</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="Quatro Pasos Website" name="description">
     <meta content="" name="keywords">
     <meta content="" name="author">
     <!-- CSS Files
@@ -266,7 +266,7 @@ $conn->close();
                         <h2>Reservation Complete</h2>
                         <p>Thank you! Your reservation is still in process.</p>
 
-                        <form action="bookings.php" method="POST" enctype="multipart/form-data">
+                        <form action="user/bookings.php" method="POST" enctype="multipart/form-data">
                             <label>Booking ID</label>
                             <label>Start Date</label>
                             <label>End Date</label>

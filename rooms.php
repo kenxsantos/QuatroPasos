@@ -11,11 +11,11 @@ session_start();
 <html lang='zxx'>
 
 <head>
-    <title>Almaris — Hotel Website Template</title>
+    <title>Quatro Pasos Website</title>
     <link rel='icon' href='images/icon.png' type='image/gif' sizes='16x16'>
     <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>
     <meta content='width=device-width, initial-scale=1.0' name='viewport'>
-    <meta content='Almaris — Hotel Website Template' name='description'>
+    <meta content='Quatro Pasos Website' name='description'>
     <meta content='' name='keywords'>
     <meta content='' name='author'>
     <!-- CSS Files
@@ -89,11 +89,11 @@ session_start();
                             <div class='de-flex-col'>
                                 <div class='menu_side_area'>
                                     <?php if (isset($_SESSION['user_name'])): ?>
-                                    <a href="./user/profile.php" class='btn-main btn-line'>
-                                        <?php echo htmlspecialchars($_SESSION['user_name']);
+                                        <a href="./user/profile.php" class='btn-main btn-line'>
+                                            <?php echo htmlspecialchars($_SESSION['user_name']);
                                             ?>
-                                    </a>
-                                    <!-- Show user name -->
+                                        </a>
+                                        <!-- Show user name -->
 
                                     <?php endif;
                                     ?>
@@ -131,32 +131,32 @@ session_start();
                         <!-- room begin -->
                         <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         ?>
-                        <div class='col-lg-4 col-sm-6'>
-                            <div class='hover relative text-light text-center wow fadeInUp' data-wow-delay='.3s'>
-                                <img src="admin/main/template/<?php echo $row['img']; ?>" class='img-fluid' alt=''>
-                                <div class='abs hover-op-1 z-4 hover-mt-40 abs-centered'>
-                                    <div class='fs-14'>Starts at</div>
-                                    <h3 class='fs-40 lh-1 mb-4'><?php echo $row['Price'];
+                            <div class='col-lg-4 col-sm-6'>
+                                <div class='hover relative text-light text-center wow fadeInUp' data-wow-delay='.3s'>
+                                    <img src="admin/main/template/<?php echo $row['img']; ?>" class='img-fluid' alt=''>
+                                    <div class='abs hover-op-1 z-4 hover-mt-40 abs-centered'>
+                                        <div class='fs-14'>Starts at</div>
+                                        <h3 class='fs-40 lh-1 mb-4'><?php echo $row['Price'];
                                                                     ?></h3>
-                                    <a class='btn-line'
-                                        href='RoomDetails.php?type=<?php echo urlencode($row['type']); ?>&price=<?php echo urlencode($row['Price']); ?>&pax=<?php echo urlencode($row['Pax']); ?>&img=<?php echo urlencode($row['img']); ?>'>View
-                                        Details</a>
+                                        <a class='btn-line'
+                                            href='RoomDetails.php?type=<?php echo urlencode($row['type']); ?>&price=<?php echo urlencode($row['Price']); ?>&pax=<?php echo urlencode($row['Pax']); ?>&img=<?php echo urlencode($row['img']); ?>'>View
+                                            Details</a>
 
-                                </div>
-                                <div class='abs bg-color z-2 top-0 w-100 h-100 hover-op-1'></div>
-                                <div class='abs z-2 bottom-0 mb-3 w-100 text-center hover-op-0'>
-                                    <h3 class='mb-0'><?php echo $row['type'];
-                                                            ?></h3>
-                                    <div class='text-center fs-14'>
-                                        <span class='mx-2'>
-                                            <?php echo $row['Pax'];
-                                                ?> Guests
-                                        </span>
                                     </div>
+                                    <div class='abs bg-color z-2 top-0 w-100 h-100 hover-op-1'></div>
+                                    <div class='abs z-2 bottom-0 mb-3 w-100 text-center hover-op-0'>
+                                        <h3 class='mb-0'><?php echo $row['type'];
+                                                            ?></h3>
+                                        <div class='text-center fs-14'>
+                                            <span class='mx-2'>
+                                                <?php echo $row['Pax'];
+                                                ?> Guests
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class='gradient-trans-color-bottom abs w-100 h-40 bottom-0'></div>
                                 </div>
-                                <div class='gradient-trans-color-bottom abs w-100 h-40 bottom-0'></div>
                             </div>
-                        </div>
                         <?php }
                         ?>
                         <!-- room end -->
