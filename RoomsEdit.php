@@ -43,11 +43,11 @@ $pdo = null;
 <html lang="zxx">
 
 <head>
-    <title>Almaris — Hotel Website Template</title>
+    <title>Quatro Pasos Website</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="Quatro Pasos Website" name="description">
     <meta content="" name="keywords">
     <meta content="" name="author">
     <!-- CSS Files
@@ -124,12 +124,12 @@ $pdo = null;
                                 <div class="menu_side_area">
                                     <div class="menu_side_area">
                                         <?php if (isset($_SESSION['user_name'])): ?>
-                                        <a href="./user/profile.php"
-                                            class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
-                                        <!-- Show user name -->
+                                            <a href="./user/profile.php"
+                                                class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                            <!-- Show user name -->
                                         <?php else: ?>
-                                        <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
-                                        <!-- Show login if not logged in -->
+                                            <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
+                                            <!-- Show login if not logged in -->
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -176,11 +176,11 @@ $pdo = null;
                             <div id="booking_form">
                                 <div id="step-2" class="row">
                                     <?php while ($row = $roomdb->fetch(PDO::FETCH_ASSOC)) { ?>
-                                    <a href="RoomsEdit2.php?roomid=<?php echo $row["id"] ?>">
-                                        <div class="col-md-12" style="text-align:center">
-                                            <?php echo $row["type"] ?>
-                                        </div>
-                                    </a>
+                                        <a href="RoomsEdit2.php?roomid=<?php echo $row["id"] ?>">
+                                            <div class="col-md-12" style="text-align:center">
+                                                <?php echo $row["type"] ?>
+                                            </div>
+                                        </a>
                                     <?php } ?>
                                 </div>
                                 <a href="RoomsAdd.php">

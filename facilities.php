@@ -15,11 +15,11 @@ $counter = 1;
 <html lang="zxx">
 
 <head>
-    <title>Almaris — Hotel Website Template</title>
+    <title>Quatro Pasos Website</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="Quatro Pasos Website" name="description">
     <meta content="" name="keywords">
     <meta content="" name="author">
     <!-- CSS Files
@@ -96,12 +96,12 @@ $counter = 1;
                                 <div class="menu_side_area">
                                     <div class="menu_side_area">
                                         <?php if (isset($_SESSION['user_name'])): ?>
-                                        <a href="./user/profile.php"
-                                            class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
-                                        <!-- Show user name -->
+                                            <a href="./user/profile.php"
+                                                class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                            <!-- Show user name -->
                                         <?php else: ?>
-                                        <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
-                                        <!-- Show login if not logged in -->
+                                            <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
+                                            <!-- Show login if not logged in -->
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -139,46 +139,46 @@ $counter = 1;
                         if ($counter % 2 == 0) {
                             // Even Counter
                     ?>
-                    <div class="row g-0 align-items-center justify-content-center">
-                        <div class="col-lg-5">
-                            <div class="me-lg-5 wow scaleIn">
-                                <h2 class="wow fadeInUp"><?php echo $row['Event']; ?> </h2>
-                                <p>><?php echo $row['Info']; ?></p>
-                            </div>
-                        </div>
+                            <div class="row g-0 align-items-center justify-content-center">
+                                <div class="col-lg-5">
+                                    <div class="me-lg-5 wow scaleIn">
+                                        <h2 class="wow fadeInUp"><?php echo $row['Event']; ?> </h2>
+                                        <p>><?php echo $row['Info']; ?></p>
+                                    </div>
+                                </div>
 
-                        <div class="col-lg-5">
-                            <div class="relative wow fadeInUp" data-wow-delay=".3s">
-                                <div class="shape-mask-2 jarallax">
-                                    <img src="admin/main/template/<?php echo $row['ImagePath']; ?>" class="jarallax-img"
-                                        alt="">
+                                <div class="col-lg-5">
+                                    <div class="relative wow fadeInUp" data-wow-delay=".3s">
+                                        <div class="shape-mask-2 jarallax">
+                                            <img src="admin/main/template/<?php echo $row['ImagePath']; ?>" class="jarallax-img"
+                                                alt="">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
 
-                    <?php
+                        <?php
                         } else {
                             // Odd Counter
                         ?>
-                    <div class="row g-0 align-items-center justify-content-center">
-                        <div class="col-lg-5">
-                            <div class="relative wow fadeInUp" data-wow-delay=".3s">
-                                <div class="shape-mask-1 jarallax">
-                                    <img src="admin/main/template/<?php echo $row['ImagePath']; ?>" class="jarallax-img"
-                                        alt="">
+                            <div class="row g-0 align-items-center justify-content-center">
+                                <div class="col-lg-5">
+                                    <div class="relative wow fadeInUp" data-wow-delay=".3s">
+                                        <div class="shape-mask-1 jarallax">
+                                            <img src="admin/main/template/<?php echo $row['ImagePath']; ?>" class="jarallax-img"
+                                                alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-5">
+                                    <div class="ms-lg-5 wow scaleIn">
+                                        <h2 class="wow fadeInUp"><?php echo $row['Event']; ?></h2>
+                                        <p><?php echo $row['Info']; ?></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-lg-5">
-                            <div class="ms-lg-5 wow scaleIn">
-                                <h2 class="wow fadeInUp"><?php echo $row['Event']; ?></h2>
-                                <p><?php echo $row['Info']; ?></p>
-                            </div>
-                        </div>
-                    </div>
 
                     <?php
                         }

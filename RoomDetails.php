@@ -12,22 +12,22 @@ $img = isset($_GET['img']) ? $_GET['img'] : '';
 <html>
 
 <head>
-    <title>Almaris — Hotel Website Template</title>
+    <title>Quatro Pasos Website</title>
     <link rel="icon" href="images/icon.webp" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="Quatro Pasos Website" name="description">
     <meta content="" name="keywords">
     <meta content="" name="author">
     <!-- CSS Files
     ================================================== -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
-    <link href="css/plugins.css" rel="stylesheet" type="text/css">
-    <link href="css/swiper.css" rel="stylesheet" type="text/css">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link href="css/coloring.css" rel="stylesheet" type="text/css">
+    <link href='css/bootstrap.min.css' rel='stylesheet' type='text/css' id='bootstrap'>
+    <link href='css/plugins.css' rel='stylesheet' type='text/css'>
+    <link href='css/swiper.css' rel='stylesheet' type='text/css'>
+    <link href='css/style.css' rel='stylesheet' type='text/css'>
+    <link href='css/coloring.css' rel='stylesheet' type='text/css'>
     <!-- color scheme -->
-    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
+    <link id='colors' href='css/colors/scheme-01.css' rel='stylesheet' type='text/css'>
 
 </head>
 
@@ -39,11 +39,28 @@ $img = isset($_GET['img']) ? $_GET['img'] : '';
         <div id="de-loader"></div>
         <!-- page preloader close -->
         <!-- content begin -->
+        <header>
+            <div class='row'>
+                <div class='col-md-12'>
+                    <div class='de-flex sm-pt10'>
+                        <div class='de-flex-col'>
+                            <ul id="mainmenu">
+                                <li>
+                                    <a class="menu-item" href="javascript:history.back()"
+                                        style="display: flex; align-items: center; gap: 8px;">
+                                        <img src="images/icons/back.png" alt="Back" width="20px">
+                                        <span>Back</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </header>
         <div class="no-bottom no-top" id="content">
-
-            <div id="top"></div>
-
-            <section class="pt80 sm-pt-40 no-bottom">
+            <section class="pt70 sm-pt-40 no-bottom">
                 <div class="owl-custom-nav menu-float" data-target="#gallery-carousel">
                     <a class="btn-next"></a>
                     <a class="btn-prev"></a>
