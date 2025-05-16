@@ -2,11 +2,11 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import {
   getFirestore,
   collection,
+  addDoc,
   query,
-  where,
   orderBy,
   onSnapshot,
-  addDoc,
+  where,
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
@@ -24,8 +24,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Set customer ID (could be pulled from login/session/etc)
-const customerId = "customer1"; // Example static ID
+const customerId = localStorage.getItem("customerId");
 const adminId = "admin";
 const conversationId = [customerId, adminId].sort().join("_");
 

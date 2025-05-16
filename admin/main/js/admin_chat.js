@@ -4,10 +4,10 @@ import {
   collection,
   query,
   where,
+  getDocs,
   orderBy,
   onSnapshot,
   addDoc,
-  getDocs,
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
@@ -32,7 +32,6 @@ const sendBtn = document.getElementById("send");
 
 let selectedUser = null;
 
-// Load unique users who sent messages
 async function loadUsers() {
   const q = query(collection(db, "messages"));
   const snapshot = await getDocs(q);
@@ -57,7 +56,6 @@ async function loadUsers() {
   });
 }
 
-// Load messages for selected user
 function loadMessages() {
   const conversationId = [selectedUser, "admin"].sort().join("_");
 
@@ -84,7 +82,6 @@ function loadMessages() {
   });
 }
 
-// Send message
 sendBtn.addEventListener("click", async () => {
   const text = messageInput.value.trim();
   if (!text || !selectedUser) return;

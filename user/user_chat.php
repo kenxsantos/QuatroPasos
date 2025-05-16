@@ -1,32 +1,40 @@
 <?php
-include('../Connection/PDOcon.php');
+include('../Connection/PDOcon.php'); // Make sure $host, $dbname, $db_user, $db_pass are defined here
 
 session_start();
 
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Could not connect to the database: " . $e->getMessage());
-}
-
-// Fetch user data (assuming user ID is stored in session)
 $user_id = $_SESSION['user_id'] ?? null;
-
-if (!$user_id) {
-    die("User not logged in.");
-}
-
-$query = $pdo->prepare("SELECT * FROM users WHERE id = :id");
-$query->execute(['id' => $user_id]);
-$user = $query->fetch(PDO::FETCH_ASSOC);
-
-if (!$user) {
-    die("User not found.");
+$user_name = "";
+// Check if user_name is available in session
+if (isset($_SESSION['user_name'])) {
+    $user_name = $_SESSION['user_name'];
+    echo "Welcome, " . htmlspecialchars($user_name) . "!";
+} else {
+    echo "User name not found in session.";
 }
 
 
+try {
+    // Use your actual DB credentials, not session values
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Fetch user info using prepared statement
+    $query = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+    $query->execute(['id' => $user_id]);
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user) {
+        die("User not found.");
+    }
+
+    // Now you can use $user safely
+    // Example: echo $user['name'];
+
+} catch (PDOException $e) {
+    die("Database error: " . $e->getMessage());
+}
 ?>
 
 
@@ -108,6 +116,11 @@ if (!$user) {
         cursor: pointer;
     }
     </style>
+
+    <script type="module">
+    const customerId = "<?php echo $user_name; ?>"; // Use PHP to pass username
+    localStorage.setItem("customerId", customerId); // Store for JS use
+    </script>
 </head>
 
 <body>
@@ -174,6 +187,7 @@ if (!$user) {
                                         <button id="send">Send</button>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
