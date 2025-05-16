@@ -52,7 +52,45 @@ if (!$user) {
     <link href="./style.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <style>
+    .btn-cancel {
+        display: inline-block;
+        padding: 2px 10px;
+        background-color: #ff4d4d;
+        /* red */
+        color: white;
+        text-decoration: none;
+        border: none;
+        border-radius: 2px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
+    .btn-cancel:hover {
+        background-color: #e60000;
+        /* darker red on hover */
+    }
+
+    .btn-resched {
+        display: inline-block;
+        padding: 2px 10px;
+        background-color: rgb(158, 97, 97);
+        /* red */
+        color: white;
+        text-decoration: none;
+        border: none;
+        border-radius: 2px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-resched:hover {
+        background-color: #e60000;
+        /* darker red on hover */
+    }
+    </style>
 </head>
 
 <body>
@@ -150,20 +188,18 @@ if (!$user) {
                                                     <?php if ($row['status'] == 'Pending') { ?>
                                                     <input type="hidden" name="id"
                                                         value="<?= htmlspecialchars($row['id']) ?>">
-                                                    <button type="button" class="btn btn-danger btn-sm">
-                                                        <a
-                                                            href="cancellation_policy.php?bookingId=<?= urlencode($row['id']); ?>">Cancel</a>
-                                                    </button>
-                                                    <button type="button" class="btn btn-success btn-sm reschedule-btn"
+                                                    <a href="cancellation_policy.php?bookingId=<?= urlencode($row['id']); ?>"
+                                                        class="btn-cancel">Cancel</a>
+
+                                                    <button type="button" class="btn-resched  reschedule-btn"
                                                         data-bs-toggle="modal" data-bs-target="#rescheduleModal"
                                                         data-id="<?= htmlspecialchars($row['id']) ?>">
                                                         Reschedule
                                                     </button>
                                                     <?php } elseif ($row['status'] == 'Confirmed') { ?>
-                                                    <button type="button">
-                                                        <a
-                                                            href="cancellation_policy.php?bookingId=<?= urlencode($row['id']); ?>">Cancel</a>
-                                                    </button>
+                                                    <a href="cancellation_policy.php?bookingId=<?= urlencode($row['id']); ?>"
+                                                        class="btn-cancel">Cancel</a>
+
                                                     <?php } elseif ($row['status']) { ?>
                                                     <button class="btn btn-success btn-sm"
                                                         disabled><?= htmlspecialchars(($row['status'])) ?></button>
@@ -205,7 +241,7 @@ if (!$user) {
                             <input type="text" id="end-date" class="form-control date-picker" name="end_date" required>
                         </div>
 
-                        <button type="submit-reschedule" class="btn btn-success btn-sm" name="reschedule">Save
+                        <button type="submit-reschedule" class="btn-resched " name="reschedule">Save
                             Changes</button>
                     </form>
 
