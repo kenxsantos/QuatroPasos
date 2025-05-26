@@ -346,9 +346,10 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                                 <th>Room Type</th>
                                                 <th>Check-in</th>
                                                 <th>Check-out</th>
-                                                <th>Number of Guests</th>
-                                                <th>Total Booking Amount</th>
+                                                <th>No. of Guests</th>
+                                                <th>Booking Amount</th>
                                                 <th>Booking Status</th>
+                                                <th>Mode</th>
                                                 <th>View</th>
                                             </tr>
                                         </thead>
@@ -370,6 +371,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                                 <td><?php echo htmlspecialchars($row["num_adults"]); ?></td>
                                                 <td><?php echo htmlspecialchars($row["Price"]); ?></td>
                                                 <td><?php echo htmlspecialchars($row["status"]); ?></td>
+                                                <td><?php echo htmlspecialchars($row["reservation"]); ?></td>
                                                 <td><a
                                                         href="table-datatable-basic-view.php?bookingId=<?php echo urlencode($row["id"]); ?>">View</a>
                                                 </td>
