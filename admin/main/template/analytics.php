@@ -35,6 +35,15 @@ while ($row = $monthly->fetch_assoc()) {
     $monthlyCounts[] = $row['count'];
 }
 
+//reservation mode
+$status = $conn->query("SELECT reservation, COUNT(*) AS count FROM bookings GROUP BY reservation");
+$reservationMode = [];
+$reservationCounts = [];
+while ($row = $status->fetch_assoc()) {
+    $reservationMode[] = $row['reservation'];
+    $reservationCounts[] = $row['count'];
+}
+
 // Bookings by status
 $status = $conn->query("SELECT status, COUNT(*) AS count FROM bookings GROUP BY status");
 $statuses = [];
@@ -68,7 +77,63 @@ while ($row = $rooms->fetch_assoc()) {
     <!-- Custom Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <style>
+    .modal-content {
+        border-radius: 1rem;
+        border: none;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        background: #ffffff;
+    }
+
+    .modal-header {
+        border-bottom: 1px solid #dee2e6;
+        background-color: #f8f9fa;
+        padding: 1.2rem 1.5rem;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+    }
+
+    .modal-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #343a40;
+    }
+
+    .modal-body {
+        padding: 2rem;
+        font-size: 1.5rem;
+        color: #495057;
+    }
+
+    .modal-body ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .modal-body li {
+        margin-bottom: 1rem;
+        padding: 0.75rem 1rem;
+        background-color: #f1f3f5;
+        border-left: 4px solid #0d6efd;
+        border-radius: 0.5rem;
+    }
+
+    .modal-body li strong {
+        color: #212529;
+    }
+
+    .btn-close {
+        filter: brightness(0.6);
+    }
+
+    @media (max-width: 576px) {
+        .modal-body {
+            padding: 1.2rem;
+        }
+    }
+    </style>
 </head>
 
 <body>
@@ -165,6 +230,29 @@ while ($row = $rooms->fetch_assoc()) {
         <!--**********************************
             Content body start
         ***********************************-->
+        <!-- Modal -->
+
+        <!-- MODAL -->
+        <div class="modal fade" id="dataSummaryModal" tabindex="-1" aria-labelledby="dataSummaryModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="dataSummaryModalLabel">
+                            📊 Data Summary
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="dataSummaryContent">
+                        <!-- Summary content will be injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
         <div class="content-body">
             <div class="container-fluid">
                 <!-- row 1: Monthly and Room Type Bookings -->
@@ -194,7 +282,17 @@ while ($row = $rooms->fetch_assoc()) {
 
                 <!-- row 2: Status Doughnut Chart -->
                 <div class="row">
-                    <div class="col-xl-4 col-lg-6 mx-auto">
+                    <div class="col-xl-6 col-lg-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title mt-2">🛏️ Reservation</h4>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="reservation"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 mb-4">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title mt-2">📌 Booking Status</h4>
@@ -204,6 +302,8 @@ while ($row = $rooms->fetch_assoc()) {
                             </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -266,6 +366,21 @@ while ($row = $rooms->fetch_assoc()) {
         }
     });
 
+    //reservation mode
+
+    const reservationCtx = document.getElementById('reservation').getContext('2d');
+    new Chart(reservationCtx, {
+        type: 'pie',
+        data: {
+            labels: <?= json_encode($reservationMode) ?>,
+            datasets: [{
+                data: <?= json_encode($reservationCounts) ?>,
+                backgroundColor: ['blue', 'orange']
+            }]
+        }
+    });
+
+
     // Bookings by room type
     const roomCtx = document.getElementById('roomTypeBookings').getContext('2d');
     new Chart(roomCtx, {
@@ -302,6 +417,50 @@ while ($row = $rooms->fetch_assoc()) {
 
     });
     </script>
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        // Data from PHP
+        const months = <?= json_encode($months) ?>;
+        const monthlyCounts = <?= json_encode($monthlyCounts) ?>.map(Number);
+        const roomTypes = <?= json_encode($roomTypes) ?>;
+        const roomCounts = <?= json_encode($roomCounts) ?>.map(Number);
+        const statuses = <?= json_encode($statuses) ?>;
+        const statusCounts = <?= json_encode($statusCounts) ?>;
+        const reservationModes = <?= json_encode($reservationMode) ?>;
+        const reservationCounts = <?= json_encode($reservationCounts) ?>;
+
+        // Get most booked room type
+        let maxRoom = Math.max(...roomCounts);
+        let mostBookedRoom = roomTypes[roomCounts.indexOf(maxRoom)];
+
+        // Get month with most bookings
+        let maxMonth = Math.max(...monthlyCounts);
+        let topMonth = months[monthlyCounts.indexOf(maxMonth)];
+        console.log('monthlyCounts:', monthlyCounts);
+        console.log('months:', months);
+
+        // Create summary message
+        const summaryHtml = `
+      <ul>
+        <li><strong>Most Booked Room Type:</strong> ${mostBookedRoom} (${maxRoom} bookings)</li>
+        <li><strong>Peak Booking Month:</strong> ${topMonth} (${maxMonth} bookings)</li>
+        <li><strong>Reservation Modes:</strong><br>
+          ${reservationModes.map((mode, i) => `&nbsp;&nbsp;• ${mode}: ${reservationCounts[i]}`).join("<br>")}
+        </li>
+        <li><strong>Booking Status Breakdown:</strong><br>
+          ${statuses.map((status, i) => `&nbsp;&nbsp;• ${status}: ${statusCounts[i]}`).join("<br>")}
+        </li>
+      </ul>
+    `;
+
+        document.getElementById('dataSummaryContent').innerHTML = summaryHtml;
+
+        // Show modal (Bootstrap 5)
+        const modal = new bootstrap.Modal(document.getElementById('dataSummaryModal'));
+        modal.show();
+    });
+    </script>
+
     <script src="../../assets/plugins/common/common.min.js"></script>
     <script src="../js/custom.min.js"></script>
     <script src="../js/settings.js"></script>
