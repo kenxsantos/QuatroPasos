@@ -162,6 +162,8 @@ if (!$user) {
                                                 <th>No. of Adults</th>
                                                 <th>No. of Children</th>
                                                 <th>Price</th>
+                                                <th>Down Payment</th>
+                                                <th>Balance</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -178,6 +180,11 @@ if (!$user) {
                                                 <td><?= htmlspecialchars($row['num_adults']) ?></td>
                                                 <td><?= htmlspecialchars($row['num_children']) ?></td>
                                                 <td><?= htmlspecialchars($row['Price']) ?></td>
+                                                <td><?= htmlspecialchars($row['down_payment']) ?>
+                                                </td>
+                                                <td><?= htmlspecialchars($row['balance']) ?>
+                                                </td>
+
                                                 <td>
                                                     <span
                                                         class="badge <?= ($row['status'] === 'Cancelled') ? 'bg-danger' : (($row['status'] === 'Pending') ? 'bg-warning text-dark' : (($row['status'] === 'Confirmed') ? 'bg-success' : 'bg-secondary')) ?>">
