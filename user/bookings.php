@@ -30,6 +30,7 @@ $query = $pdo->prepare("SELECT * FROM users WHERE id = :id");
 $query->execute(['id' => $user_id]);
 $user = $query->fetch(PDO::FETCH_ASSOC);
 
+
 if (!$user) {
     die("User not found.");
 }
@@ -90,6 +91,24 @@ if (!$user) {
         background-color: #e60000;
         /* darker red on hover */
     }
+
+    .modal-content {
+        background: linear-gradient(to bottom, #ffffff, #f9f9f9);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .btn-view,
+    .btn-close {
+        color: #e60000;
+        border-width: 0px;
+        background-color: transparent;
+    }
+
+    .btn-view:hover {
+        color: #ff4d4d;
+        border: 0px;
+        background-color: transparent;
+    }
     </style>
 </head>
 
@@ -140,6 +159,90 @@ if (!$user) {
         <!--**********************************
             Content body start
         ***********************************-->
+        <!-- Modal -->
+        <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0 shadow rounded-4">
+                    <div class="modal-header border-0 pb-0">
+                        <div></div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body px-5 py-4">
+                        <div class="text-center mb-4">
+                            <h4 class="fw-bold text-primary">Quatro Pasos Booking</h4>
+                            <p class="text-muted mb-0">Thank you for your reservation!</p>
+                        </div>
+
+                        <hr>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <p class="mb-1 text-muted">Room Type</p>
+                                <h6 id="modalRoom" class="fw-semibold"></h6>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mb-1 text-muted">Type of Stay</p>
+                                <h6 id="modalStay" class="fw-semibold"></h6>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <p class="mb-1 text-muted">Start Date</p>
+                                <h6 id="modalStart" class="fw-semibold"></h6>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mb-1 text-muted">End Date</p>
+                                <h6 id="modalEnd" class="fw-semibold"></h6>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <p class="mb-1 text-muted">No. of Adults</p>
+                                <h6 id="modalAdults" class="fw-semibold"></h6>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mb-1 text-muted">No. of Children</p>
+                                <h6 id="modalChildren" class="fw-semibold"></h6>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row text-end">
+                            <div class="col-md-12">
+                                <p class="mb-1 text-muted">Total Price</p>
+                                <h5 class="fw-bold text-dark">₱<span id="modalPrice"></span></h5>
+                            </div>
+                        </div>
+                        <div class="row text-end">
+                            <div class="col-md-12">
+                                <p class="mb-1 text-muted">Down Payment (40%)</p>
+                                <h6 class="fw-semibold text-success">₱<span id="modalDown"></span></h6>
+                            </div>
+                        </div>
+                        <div class="row text-end mb-2">
+                            <div class="col-md-12">
+                                <p class="mb-1 text-muted">Remaining Balance</p>
+                                <h6 class="fw-semibold text-danger">₱<span id="modalBalance"></span></h6>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="text-center mt-4">
+                            <p class="text-muted mb-1 small">For inquiries, contact us at
+                                <strong>info@quatropasos.online</strong>
+                            </p>
+                            <p class="text-muted small mb-0">Date Issued: <span><?= date('F j, Y') ?></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
         <div class="content-body">
             <div class="container-fluid">
@@ -162,8 +265,7 @@ if (!$user) {
                                                 <th>No. of Adults</th>
                                                 <th>No. of Children</th>
                                                 <th>Price</th>
-                                                <th>Down Payment</th>
-                                                <th>Balance</th>
+                                                <th>Payment Details</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -180,9 +282,24 @@ if (!$user) {
                                                 <td><?= htmlspecialchars($row['num_adults']) ?></td>
                                                 <td><?= htmlspecialchars($row['num_children']) ?></td>
                                                 <td><?= htmlspecialchars($row['Price']) ?></td>
-                                                <td><?= htmlspecialchars($row['down_payment']) ?>
+                                                <td class="text-center">
+                                                    <button class="btn-view view-booking" data-bs-toggle="modal"
+                                                        data-bs-target="#viewModal" data-id="<?= $row['id'] ?>"
+                                                        data-room="<?= htmlspecialchars($row['room_type']) ?>"
+                                                        data-stay="<?= htmlspecialchars($row['type_of_stay']) ?>"
+                                                        data-start="<?= htmlspecialchars($row['start_date']) ?>"
+                                                        data-end="<?= htmlspecialchars($row['end_date']) ?>"
+                                                        data-adults="<?= htmlspecialchars($row['num_adults']) ?>"
+                                                        data-children="<?= htmlspecialchars($row['num_children']) ?>"
+                                                        data-price="<?= htmlspecialchars($row['Price']) ?>"
+                                                        data-down="<?= htmlspecialchars($row['down_payment']) ?>"
+                                                        data-balance="<?= htmlspecialchars($row['balance']) ?>">
+                                                        View
+                                                    </button>
                                                 </td>
-                                                <td><?= htmlspecialchars($row['balance']) ?>
+
+
+
                                                 </td>
 
                                                 <td>
@@ -214,9 +331,11 @@ if (!$user) {
                                                 </td>
                                             </tr>
                                             <?php } ?>
+
                                         </tbody>
 
                                     </table>
+
                                 </div>
                             </div>
                         </div>
@@ -266,6 +385,21 @@ if (!$user) {
     <script src="../js/plugins.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+    document.querySelectorAll('.view-booking').forEach(button => {
+        button.addEventListener('click', function() {
+            document.getElementById('modalRoom').textContent = this.dataset.room;
+            document.getElementById('modalStay').textContent = this.dataset.stay;
+            document.getElementById('modalStart').textContent = this.dataset.start;
+            document.getElementById('modalEnd').textContent = this.dataset.end;
+            document.getElementById('modalAdults').textContent = this.dataset.adults;
+            document.getElementById('modalChildren').textContent = this.dataset.children;
+            document.getElementById('modalPrice').textContent = this.dataset.price;
+            document.getElementById('modalDown').textContent = this.dataset.down;
+            document.getElementById('modalBalance').textContent = this.dataset.balance;
+        });
+    });
+    </script>
 
     <script>
     $(document).ready(function() {
