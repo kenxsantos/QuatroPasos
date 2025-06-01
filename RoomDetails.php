@@ -1,9 +1,16 @@
 <?php
 // Fetch data from URL
+include('./Connection/PDOcon.php');
 $type = isset($_GET['type']) ? $_GET['type'] : 'Unknown';
 $price = isset($_GET['price']) ? $_GET['price'] : 'N/A';
 $pax = isset($_GET['pax']) ? $_GET['pax'] : 'N/A';
 $img = isset($_GET['img']) ? $_GET['img'] : '';
+
+
+
+$stmt = $pdo->prepare("SELECT virtual_tour FROM room WHERE type = ?");
+$stmt->execute([$type]);
+$images = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
 ?>
 
@@ -28,6 +35,8 @@ $img = isset($_GET['img']) ? $_GET['img'] : '';
     <link href='css/coloring.css' rel='stylesheet' type='text/css'>
     <!-- color scheme -->
     <link id='colors' href='css/colors/scheme-01.css' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.min.css" />
 
 </head>
 
@@ -61,19 +70,21 @@ $img = isset($_GET['img']) ? $_GET['img'] : '';
         </header>
         <div class="no-bottom no-top" id="content">
             <section class="pt70 sm-pt-40 no-bottom">
-                <div class="owl-custom-nav menu-float" data-target="#gallery-carousel">
-                    <a class="btn-next"></a>
-                    <a class="btn-prev"></a>
-
-                    <div id="gallery-carousel" class="owl-3-cols-autowidth owl-carousel owl-theme">
-                        <img src="images/room-single/1.webp" class="h-600px" alt="">
-                        <img src="images/room-single/2.webp" class="h-600px" alt="">
-                        <img src="images/room-single/3.webp" class="h-600px" alt="">
-                        <img src="images/room-single/4.webp" class="h-600px" alt="">
-                        <img src="images/room-single/5.webp" class="h-600px" alt="">
+                <div>
+                    <!-- Thumbnails (optional) -->
+                    <?php if (count($images) > 1): ?>
+                    <div class="d-flex flex-wrap gap-2 justify-content-center mb-4">
+                        <?php foreach ($images as $index => $path): ?>
+                        <img src="<?php echo $path; ?>" class="rounded" onclick="loadPanorama(<?php echo $index; ?>)">
+                        <?php endforeach; ?>
                     </div>
+                    <?php endif; ?>
+
+                    <!-- 360 Viewer Container -->
+                    <div id="viewer" style="width: 100%; height: 800px;"></div>
                 </div>
             </section>
+
 
             <section>
                 <div class="container">
@@ -260,6 +271,41 @@ $img = isset($_GET['img']) ? $_GET['img'] : '';
     <script src="js/swiper.js"></script>
     <script src="js/custom-marquee.js"></script>
     <script src="js/custom-swiper-1.js"></script>
+
+    <!-- Import Maps for Modules -->
+    <script type="importmap">
+        {
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three/build/three.module.js",
+    "@photo-sphere-viewer/core": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.module.js"
+  }
+}
+</script>
+
+    <!-- Initialize Viewer -->
+    <script type="module">
+    import {
+        Viewer
+    } from '@photo-sphere-viewer/core';
+
+    const imagePaths = <?php echo json_encode($images); ?>;
+    let currentIndex = 0;
+
+    const viewer = new Viewer({
+        container: document.querySelector('#viewer'),
+        panorama: imagePaths[currentIndex],
+        navbar: ['zoom', 'fullscreen']
+    });
+
+    window.loadPanorama = function(index) {
+        currentIndex = index;
+        viewer.setPanorama(imagePaths[currentIndex]);
+    };
+    </script>
+
+
+
+
 
 </body>
 

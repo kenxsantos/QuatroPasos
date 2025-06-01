@@ -312,12 +312,6 @@ session_start(); // Start the session
                 </div>
             </section>
 
-
-
-
-
-
-
             <section id="section-rooms" class="px-2 no-bottom pt30">
                 <div class="container-fluid relative z-2">
                     <div class="row g-4">
