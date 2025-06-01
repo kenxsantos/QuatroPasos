@@ -1,11 +1,14 @@
 <?php
 include('Connection/PDOcon.php');
-$roomdb = $conn->query("SELECT *  FROM `room` WHERE ID = $roomid");
+
+$roomid = $_GET['roomid'];
+
+$roomdb = $pdo->query("SELECT *  FROM `room` WHERE ID = $roomid");
 
 $row = $roomdb->fetch(PDO::FETCH_ASSOC);
 
 try {
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
     // Check if Form is Submitted
@@ -18,9 +21,9 @@ try {
         $sql = "UPDATE homepage SET subTxt = :subTxt, FBname = :FBname WHERE ID = :ID";
 
         // Prepare the Query Using Prepared Statements
-        $stmt = $conn->prepare($sql);
+        $stmt = $pdo->prepare($sql);
 
-        // Bind Parameters  
+        // Bind Parameters
         $stmt->bindParam(':ID', $id);
         $stmt->bindParam(':subTxt', $subTxt);
         $stmt->bindParam(':FBname', $FBname);
@@ -36,7 +39,7 @@ try {
     echo "Error: " . $e->getMessage();
 }
 
-$conn = null;
+$pdo = null;
 ?>
 
 
@@ -44,11 +47,11 @@ $conn = null;
 <html lang="zxx">
 
 <head>
-    <title>Almaris — Hotel Website Template</title>
+    <title>Quatro Pasos Website</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="Quatro Pasos Website" name="description">
     <meta content="" name="keywords">
     <meta content="" name="author">
     <!-- CSS Files
@@ -60,7 +63,6 @@ $conn = null;
     <link href="css/coloring.css" rel="stylesheet" type="text/css">
     <!-- color scheme -->
     <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
-
 </head>
 
 <body>
@@ -107,7 +109,7 @@ $conn = null;
                             <div class="de-flex-col">
                                 <!-- logo begin -->
                                 <div id="logo">
-                                    <a href="default.php">
+                                    <a href="index.php">
                                         <img class="logo-main" src="images/logo-white.png" alt="">
                                         <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>

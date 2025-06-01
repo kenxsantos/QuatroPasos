@@ -1,91 +1,71 @@
 <?php
-session_start(); // Start the session
-include ('../../../Connection/PDOcon.php');
-
-// Check if the user is logged in and their role is equal to 1
-$isLoggedIn = isset($_SESSION['user_id']);
-if ($isLoggedIn) {
-    $stmt2 = $pdo->prepare("SELECT * FROM `user` WHERE id = ?");
-    $stmt2->execute([$_SESSION['user_id']]);
-    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-
-    if ($row2) {
-        $roleCheck = $row2["role_as"];
-
-        if ($roleCheck == 1) {
-            // User has the correct role
-            // Continue with the logic for users with role 1
-        } else {
-            header("Location: ../../../AuthAndStatusPages/401.php");
-            exit(); // Prevent further execution
-        }
-    } else {
-        // Handle the case where no user was found
-        header("Location: ../../../AuthAndStatusPages/401.php");
-        exit();
-    }
-} else {
-    // User is not logged in
-    header("Location: ../../../AuthAndStatusPages/401.php");
-    exit();
-}
-
+session_start();
+include('../../../Connection/PDOcon.php');
+include('../authorize.php');
 include '../config.php';
 
-// Check connection
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Get Paymentid from URL and check if it's set and valid
-$Paymentid = isset($_GET['Paymentid']) ? intval($_GET['Paymentid']) : null;
-
-if ($Paymentid === null) {
+$bookingId = isset($_GET['bookingId']) ? intval($_GET['bookingId']) : null;
+if ($bookingId === null) {
     die("Booking ID is missing.");
 }
 
-// Query the database for the booking with the specified ID
-$bookingQuery = mysqli_query($conn, "SELECT * FROM bookings WHERE id = $Paymentid");
-
+$bookingQuery = mysqli_query($conn, "SELECT * FROM bookings WHERE id = $bookingId");
 if (!$bookingQuery) {
     die("Query failed: " . mysqli_error($conn));
 }
 
-// Fetch the result as an associative array
 $row = mysqli_fetch_assoc($bookingQuery);
-
 if (!$row) {
     die("Booking not found.");
 }
 
-// Check if the form is submitted
+$cancellationQuery = mysqli_query($conn, "SELECT * FROM cancellations WHERE id = $bookingId");
+
+$row2 = mysqli_fetch_assoc($cancellationQuery);
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
-    // Get the selected BookingStats value from the dropdown
-    $BookingStats = $_POST['BookingStats'];
+    $status = $_POST['status'];
 
-    // Prepare the SQL statement for updating the BookingStats column
-    $updateQuery = "UPDATE bookings SET BookingStats = ? WHERE id = ?";
+    $updateQuery = "UPDATE bookings SET status = ? WHERE id = ?";
     $stmt = $conn->prepare($updateQuery);
-    $stmt->bind_param("si", $BookingStats, $Paymentid);
+    $stmt->bind_param("si", $status, $bookingId);
 
-    // Execute the update query
     if ($stmt->execute()) {
-        // Redirect back to the same page to refresh it
-        header("Location: " . $_SERVER['PHP_SELF'] . "?Paymentid=" . $Paymentid);
+        $sqlRoom = "SELECT id FROM room WHERE type = ?";
+        $stmtRoom = $conn->prepare($sqlRoom);
+        $stmtRoom->bind_param("s", $row['room_type']);
+        $stmtRoom->execute();
+        $stmtRoom->bind_result($room_id);
+        $stmtRoom->fetch();
+        $stmtRoom->close();
+
+        if ($status === 'Confirmed') {
+            $sqlUpdateStatus = "UPDATE room SET AvRooms = AvRooms - 1 WHERE id = ?";
+        } else {
+            $sqlUpdateStatus = "UPDATE room SET AvRooms = AvRooms + 1 WHERE id = ?";
+        }
+
+        $stmtUpdateStatus = $conn->prepare($sqlUpdateStatus);
+        $stmtUpdateStatus->bind_param("i", $room_id);
+        $stmtUpdateStatus->execute();
+        $stmtUpdateStatus->close();
+
+        $stmt->close();
+        mysqli_close($conn);
+
+        header("Location: ./table-datatable-basic.php");
         exit();
     } else {
         echo "<p>Error updating booking status: " . $stmt->error . "</p>";
+        $stmt->close();
     }
-
-    // Close the prepared statement
-    $stmt->close();
 }
-
-// Close the database connection
-mysqli_close($conn);
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -94,15 +74,15 @@ mysqli_close($conn);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Gleek - Ultimate Bootstrap 4 Sidebar</title>
+    <title>Quatro Pasos Website</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="">
     <link href="../css/style.css" rel="stylesheet">
-    
+
 </head>
 
 <body>
-    
+
     <!--*******************
         Preloader start
     ********************-->
@@ -117,7 +97,7 @@ mysqli_close($conn);
         Preloader end
     ********************-->
 
-    
+
     <!--**********************************
         Main wrapper start
     ***********************************-->
@@ -127,10 +107,11 @@ mysqli_close($conn);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="../../assets/images/logo.png" alt=""> </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
+            <div class="brand-logo"><a href="index-ticket.php"><b><img src="../../assets/images/logo.png" alt="">
+                    </b><span class="brand-title"><img src="../../assets/images/logo-text.png" alt=""></span></a>
             </div>
             <div class="nav-control">
-                <div class="hamburger"><span class="line"></span>  <span class="line"></span>  <span class="line"></span>
+                <div class="hamburger"><span class="line"></span> <span class="line"></span> <span class="line"></span>
                 </div>
             </div>
         </div>
@@ -141,28 +122,35 @@ mysqli_close($conn);
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header">
             <div class="header-content">
                 <div class="header-right">
                     <ul>
                         <li class="icons">
                             <a href="javascript:void(0)" class="log-user">
-                                <span><?=$row2["name"]?></span> <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
+                                <span><?= $row["name"] ?></span> <i class="fa fa-caret-down f-s-14"
+                                    aria-hidden="true"></i>
                             </a>
                             <div class="drop-down dropdown-profile animated bounceInDown">
                                 <div class="dropdown-content-body">
                                     <ul>
-                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My Profile</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-user"></i> <span>My
+                                                    Profile</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My Wallet</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-wallet"></i> <span>My
+                                                    Wallet</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-envelope"></i> <span>Inbox</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-envelope"></i>
+                                                <span>Inbox</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i> <span>Setting</span></a>
+                                        <li><a href="javascript:void()"><i class="fa fa-cog"></i>
+                                                <span>Setting</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock Screen</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-lock"></i> <span>Lock
+                                                    Screen</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><i class="icon-power"></i> <span>Logout</span></a>
+                                        <li><a href="javascript:void()"><i class="icon-power"></i>
+                                                <span>Logout</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -179,43 +167,9 @@ mysqli_close($conn);
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
-            <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu">
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="index-ticket.html" aria-expanded="false">
-                            <i class="mdi mdi-view-dashboard"></i><span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="mdi mdi-page-layout-body"></i><span class="nav-text">Layouts</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./form-layout-home.php">Home</a>
-                            </li>
-                            <li class="active"><a href="./Form-layout-Accommo.php">Accommodation</a>
-                            </li>
-                            <li><a href="./Form-layout-Facilites.php">Facilities</a>
-                            </li>
-                            <li><a href="./form-layout-Promo.php">Promos</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="mega-menu mega-menu-sm active">
-                        <a class="" href="./table-datatable-basic.php" aria-expanded="false">
-                            <i class="mdi mdi-table"></i><span class="nav-text">Room Booking</span>
-                        </a>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="" href="https://dashboard.paymongo.com/payments" target="_blank" aria-expanded="false">
-                            <i class="mdi mdi-table"></i><span class="nav-text">Payment</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
+        <?php
+        include('sidebar.php');
+        ?>
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -241,14 +195,14 @@ mysqli_close($conn);
                     <div class="col-xl-12">
                         <div class="card forms-card">
                             <div class="card-body">
-                            <p>Receipt:</p>
-                            <?php
-                            if (empty($row['payment_image'])) {
-                                echo "<p>No receipt submitted</p>";
-                            } else {
-                                echo '<img src="../../../' . htmlspecialchars($row['payment_image']) . '" style="width:30%"><br><br>';
-                            }
-                            ?>
+                                <p>Receipt:</p>
+                                <?php
+                                if (empty($row['payment_image'])) {
+                                    echo "<p>No receipt submitted</p>";
+                                } else {
+                                    echo '<img src="../../../' . htmlspecialchars($row['payment_image']) . '" style="width:30%"><br><br>';
+                                }
+                                ?>
                                 <h4 class="card-title mb-4">Booking ID - <?php echo $row['id']; ?></h4>
                                 <div class="basic-form">
                                     <form method="POST" enctype="multipart/form-data">
@@ -256,7 +210,9 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Price</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="Price" id="Price" value="₱<?php echo htmlspecialchars($row['Price']); ?>" aria-describedby="validationDefaultUsername2" readonly>
+                                                    <input type="text" class="form-control" name="Price" id="Price"
+                                                        value="₱<?php echo htmlspecialchars($row['Price']); ?>"
+                                                        aria-describedby="validationDefaultUsername2" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -264,7 +220,10 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Start Date</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="start_date" id="start_date" value="<?php echo htmlspecialchars($row['start_date']); ?>" aria-describedby="validationDefaultUsername2" readonly>
+                                                    <input type="text" class="form-control" name="start_date"
+                                                        id="start_date"
+                                                        value="<?php echo htmlspecialchars($row['start_date']); ?>"
+                                                        aria-describedby="validationDefaultUsername2" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -272,7 +231,10 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">End Date</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="end_date" id="end_date" value="<?php echo htmlspecialchars($row['end_date']); ?>" aria-describedby="validationDefaultUsername2" readonly>
+                                                    <input type="text" class="form-control" name="end_date"
+                                                        id="end_date"
+                                                        value="<?php echo htmlspecialchars($row['end_date']); ?>"
+                                                        aria-describedby="validationDefaultUsername2" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -280,7 +242,10 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Room Type</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="RoomType" id="RoomType" value="<?php echo htmlspecialchars($row['RoomType']); ?>" aria-describedby="validationDefaultUsername2" readonly>
+                                                    <input type="text" class="form-control" name="room_type"
+                                                        id="room_type"
+                                                        value="<?php echo htmlspecialchars($row['room_type']); ?>"
+                                                        aria-describedby="validationDefaultUsername2" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -288,54 +253,138 @@ mysqli_close($conn);
                                             <label class="col-sm-3 col-form-label text-label">Pax</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="num_adults" id="num_adults" value="<?php echo htmlspecialchars($row['num_adults']); ?>" aria-describedby="validationDefaultUsername2" readonly>
+                                                    <input type="text" class="form-control" name="num_adults"
+                                                        id="num_adults"
+                                                        value="<?php echo htmlspecialchars($row['num_adults']); ?>"
+                                                        aria-describedby="validationDefaultUsername2" readonly>
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php
+                                        if ($row['status'] == 'Cancel Request' || $row['status'] == 'Reschedule Request'): ?>
                                         <div class="form-group row align-items-center">
-                                            <label class="col-sm-3 col-form-label text-label">Booking Status</label>
+                                            <label class="col-sm-3 col-form-label text-label">Reason</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <select class="form-control" name="BookingStats" id="BookingStats">
-                                                        <option value="Pending" <?php if($row['BookingStats'] == 'Pending') echo 'selected'; ?>>Pending</option>
-                                                        <option value="Confirmed" <?php if($row['BookingStats'] == 'Confirmed') echo 'selected'; ?>>Confirmed</option>
-                                                        <option value="Cancelled" <?php if($row['BookingStats'] == 'Cancelled') echo 'selected'; ?>>Cancelled</option>
-                                                        <option value="Waitlisted" <?php if($row['BookingStats'] == 'Waitlisted') echo 'selected'; ?>>Waitlisted</option>
-                                                        <option value="Checked-in" <?php if($row['BookingStats'] == 'Checked-in') echo 'selected'; ?>>Checked-in</option>
-                                                        <option value="Checked-out" <?php if($row['BookingStats'] == 'Checked-out') echo 'selected'; ?>>Checked-out</option>
-                                                        <option value="No-show" <?php if($row['BookingStats'] == 'No-show') echo 'selected'; ?>>No Show</option>
-                                                    </select>
+                                                    <input type="text" class="form-control" name="reason" id="reason"
+                                                        value="<?php echo htmlspecialchars($row2['reason'] == "" ? "No Description" : $row2['reason']); ?>"
+                                                        aria-describedby="validationDefaultUsername2" readonly>
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                    
-                                        
-                                        <button type="submit" name="update" class="btn btn-primary btn-form mr-2">Confirm</button>
-                                    </form>
+                                        <?php endif; ?>
+
+                                        <div class="form-group row align-items-center">
+                                            <?php
+                                            if ($row['status'] == 'Cancel Request' || $row['status'] == 'Reschedule Request') {
+                                                // Display the status if it matches 'Cancel Request' or 'Reschedule Request'
+                                            ?>
+                                            <label
+                                                class="col-sm-3 col-form-label text-label"><?php echo htmlspecialchars($row['status']); ?></label>
+                                            <?php
+                                            } else {
+                                                // Display the "Booking Status" label if status is not 'Cancel Request' or 'Reschedule Request'
+                                            ?>
+                                            <label class="col-sm-3 col-form-label text-label">Booking Status</label>
+                                            <?php
+                                            }
+                                            ?>
+
+                                            <div class="col-sm-9">
+                                                <?php
+                                                if ($row['status'] == 'Cancel Request' || $row['status'] == 'Reschedule Request') {
+                                                ?>
+                                                <div class="input-group">
+                                                    <select class="form-control" name="status" id="status">
+                                                        <option value="<?php
+                                                                            if ($row['status'] == 'Cancel Request') {
+                                                                                echo 'Cancel Confirmed';
+                                                                            } else {
+                                                                                echo 'Reschedule Confirmed';
+                                                                            }
+                                                                            ?>" <?php
+                                                                                echo 'selected';
+                                                                                ?>>
+                                                            Accept
+                                                        </option>
+                                                        <option value="Rejected"
+                                                            <?php if ($row['status'] == 'Rejected') echo 'selected'; ?>>
+                                                            Reject
+                                                        </option>
+                                                    </select>
+                                                </div>
+
+                                                <?php
+                                                } else {
+                                                ?>
+                                                <div class="input-group">
+                                                    <select class="form-control" name="status" id="status">
+                                                        <option value="Pending"
+                                                            <?php if ($row['status'] == 'Pending') echo 'selected'; ?>>
+                                                            Pending
+                                                        </option>
+                                                        <option value="Confirmed"
+                                                            <?php if ($row['status'] == 'Confirmed') echo 'selected'; ?>>
+                                                            Confirmed
+                                                        </option>
+                                                        <option value="Cancelled"
+                                                            <?php if ($row['status'] == 'Cancelled') echo 'selected'; ?>>
+                                                            Cancelled
+                                                        </option>
+                                                        <option value="Waitlisted"
+                                                            <?php if ($row['status'] == 'Waitlisted') echo 'selected'; ?>>
+                                                            Waitlisted
+                                                        </option>
+                                                        <option value="Checked-in"
+                                                            <?php if ($row['status'] == 'Checked-in') echo 'selected'; ?>>
+                                                            Checked-in
+                                                        </option>
+                                                        <option value="Checked-out"
+                                                            <?php if ($row['status'] == 'Checked-out') echo 'selected'; ?>>
+                                                            Checked-out
+                                                        </option>
+                                                        <option value="No-show"
+                                                            <?php if ($row['status'] == 'No-show') echo 'selected'; ?>>
+                                                            No Show
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <?php
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
                                 </div>
+                                <button id="confirmButton" type="submit" name="update"
+                                    class="btn btn-primary btn-form mr-2">Confirm</button>
+                                <button type="button" name="update" class="btn btn-danger btn-form mr-2">
+                                    <a href="table-datatable-basic.php">Cancel</a>
+                                </button>
+
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                
             </div>
-            <!-- #/ container -->
+
         </div>
-        <!--**********************************
+        <!-- #/ container -->
+    </div>
+    <!--**********************************
             Content body end
         ***********************************-->
-        
-        
-        <!--**********************************
+
+
+    <!--**********************************
             Footer start
         ***********************************-->
-        <div class="footer">
-            <div class="copyright">
-                <!-- <p>Copyright &copy; Developed by Allen</a> 2018</p> -->
-            </div>
+    <div class="footer">
+        <div class="copyright">
+            <!-- <p>Copyright &copy; Developed by Allen</a> 2018</p> -->
         </div>
-        <!--**********************************
+    </div>
+    <!--**********************************
             Footer end
         ***********************************-->
 

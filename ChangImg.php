@@ -49,11 +49,11 @@ $conn = null;
 <html lang="zxx">
 
 <head>
-    <title>Almaris — Hotel Website Template</title>
+    <title>Quatro Pasos Website</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="Quatro Pasos Website" name="description">
     <meta content="" name="keywords">
     <meta content="" name="author">
     <!-- CSS Files
@@ -84,9 +84,12 @@ $conn = null;
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between xs-hide">
                                 <div class="header-widget d-flex">
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>Emilio Aguinaldo Highway, Dasmariñas, Philippines, 4114</a></div>
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>0917 808 7127</a></div>
-                                    <div class="topbar-widget"><a href="#"><i class="icofont-envelope"></i>quatropasoshotel@gmail.com</a></div>
+                                    <div class="topbar-widget"><a href="#"><i class="icofont-location-pin"></i>Emilio
+                                            Aguinaldo Highway, Dasmariñas, Philippines, 4114</a></div>
+                                    <div class="topbar-widget"><a href="#"><i class="icofont-phone"></i>0917 808
+                                            7127</a></div>
+                                    <div class="topbar-widget"><a href="#"><i
+                                                class="icofont-envelope"></i>quatropasoshotel@gmail.com</a></div>
                                 </div>
 
                                 <div class="social-icons">
@@ -109,7 +112,7 @@ $conn = null;
                             <div class="de-flex-col">
                                 <!-- logo begin -->
                                 <div id="logo">
-                                    <a href="default.php">
+                                    <a href="index.php">
                                         <img class="logo-main" src="images/logo-white.png" alt="">
                                         <img class="logo-mobile" src="images/logo-white.png" alt="">
                                     </a>
@@ -160,7 +163,8 @@ $conn = null;
                             <div id="success_message" class="text-center">
                                 <h2>Your reservation has been sent successfully.</h2>
                                 <div class="col-lg-8 offset-lg-2">
-                                    <p>We will contact you shortly. Refresh this page if you want to make another reservation.</p>
+                                    <p>We will contact you shortly. Refresh this page if you want to make another
+                                        reservation.</p>
 
                                     <img src="images/misc/2.webp" class="w-100 rounded-up-100" alt="">
                                 </div>
@@ -173,7 +177,8 @@ $conn = null;
 
                                         <form method="post" enctype="multipart/form-data">
                                             <input type="file" name="image" accept="image/*" required><br><br>
-                                            <input type='submit' name="update" id='send_message' value='Submit Form' class="btn-main">
+                                            <input type='submit' name="update" id='send_message' value='Submit Form'
+                                                class="btn-main">
                                         </form>
 
                                     </div>
@@ -188,7 +193,8 @@ $conn = null;
                                 </div>
 
 
-                                <div id='error_message' class='error'>Sorry, error occured this time sending your message.</div>
+                                <div id='error_message' class='error'>Sorry, error occured this time sending your
+                                    message.</div>
                             </div>
                         </div>
                     </div>

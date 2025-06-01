@@ -1,51 +1,38 @@
 <?php
-session_start();
-try {
-    include('Connection/PDOcon.php');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+include('Connection/PDOcon.php');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// getting DB of Basic Homepage Info
+$stmt = $pdo->query("SELECT * FROM `homepage` WHERE `ID` = 1 ");
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Check if Form is Submitted
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $id = 1;         // Retrieve ID from the form input
-        $subTxt = $_POST['subTxt'];     // Retrieve name from the form input
-        $FBname = $_POST['FBname'];     // Retrieve info from the form input
+// getting DB of Contacts Info
+// $stmt2 = $pdo->query("SELECT *  FROM `contacts` WHERE `ID` = 1 ");
+// $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-        // Prepare the SQL Update Statement
-        $sql = "UPDATE homepage SET subTxt = :subTxt, FBname = :FBname WHERE ID = :ID";
+// getting DB of Contacts Info
 
-        // Prepare the Query Using Prepared Statements
-        $stmt = $pdo->prepare($sql);
 
-        // Bind Parameters
-        $stmt->bindParam(':ID', $id);
-        $stmt->bindParam(':subTxt', $subTxt);
-        $stmt->bindParam(':FBname', $FBname);
+// getting DB of Contacts Info
+$stmt4 = $pdo->query("SELECT *  FROM `room` ");
 
-        // Execute the Statement
-        if ($stmt->execute()) {
-            echo "Record updated successfully!";
-        } else {
-            echo "Error updating record.";
-        }
-    }
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
+$stmt = $pdo->query("SELECT * FROM `homepage` WHERE `ID` = 1 ");
+$promo = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Close the Connection
-$pdo = null;
+
+session_start(); // Start the session
+
 ?>
 
-
 <!DOCTYPE html>
-<html lang="zxx">
 
 <head>
-    <title>Almaris — Hotel Website Template</title>
+    <title>Quatro Pasos Website</title>
     <link rel="icon" href="images/icon.png" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Almaris — Hotel Website Template" name="description">
+    <meta content="Quatro Pasos Website" name="description">
     <meta content="" name="keywords">
     <meta content="" name="author">
     <!-- CSS Files
@@ -57,7 +44,96 @@ $pdo = null;
     <link href="css/coloring.css" rel="stylesheet" type="text/css">
     <!-- color scheme -->
     <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
+    <!-- custom css -->
+    <link id="colors" href="css/custom-bold.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
+    </script>
+    <style>
+        /* Modal Background */
 
+        .popup {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            /* Semi-transparent background */
+            z-index: 1000;
+            /* Ensure it appears above other elements */
+        }
+
+        /* Modal Content */
+        .popup-content {
+            position: relative;
+            margin: 15% auto;
+            /* Centered vertically */
+            padding: 20px;
+            width: 80%;
+            max-width: 400px;
+            /* Limit maximum width */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        /* Close Button */
+        #close-popup {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Button Style */
+        .btn-main {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            background-color: #FEB46B;
+        }
+
+        .navpromo {
+            background-color: #FEB46B;
+            padding-left: 20px;
+        }
+
+        .floating-button {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: #FEB46B;
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 9999;
+        }
+
+        .floating-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 
 <body>
@@ -67,11 +143,16 @@ $pdo = null;
         <!-- page preloader begin -->
         <div id="de-loader"></div>
         <!-- page preloader close -->
+        <div>
+            <a href="./user/user_chat.php" class="floating-button" title="Help or Action">
+                <i class="fa-solid fa-comment-dots"></i>
+            </a>
+        </div>
 
         <!-- header begin -->
-        <header class="transparent has-topbar">
+        <header class="transparent has-topbar logo-center">
             <div id="topbar">
-                <div class="container">
+                <div class="container-fluid px-lg-5 px-3">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between xs-hide">
@@ -86,9 +167,6 @@ $pdo = null;
 
                                 <div class="social-icons">
                                     <a href="#"><i class="fa-brands fa-facebook fa-lg"></i></a>
-                                    <a href="#"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
-                                    <a href="#"><i class="fa-brands fa-youtube fa-lg"></i></a>
-                                    <a href="#"><i class="fa-brands fa-pinterest fa-lg"></i></a>
                                     <a href="#"><i class="fa-brands fa-instagram fa-lg"></i></a>
                                 </div>
                             </div>
@@ -97,37 +175,38 @@ $pdo = null;
                     <div class="clearfix"></div>
                 </div>
             </div>
-            <div class="container">
+
+            <div class="container-fluid px-lg-5 px-3">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="de-flex sm-pt10">
-                            <div class="de-flex-col">
-                                <!-- logo begin -->
-                                <div id="logo">
-                                    <a href="default.php">
-                                        <img class="logo-main" src="images/logo-white.png" alt="">
-                                        <img class="logo-mobile" src="images/logo-white.png" alt="">
-                                    </a>
-                                </div>
-                                <!-- logo close -->
-                            </div>
-                            <div class="de-flex-col header-col-mid">
+                    <div class="col-lg-12">
+                        <div class="de-flex">
+                            <div class="col-start">
                                 <ul id="mainmenu">
-                                    <li><a class="menu-item" href="index.php">Home</a></li>
-                                    <li><a class="menu-item" href="RoomsEdit.php">Accomodation</a></li>
-                                    <li><a class="menu-item" href="FacilitiesEdit.php">Facilities</a></li>
+                                    <li><a class="menu-item" href="#section-intro">HOME</a></li>
+                                    <li><a class="menu-item" href="rooms.php">ACCOMODATION</a></li>
+                                    <li><a class="menu-item" href="facilities.php">FACILITIES</a></li>
+                                    <li><a class="menu-item" href="promo.php">PROMO</a></li>
                                 </ul>
                             </div>
-                            <div class="de-flex-col">
+                            <div class="col-center">
+                                <a href="index.php"><img src="images/logo-white.png" alt=""></a>
+                            </div>
+                            <div class="col-end">
                                 <div class="menu_side_area">
                                     <div class="menu_side_area">
                                         <?php if (isset($_SESSION['user_name'])): ?>
-                                        <a href="profile.php"
-                                            class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
-                                        <!-- Show user name -->
+                                            <a href="./user/profile.php"
+                                                class="btn-main btn-line"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                                            <!-- Show user name -->
                                         <?php else: ?>
-                                        <a href="AuthAndStatusPages/login.php" class="btn-main btn-line">Login</a>
-                                        <!-- Show login if not logged in -->
+                                            <a href="AuthAndStatusPages/login.php">
+                                                <button type="button"
+                                                    style="border: 2px solid #FEB46B; color: #FEB46B; background-color: transparent; border-radius: 5px; padding: 10px 20px; font-size: 14px; cursor: pointer; font-weight: bold;">
+                                                    BOOK NOW
+                                                </button>
+                                            </a>
+
+                                            <!-- Show login if not logged in -->
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -135,79 +214,154 @@ $pdo = null;
                         </div>
                     </div>
                 </div>
+            </div>
         </header>
         <!-- header close -->
+
+        <!-- Promo Popup -->
+        <?php if ($promo['showPromo'] == 1): ?>
+            <div id="promo-popup" class="popup">
+                <div class="popup-content">
+                    <span id="close-popup">&times;</span>
+                    <h2>Special Offer!</h2>
+                    <p>Don't miss our limited-time promotion. Book now and enjoy exclusive discounts!</p>
+                    <a href="Reserve.php" class="btn-main">Book Now</a>
+                </div>
+            </div>
+            <script>
+                document.getElementById("close-popup").onclick = function() {
+                    document.getElementById("promo-popup").style.display = "none";
+                };
+            </script>
+        <?php endif; ?>
+        <!-- Promo Popup close-->
+
         <!-- content begin -->
         <div class="no-bottom no-top" id="content">
 
             <div id="top"></div>
 
-            <section id="subheader" class="relative jarallax text-light">
-                <img src="images/background/3.webp" class="jarallax-img" alt="">
-                <div class="container relative z-index-1000">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-6 text-center">
-                            <h1>Home - CMS</h1>
-                            <p class="mt-3 lead">Ready to elevate your travel experience? Reserve your room now and step
-                                into a world of comfort and luxury. Your perfect stay is just a click away.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="de-overlay"></div>
-            </section>
+            <section id="section-intro"
+                class="section-dark text-light no-top no-bottom position-relative overflow-hidden z-1000">
+                <div class="v-center relative">
 
-            <section id="section_form" class="relative lines-deco">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 offset-lg-3">
-                            <div id="success_message" class="text-center">
-                                <h2>Your reservation has been sent successfully.</h2>
-                                <div class="col-lg-8 offset-lg-2">
-                                    <p>We will contact you shortly. Refresh this page if you want to make another
-                                        reservation.</p>
-
-                                    <img src="images/misc/2.webp" class="w-100 rounded-up-100" alt="">
+                    <div class="abs abs-centered z-1000 w-100">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12 text-center">
+                                    <img src="images/logo-white.png">
+                                    <p class="lead wow fadeInUp" data-wow-delay=".6s"><?php echo $row["subTitle"]; ?>
+                                    </p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div id="booking_form">
-                                <form name="contactForm" id='contact_form' class="form-border" method="post">
-
-                                    <div id="step-2" class="row">
-                                        <h4>Enter What You Want To Edit?</h4>
-                                        <div class="col-md-12">
-                                            <div id='name_error' class='error'>Please enter your name.</div>
-                                            <div>
-                                                <input type='text' name='subTxt' id='subTxt' class="form-control"
-                                                    placeholder="Sub Text">
+                    <div class="abs bottom-0 z-1000 w-100 xs-hide d-flex justify-content-center align-items-center">
+                        <div class="container-fluid p-lg-5 p-3">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12">
+                                    <div class="bg-blur padding40 py-4 wow fadeInDown text-center" data-wow-delay=".9s">
+                                        <div class="row g-4 align-items-center justify-content-center">
+                                            <div class="col-lg-3">
+                                                <?php if (isset($_SESSION['user_name'])): ?>
+                                                    <a class="btn-main" href="Reserve.php">Check Availability</a>
+                                                <?php else: ?>
+                                                    <a class="btn-main" href="AuthAndStatusPages/login.php">Check
+                                                        Availability</a>
+                                                <?php endif; ?>
                                             </div>
-
-                                            <div id='email_error' class='error'>Please enter your valid E-mail ID.</div>
-                                            <div>
-                                                <input type='text' name='FBname' id='FBname' class="form-control"
-                                                    placeholder="Facebook Handle">
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-12">
-
-                                            <p id='submit' class="mt20">
-                                                <input type='submit' id='send_message' value='Submit Form'
-                                                    class="btn-main">
-                                            </p>
                                         </div>
                                     </div>
-                                </form>
-                                <div id='error_message' class='error'>Sorry, error occured this time sending your
-                                    message.</div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="swiper">
+                        <!-- Additional required wrapper -->
+                        <div class="swiper-wrapper">
+                            <!-- Slides -->
+                            <div class="swiper-slide">
+                                <div class="swiper-inner" data-bgimage="url(images/slider/QuatroSlides/1.jpg)">
+                                    <div class="sw-overlay op-2"></div>
+                                </div>
+                            </div>
+                            <!-- Slides -->
+
+                            <!-- Slides -->
+                            <div class="swiper-slide">
+                                <div class="swiper-inner" data-bgimage="url(images/slider/QuatroSlides/2.jpg)">
+                                    <div class="sw-overlay op-2"></div>
+                                </div>
+                            </div>
+                            <!-- Slides -->
+
+                            <!-- Slides -->
+                            <div class="swiper-slide">
+                                <div class="swiper-inner" data-bgimage="url(images/slider/QuatroSlides/3.jpg)">
+                                    <div class="sw-overlay op-2"></div>
+                                </div>
+                            </div>
+                            <!-- Slides -->
+
+                        </div>
+
+                    </div>
                 </div>
             </section>
+
+            <section id="section-rooms" class="px-2 no-bottom pt30">
+                <div class="container-fluid relative z-2">
+                    <div class="row g-4">
+                        <div class="col-lg-8 offset-lg-2 text-center"><br><br><br><br><br>
+                            <div class="subtitle id-color wow fadeInUp">Our Rooms</div>
+                            <h2 class="wow fadeInUp mb-4">Accomodation</h2>
+                        </div>
+                    </div>
+
+                    <div class="row g-2">
+                        <!-- room begin -->
+                        <?php $count = 0; // Initialize counter
+                        while ($count < 3 && ($row4 = $stmt4->fetch(PDO::FETCH_ASSOC))) { // Check if counter is less than 3
+                            $count++; ?>
+
+                            <div class="col-lg-4"><a href="rooms.php">
+                                    <div class="hover relative text-light text-center wow fadeInUp" data-wow-delay=".3s">
+                                        <img src="admin/main/template/<?php echo htmlspecialchars($row4["img"]); ?>"
+                                            class="w-100" alt="">
+                                        <div class="abs hover-op-1 z-4 hover-mt-40 abs-centered text-dark">
+                                            <div class="fs-14">Starts at</div>
+                                            <h3 class="fs-40 lh-1 mb-4 text-dark">
+                                                <?php echo htmlspecialchars($row4["Price"]); ?></h3>
+                                        </div>
+                                        <div class="abs bg-light z-2 top-0 w-100 h-100 hover-op-1"></div>
+                                        <div class="abs py-3 z-2 bottom-0 w-100 text-center hover-op-0">
+                                            <h3 class="mb-0"><?php echo htmlspecialchars($row4["type"]); ?></h3>
+                                            <div class="text-center fs-14">
+                                                <span class="mx-2">
+                                                    <?php echo htmlspecialchars($row4["Pax"]);  ?> Guests
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="gradient-trans-color-bottom abs w-100 h-40 bottom-0"></div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        <?php } ?>
+                        <!-- room end -->
+                    </div>
+                </div>
+            </section>
+
+
+
         </div>
         <!-- content close -->
+
+
 
         <!-- footer begin -->
         <footer class="text-light section-dark">
@@ -217,8 +371,8 @@ $pdo = null;
                         <div class="d-lg-flex align-items-center justify-content-between text-center">
                             <div>
                                 <h3 class="fs-20">Address</h3>
-                                742 Evergreen Terrace<br>
-                                Brooklyn, NY 11201
+                                Emilio Aguinaldo Highway<br>
+                                Dasmariñas, Philippines, 4114
                             </div>
                             <div>
                                 <img src="images/logo-white.webp" class="w-200px" alt=""><br>
@@ -243,7 +397,7 @@ $pdo = null;
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            Copyright 2024 - Almaris by Designesia
+                            Copyright 2024 - Quatro Pasos Hotel
                         </div>
                     </div>
                 </div>
@@ -252,14 +406,38 @@ $pdo = null;
         <!-- footer close -->
     </div>
 
-
-
     <!-- Javascript Files
     ================================================== -->
     <script src="js/plugins.js"></script>
     <script src="js/designesia.js"></script>
+    <script src="js/swiper.js"></script>
+    <script src="js/custom-marquee.js"></script>
+    <script src="js/custom-swiper-3.js"></script>
     <script src='https://www.google.com/recaptcha/api.js' async defer></script>
-    <script src="form.js"></script>
+    <script src="contact.js"></script>
+    <script>
+        // Display the popup
+        function showPopup() {
+            document.getElementById("promo-popup").style.display = "block";
+        }
+
+        // Close the popup when the "X" button is clicked
+        document.getElementById("close-popup").onclick = function() {
+            document.getElementById("promo-popup").style.display = "none";
+        }
+
+        // Optionally, close the modal if the user clicks outside of it
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("promo-popup")) {
+                document.getElementById("promo-popup").style.display = "none";
+            }
+        }
+
+        // To show the popup automatically after a delay, you can use:
+        window.onload = function() {
+            setTimeout(showPopup, 2000); // Show after 2 seconds
+        };
+    </script>
 
 </body>
 

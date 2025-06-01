@@ -1,16 +1,15 @@
 <?php
+$host = 'localhost';
+$dbname = 'u213582793_quatropasos';
+$username = 'u213582793_quatropasos';
+$password = 'Quatropasos@12345';
 
-$server = "localhost";
-$username = "root";
-$password = "";
-$database = "quatropasoshotel2";
+//creating database connection here
+$conn = mysqli_connect($host, $username, $password, $dbname);
 
-$conn = mysqli_connect($server,$username,$password,$database);
-
-if(!$conn){
-    die("<script>alert('connection Failed.')</script>"); 
+//chek database connection naman
+if (!$conn) {
+    die("Connection Failed" . mysqli_connect_error());
+} else {
+    echo "";
 }
-else{
-    
- }
-?>
