@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('Connection/PDOcon.php');
-$roomdb = $pdo->query("SELECT *  FROM `room`");
+$roomdb = $conn->query("SELECT *  FROM `room` ");
 
 try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

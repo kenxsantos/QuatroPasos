@@ -98,13 +98,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="assets/css/login.css">
     <style>
-        .error-container {
-            background-color: red;
-            color: white;
-            padding: 10px 0px;
-            margin: 8px 0;
-            font-size: 12px;
-        }
+    .error-container {
+        background-color: red;
+        color: white;
+        padding: 10px 0px;
+        margin: 8px 0;
+        font-size: 12px;
+    }
     </style>
 </head>
 
@@ -129,13 +129,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <!-- Show errors if any -->
                                 <?php if (!empty($errors)): ?>
-                                    <div class="error-container">
-                                        <ul>
-                                            <?php foreach ($errors as $error): ?>
-                                                <li><?= htmlspecialchars($error) ?></li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
+                                <div class="error-container">
+                                    <ul>
+                                        <?php foreach ($errors as $error): ?>
+                                        <li><?= htmlspecialchars($error) ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
                                 <?php endif; ?>
                                 <div class="input-control">
                                     <div class="row p-l-5 p-r-5">

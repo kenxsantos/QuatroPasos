@@ -88,107 +88,107 @@ $conn->close();
     <link rel="stylesheet" type="text/css" href="assets/css/login.css">
 
     <style>
-        /* Modal Background */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease-in-out;
+    /* Modal Background */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background: #fff;
+        width: 500px;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        transform: translateY(-20px);
+        animation: slideIn 0.3s ease-in-out forwards;
+    }
+
+    .modal-content p {
+        font-size: 16px;
+        color: black;
+        margin: 15px 0;
+        font-weight: 700;
+    }
+
+    /* Header */
+    .modal-header h2 {
+        margin: 0;
+        font-size: 20px;
+        color: #333;
+    }
+
+    /* Body */
+    .modal-body p {
+        font-size: 16px;
+        color: #555;
+        margin: 15px 0;
+    }
+
+    /* Footer */
+    .modal-footer {
+        margin-top: 20px;
+    }
+
+    /* Button */
+    .close-btn {
+        background-color: #28a745;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+    .close-btn:hover {
+        background-color: #218838;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
         }
 
-        /* Modal Content */
-        .modal-content {
-            background: #fff;
-            width: 500px;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideIn {
+        from {
             transform: translateY(-20px);
-            animation: slideIn 0.3s ease-in-out forwards;
         }
 
-        .modal-content p {
-            font-size: 16px;
-            color: black;
-            margin: 15px 0;
-            font-weight: 700;
+        to {
+            transform: translateY(0);
         }
-
-        /* Header */
-        .modal-header h2 {
-            margin: 0;
-            font-size: 20px;
-            color: #333;
-        }
-
-        /* Body */
-        .modal-body p {
-            font-size: 16px;
-            color: #555;
-            margin: 15px 0;
-        }
-
-        /* Footer */
-        .modal-footer {
-            margin-top: 20px;
-        }
-
-        /* Button */
-        .close-btn {
-            background-color: #28a745;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            cursor: pointer;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-
-        .close-btn:hover {
-            background-color: #218838;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-20px);
-            }
-
-            to {
-                transform: translateY(0);
-            }
-        }
+    }
     </style>
 </head>
 
 <body>
     <?php if (!empty($successMessage)): ?>
-        <div id="successModal" class="modal">
-            <div class="modal-content">
-                <p><?php echo $successMessage; ?></p>
-                <button class="close-btn" onclick="closeModal()">OK</button>
-            </div>
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <p><?php echo $successMessage; ?></p>
+            <button class="close-btn" onclick="closeModal()">OK</button>
         </div>
+    </div>
     <?php endif; ?>
     <!-- 01 Preloader -->
     <div class="loader-wrapper" id="loader-wrapper">
@@ -219,10 +219,10 @@ $conn->close();
                                     </div>
                                     <!-- Display error message here -->
                                     <?php if (!empty($error_message)): ?>
-                                        <div class="alert alert-danger mt-2"
-                                            style="text-align: center; font-size: 12px; margin: 0 auto;">
-                                            <?php echo $error_message; ?>
-                                        </div>
+                                    <div class="alert alert-danger mt-2"
+                                        style="text-align: center; font-size: 12px; margin: 0 auto;">
+                                        <?php echo $error_message; ?>
+                                    </div>
                                     <?php endif; ?>
 
                                     <div class="login-with-btns">
@@ -246,27 +246,27 @@ $conn->close();
     <!-- Theme js-->
     <script src="assets/js/script.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let modal = document.getElementById("successModal");
+    document.addEventListener("DOMContentLoaded", function() {
+        let modal = document.getElementById("successModal");
 
-            if (modal) {
-                modal.style.display = "flex"; // Show modal
+        if (modal) {
+            modal.style.display = "flex"; // Show modal
 
-                // Auto-close after 5 seconds
-                setTimeout(() => {
-                    modal.style.display = "none";
-                    window.location.href = "login.php"; // Redirect after modal closes
-                }, 5000);
-            }
-        });
-
-        function closeModal() {
-            let modal = document.getElementById("successModal");
-            if (modal) {
+            // Auto-close after 5 seconds
+            setTimeout(() => {
                 modal.style.display = "none";
-                window.location.href = "login.php"; // Redirect after manual close
-            }
+                window.location.href = "login.php"; // Redirect after modal closes
+            }, 5000);
         }
+    });
+
+    function closeModal() {
+        let modal = document.getElementById("successModal");
+        if (modal) {
+            modal.style.display = "none";
+            window.location.href = "login.php"; // Redirect after manual close
+        }
+    }
     </script>
 </body>
 
