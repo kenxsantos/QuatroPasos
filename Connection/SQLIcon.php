@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$dbname = 'u213582793_quatropasos';
-$username = 'u213582793_quatropasos';
-$password = 'Quatropasos@12345';
+$dbname = 'u979976746_QuatroPasos';
+$username = 'root';
+$password = '';
 
 //creating database connection here
 $conn = mysqli_connect($host, $username, $password, $dbname);
