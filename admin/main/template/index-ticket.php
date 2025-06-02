@@ -288,6 +288,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                                     <th>Check-out</th>
                                                     <th>Number of Guests</th>
                                                     <th>Total Booking Amount</th>
+                                                    <th>Date & Time</th>
                                                 </tr>
                                             </thead>
 
@@ -306,6 +307,7 @@ $stmtRoomTypes = $pdo->query($sqlRoomTypes);
                                                     <td><?php echo $row["end_date"] ?></td>
                                                     <td><?php echo $sum = $row["num_adults"] + $row["num_children"] ?>
                                                     </td>
+                                                    <td ><?php echo $row["Price"] ?></td>
                                                     <td><?php echo $row["created_at"] ?></td>
                                                 </tr>
 
