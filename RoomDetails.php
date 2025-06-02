@@ -71,7 +71,6 @@ $images = $stmt->fetchAll(PDO::FETCH_COLUMN);
         <div class="no-bottom no-top" id="content">
             <section class="pt70 sm-pt-40 no-bottom">
                 <div>
-                    <!-- Thumbnails (optional) -->
                     <?php if (count($images) > 1): ?>
                     <div class="d-flex flex-wrap gap-2 justify-content-center mb-4">
                         <?php foreach ($images as $index => $path): ?>
@@ -79,8 +78,6 @@ $images = $stmt->fetchAll(PDO::FETCH_COLUMN);
                         <?php endforeach; ?>
                     </div>
                     <?php endif; ?>
-
-                    <!-- 360 Viewer Container -->
                     <div id="viewer" style="width: 100%; height: 800px;"></div>
                 </div>
             </section>
