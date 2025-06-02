@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'u213582793_quatropasos';
+$dbname = 'u979976746_QuatroPasos';
 $username = 'root';
 $password = '';
 
