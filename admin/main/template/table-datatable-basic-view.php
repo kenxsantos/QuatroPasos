@@ -30,11 +30,12 @@ $row2 = mysqli_fetch_assoc($cancellationQuery);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
     $status = $_POST['status'];
+    $reservation = $_POST['reservation_mode'];
 
-    $updateQuery = "UPDATE bookings SET status = ? WHERE id = ?";
+    $updateQuery = "UPDATE bookings SET status = ?, reservation = ? WHERE id = ?";
     $stmt = $conn->prepare($updateQuery);
-    $stmt->bind_param("si", $status, $bookingId);
-
+    $stmt->bind_param("ssi", $status, $reservation, $bookingId);
+    
     if ($stmt->execute()) {
         $sqlRoom = "SELECT id FROM room WHERE type = ?";
         $stmtRoom = $conn->prepare($sqlRoom);
@@ -273,14 +274,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                                             </div>
                                         </div>
                                         <?php endif; ?>
+                                        <div class="form-group row align-items-center">                                       
+                                            <label class="col-sm-3 col-form-label text-label">Reservation Mode</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <select class="form-control" name="reservation_mode" id="reservation_mode" required>
+                                                        <option value="online" <?php echo ($row['reservation'] == 'online') ? 'selected' : ''; ?>>
+                                                            Online
+                                                        </option>
+                                                        <option value="walkin" <?php echo ($row['reservation'] == 'walkin') ? 'selected' : ''; ?>>
+                                                            Walk - In
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div class="form-group row align-items-center">
                                             <?php
                                             if ($row['status'] == 'Cancel Request' || $row['status'] == 'Reschedule Request') {
                                                 // Display the status if it matches 'Cancel Request' or 'Reschedule Request'
                                             ?>
-                                            <label
-                                                class="col-sm-3 col-form-label text-label"><?php echo htmlspecialchars($row['status']); ?></label>
+                                                <label
+                                                    class="col-sm-3 col-form-label text-label"><?php echo htmlspecialchars($row['status']); ?></label>
                                             <?php
                                             } else {
                                                 // Display the "Booking Status" label if status is not 'Cancel Request' or 'Reschedule Request'
